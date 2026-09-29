@@ -1,0 +1,13 @@
+{
+  "name": "ck-a-s-ad",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "validate": "node scripts/validate-data.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "test": "node scripts/validate-data.mjs"
+  }
+}

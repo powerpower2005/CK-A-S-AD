@@ -1,0 +1,30 @@
+[
+  {
+    "id": "troubleshooting",
+    "title": "트러블슈팅",
+    "summary": "파드와 노드부터 네트워크·스토리지·보안까지, 장애의 원인을 찾고 복구합니다.",
+    "description": "파드 크래시·이미지·프로브, 스케줄링 실패와 노드 압박, CoreDNS·Service·CNI·Ingress, PVC 바인딩·attach·mount·CSI, 컨트롤 플레인·etcd·kubelet·런타임 복구, RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사까지 장애 유형 300개를 24개 파트로 나눠 객관식으로 풉니다. 원본 진단표의 부정확한 조치는 바로잡아 해설에 반영했고, 문제마다 예상 출제율을 함께 보여 줍니다.",
+    "path": "troubleshooting/"
+  },
+  {
+    "id": "cluster",
+    "title": "클러스터",
+    "summary": "kubeadm 설치, 업그레이드, etcd 복구와 클러스터 운영을 익힙니다.",
+    "description": "노드 OS 준비와 kubeadm 설치·조인·HA, 무중단 업그레이드, 드레인, etcd 백업·복원, 정적 파드, PKI·CSR·kubeconfig, kubelet 리소스, containerd, API 서버 하드닝·감사, 스케줄러, kubeadm 패치까지 클러스터 아키텍처·유지보수 유형 200개를 15개 파트로 나눠 객관식으로 풉니다. 문제마다 예상 출제율을 함께 보여 줍니다.",
+    "path": "cluster/"
+  },
+  {
+    "id": "storage",
+    "title": "스토리지",
+    "summary": "PV·PVC 바인딩, 동적 프로비저닝과 볼륨 문제를 풀어 봅니다.",
+    "description": "CKA · CKS · CKAD 스토리지 유형 74개를 객관식으로 풉니다. 문제마다 예상 출제율을 함께 보여 줍니다. 원하면 핵심 설정을 직접 타이핑해 볼 수 있고, 매 문제 뒤에 해설과 공식 문서 링크가 나옵니다.",
+    "path": "storage/"
+  },
+  {
+    "id": "network",
+    "title": "네트워크",
+    "summary": "Service, DNS, Ingress, CNI와 NetworkPolicy의 동작을 익힙니다.",
+    "description": "Service·EndpointSlice부터 Ingress, Gateway API, CoreDNS, CNI, NetworkPolicy, CKS 하드닝, CKAD 패턴, 커널 트러블슈팅까지 네트워크 유형 200개를 10개 파트로 나눠 객관식으로 풉니다. 문제마다 예상 출제율을 함께 보여 줍니다. 원하면 핵심 설정을 직접 타이핑해 볼 수 있고, 매 문제 뒤에 해설과 공식 문서 링크가 나옵니다.",
+    "path": "network/"
+  }
+]
