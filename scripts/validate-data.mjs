@@ -1,6 +1,7 @@
 import { readFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { gradeTyped } from '../assets/js/grading.js';
 
 export const root = fileURLToPath(new URL('../', import.meta.url));
 const readJSON = async name => JSON.parse(await readFile(path.join(root, 'data', name), 'utf8'));
@@ -20,7 +21,7 @@ export async function validateData() {
     for (const field of ['title', 'summary', 'description']) assert(text(subject[field]), `${subject.id}: missing ${field}`);
     await access(path.join(root, subject.path, 'index.html'));
     const data = await readJSON(`${subject.id}.json`);
-    assert(data.schemaVersion === 1, `${subject.id}: unsupported schemaVersion`);
+    assert(data.schemaVersion === 2, `${subject.id}: unsupported schemaVersion`);
     assert(data.parts && typeof data.parts === 'object' && !Array.isArray(data.parts), `${subject.id}: invalid parts`);
     assert(Object.entries(data.parts).every(([id, label]) => /^\d+$/.test(id) && text(label)), `${subject.id}: invalid part names`);
     assert(Array.isArray(data.questions) && data.questions.length > 0, `${subject.id}: no questions`);
@@ -36,6 +37,7 @@ export async function validateData() {
       assert(Number.isInteger(q.a) && q.a >= 0 && q.a < q.opts.length, `${label}: answer out of range`);
       assert(q.type && text(q.type.p) && text(q.type.model), `${label}: missing typed answer`);
       assert(Array.isArray(q.type.acc) && q.type.acc.length && q.type.acc.every(text), `${label}: missing accepted answers`);
+      assert(gradeTyped(q, q.type.model), `${label}: model answer rejected`);
       assert(Array.isArray(q.whyno) && q.whyno.length === 3 && q.whyno.every(text), `${label}: expected three wrong-answer explanations`);
       assert(Number.isInteger(q.freq) && q.freq >= 0 && q.freq <= 5, `${label}: invalid frequency`);
       assert(Array.isArray(q.docs) && q.docs.length > 0, `${label}: missing documentation`);
@@ -44,9 +46,23 @@ export async function validateData() {
         assert(new URL(doc[1]).protocol === 'https:', `${label}: documentation must use HTTPS`);
       }
     }
-    summaries.push({ ...subject, count: data.questions.length, partCount: Object.keys(data.parts).length });
+    assert(Array.isArray(data.scenarios) && data.scenarios.length > 0, `${subject.id}: no scenarios`);
+    const scenarioIds = new Set(), covered = new Set();
+    for (const scenario of data.scenarios) {
+      const label = `${subject.id} scenario ${scenario.id}`;
+      assert(/^case-\d+$/.test(scenario.id) && !scenarioIds.has(scenario.id), `${label}: invalid/duplicate ID`);
+      scenarioIds.add(scenario.id);
+      for (const field of ['title', 'objective', 'context']) assert(text(scenario[field]), `${label}: missing ${field}`);
+      assert(Array.isArray(scenario.steps) && scenario.steps.length >= 2, `${label}: at least two steps required`);
+      for (const id of scenario.steps) {
+        assert(ids.has(id) && !covered.has(id), `${label}: unknown or repeated step ${id}`);
+        covered.add(id);
+      }
+    }
+    assert(covered.size === ids.size, `${subject.id}: orphan questions`);
+    summaries.push({ ...subject, count: data.scenarios.length, stepCount: data.questions.length, partCount: Object.keys(data.parts).length });
   }
-  console.log(`Validated ${summaries.length} subjects, ${summaries.reduce((sum, item) => sum + item.count, 0)} questions.`);
+  console.log(`Validated ${summaries.length} subjects, ${summaries.reduce((sum, item) => sum + item.count, 0)} scenarios, ${summaries.reduce((sum, item) => sum + item.stepCount, 0)} steps.`);
   return summaries;
 }
 

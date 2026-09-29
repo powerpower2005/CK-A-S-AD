@@ -209,3 +209,19 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;paddi
   .top .iconbtn{font-size:12px;white-space:nowrap}
 }
 @media(prefers-reduced-motion:reduce){.subject-card{transition:none}.subject-card:hover{transform:none}}
+
+/* A scenario is submitted as a whole; selection never implies correctness. */
+.filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.group select{width:100%;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--sheet);color:var(--ink);font:inherit}
+.scenario-context{font-size:13px;line-height:1.8;color:var(--muted);padding:14px 16px;border-left:3px solid var(--line);background:var(--paper)}
+.scenario-progress{font-size:14px;color:var(--omr);margin:22px 0}
+.scenario-step{border-top:1px solid var(--line);padding:24px 0;scroll-margin-top:20px}
+.scenario-step h2{font-size:15px;display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.step-number{width:28px;height:28px;border:1px solid var(--omr);color:var(--omr);border-radius:50%;display:inline-grid;place-items:center;flex-shrink:0}
+.opt.selected{border-color:var(--omr);box-shadow:inset 3px 0 var(--omr);background:var(--omr-soft)}
+.opt.right.selected{border-color:var(--ok);box-shadow:inset 3px 0 var(--ok);background:var(--ok-soft)}
+.opt.wrong.selected{border-color:var(--bad);box-shadow:inset 3px 0 var(--bad);background:var(--bad-soft)}
+.step-verdict{margin-left:auto;font-size:13px}.step-verdict.ok{color:var(--ok)}.step-verdict.no{color:var(--bad)}
+.mode-switch{margin-top:12px}.submit-panel{border-top:1px solid var(--line);padding:16px 0}.case-index{margin-top:24px}
+summary{cursor:pointer;font-size:14px;padding:10px 0}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--omr);outline-offset:3px}
+@media(max-width:560px){.filter-grid{grid-template-columns:1fr;gap:0}.card-bottom{flex-wrap:wrap}.scenario-step{padding:20px 0}.nav{flex-wrap:wrap}}

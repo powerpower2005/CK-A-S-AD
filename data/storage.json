@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "parts": {
     "1": "Part 1 · 정적 프로비저닝과 기본 바인딩",
     "2": "Part 2 · 동적 프로비저닝과 클래스 관리",
@@ -921,14 +921,14 @@
         ],
         "model": "ephemeral-storage: 500Mi"
       },
-      "exp": "<p><code>ephemeral-storage</code>는 노드 로컬 임시 저장소를 뜻하는 리소스입니다. 컨테이너의 쓰기 가능한 레이어, 컨테이너 로그, 디스크 기반 emptyDir 사용량이 합산됩니다. limits를 넘으면 kubelet이 해당 <b>파드를 축출(evict)</b>합니다. requests는 스케줄링 시 노드의 여유 공간 판단에 쓰입니다.</p>\n<p>네임스페이스 전체를 제한하려면 ResourceQuota의 <code>requests.ephemeral-storage</code>, <code>limits.ephemeral-storage</code>를 씁니다.</p>",
+      "exp": "<p><code>ephemeral-storage</code>는 노드 로컬 임시 저장소를 뜻하는 리소스입니다. 쓰기 레이어·로그와 디스크 emptyDir를 관리하되 컨테이너와 Pod의 집계 범위가 다릅니다. limits를 넘으면 kubelet이 해당 <b>파드를 축출(evict)</b>합니다. requests는 스케줄링 시 노드의 여유 공간 판단에 쓰입니다.</p>\n<p>네임스페이스 전체를 제한하려면 ResourceQuota의 <code>requests.ephemeral-storage</code>, <code>limits.ephemeral-storage</code>를 씁니다.</p><p><b>집계 범위:</b> 컨테이너별 limit은 해당 컨테이너의 쓰기 레이어와 로그에 적용됩니다. 디스크 emptyDir는 컨테이너들의 limit을 합친 Pod 전체 한도를 검사할 때 포함됩니다. 메모리 emptyDir는 메모리 사용량입니다.</p>",
       "whyno": [
         "<b>limits.storage</b>: 컨테이너 리소스로 존재하지 않습니다.",
         "<b>limits.disk</b>: 없는 리소스 이름입니다.",
         "<b>requests.storage</b>: PVC 요청 합계 쿼터입니다(유형 21)."
       ],
       "code": "spec:\n  containers:\n  - name: app\n    image: busybox\n    command: [\"sleep\",\"3600\"]\n    resources:\n      requests:\n        ephemeral-storage: \"200Mi\"\n      limits:\n        ephemeral-storage: \"500Mi\"",
-      "trap": "emptyDir의 <code>sizeLimit</code>은 그 볼륨 하나에 대한 한도이고, ephemeral-storage limit은 컨테이너 전체 합산 한도입니다. 둘을 구분하세요.",
+      "trap": "emptyDir.sizeLimit은 볼륨 하나의 한도입니다. 컨테이너별 ephemeral-storage limit은 쓰기 레이어와 로그를, Pod 합산 한도는 디스크 emptyDir도 포함해 검사합니다.",
       "docs": [
         [
           "Local ephemeral storage",
@@ -1080,7 +1080,7 @@
         ],
         "model": "kind: PersistentVolumeClaim"
       },
-      "exp": "<p>CSI 볼륨 클로닝은 새 PVC의 <code>dataSource</code>에 기존 PVC를 지정해 같은 내용을 가진 새 볼륨을 만듭니다. PVC는 core API라 apiGroup을 적지 않습니다.</p>\n<p>조건: CSI 드라이버만 지원, 원본과 <b>같은 네임스페이스</b>, 같은 StorageClass, 같은 volumeMode, 새 PVC 용량은 원본 이상이어야 합니다. 원본 PVC는 Bound 상태여야 합니다.</p>",
+      "exp": "<p>CSI 볼륨 클로닝은 새 PVC의 <code>dataSource</code>에 기존 PVC를 지정해 같은 내용을 가진 새 볼륨을 만듭니다. PVC는 core API라 apiGroup을 적지 않습니다.</p>\n<p>조건: CSI 드라이버만 지원, 원본과 <b>같은 네임스페이스</b>, 드라이버가 지원하는 StorageClass(원본과 달라도 됨), 같은 volumeMode, 새 PVC 용량은 원본 이상이어야 합니다. 원본 PVC는 Bound 상태여야 합니다.</p>",
       "whyno": [
         "<b>VolumeSnapshot</b>: prod-db는 스냅샷이 아니라 PVC입니다.",
         "<b>volumeName</b>: 원본 PV에 직접 바인딩하려는 것이라 이미 Bound인 PV에는 붙지 않습니다.",
@@ -1256,7 +1256,7 @@
         "<b>hostPath 변수</b>: 셸 변수가 아니므로 확장되지 않습니다."
       ],
       "code": "spec:\n  containers:\n  - name: app\n    image: busybox\n    command: [\"sh\",\"-c\",\"while true; do date >> /logs/app.log; sleep 5; done\"]\n    env:\n    - name: POD_NAME\n      valueFrom:\n        fieldRef:\n          fieldPath: metadata.name\n    volumeMounts:\n    - name: logs\n      mountPath: /logs\n      subPathExpr: $(POD_NAME)\n  volumes:\n  - name: logs\n    persistentVolumeClaim:\n      claimName: shared-logs",
-      "trap": "env 변수를 정의하지 않으면 빈 문자열로 확장되어 모든 파드가 볼륨 루트에 쓰게 됩니다.",
+      "trap": "subPathExpr에서 참조한 환경변수가 없거나 비어 있으면 kubelet이 missing value 오류를 반환해 컨테이너 볼륨 준비에 실패합니다. POD_NAME 주입을 확인하세요.",
       "docs": [
         [
           "Using subPath with expanded environment variables",
@@ -1918,7 +1918,7 @@
         ],
         "model": "appArmorProfile"
       },
-      "exp": "<p>v1.30에서 AppArmor 지원이 GA가 되면서 파드/컨테이너 <code>securityContext.appArmorProfile</code> 필드가 표준이 되었습니다. type은 <code>RuntimeDefault</code>, <code>Localhost</code>, <code>Unconfined</code>이며, Localhost일 때 <code>localhostProfile</code>에 노드에 로드된 프로파일 이름을 적습니다. 컨테이너 설정이 파드 설정보다 우선합니다.</p>\n<p>프로파일은 파드가 뜨기 전에 <b>해당 노드에 미리 로드</b>되어 있어야 합니다(<code>apparmor_parser -q 파일</code>). 없으면 파드가 Blocked 상태로 시작하지 않습니다.</p>",
+      "exp": "<p>v1.30에서 필드 기반 설정이 도입되고 v1.31에서 AppArmor 지원이 GA가 되면서 파드/컨테이너 <code>securityContext.appArmorProfile</code> 필드가 표준이 되었습니다. type은 <code>RuntimeDefault</code>, <code>Localhost</code>, <code>Unconfined</code>이며, Localhost일 때 <code>localhostProfile</code>에 노드에 로드된 프로파일 이름을 적습니다. 컨테이너 설정이 파드 설정보다 우선합니다.</p>\n<p>프로파일은 파드가 뜨기 전에 <b>해당 노드에 미리 로드</b>되어 있어야 합니다(<code>apparmor_parser -q 파일</code>). 없으면 파드가 Blocked 상태로 시작하지 않습니다.</p>",
       "whyno": [
         "<b>beta 어노테이션</b>: 이전 방식으로 deprecated되었습니다. 시험 클러스터 버전이 낮다면 이것을 쓸 수도 있습니다.",
         "<b>seccompProfile</b>: 시스템콜 필터로, AppArmor 프로파일과 다른 메커니즘입니다.",
@@ -2268,7 +2268,7 @@
         "<b>kubectl edit</b>: 미러 파드는 API로 수정해도 반영되지 않습니다.",
         "<b>manifests로 복사</b>: 그 디렉터리는 파드 매니페스트 전용입니다."
       ],
-      "code": "ETCDCTL_API=3 etcdctl snapshot save /opt/snap.db \\\n  --endpoints=https://127.0.0.1:2379 \\\n  --cacert=/etc/kubernetes/pki/etcd/ca.crt \\\n  --cert=/etc/kubernetes/pki/etcd/server.crt \\\n  --key=/etc/kubernetes/pki/etcd/server.key\n\n# 복원 (etcd 3.5+는 etcdutl 권장, etcdctl snapshot restore도 동작)\netcdutl snapshot restore /opt/snap.db --data-dir /var/lib/etcd-new\n\nsudo vi /etc/kubernetes/manifests/etcd.yaml\n#   volumes:\n#   - hostPath:\n#       path: /var/lib/etcd-new     # 여기만 변경\n#       type: DirectoryOrCreate\n#     name: etcd-data\n\nwatch crictl ps   # etcd, kube-apiserver 재기동 확인\nkubectl get pods -A",
+      "code": "ETCDCTL_API=3 etcdctl snapshot save /opt/snap.db \\\n  --endpoints=https://127.0.0.1:2379 \\\n  --cacert=/etc/kubernetes/pki/etcd/ca.crt \\\n  --cert=/etc/kubernetes/pki/etcd/server.crt \\\n  --key=/etc/kubernetes/pki/etcd/server.key\n\n# 복원 (etcdutl 사용. etcdctl snapshot restore는 etcd 3.6에서 제거됨)\netcdutl snapshot restore /opt/snap.db --data-dir /var/lib/etcd-new\n\nsudo vi /etc/kubernetes/manifests/etcd.yaml\n#   volumes:\n#   - hostPath:\n#       path: /var/lib/etcd-new     # 여기만 변경\n#       type: DirectoryOrCreate\n#     name: etcd-data\n\nwatch crictl ps   # etcd, kube-apiserver 재기동 확인\nkubectl get pods -A",
       "trap": "etcd가 다시 뜨는 동안 1~2분간 kubectl이 응답하지 않는 것이 정상입니다. 조급하게 다른 파일을 건드리지 마세요.",
       "docs": [
         [
@@ -2342,7 +2342,7 @@
         ],
         "model": "type: Container"
       },
-      "exp": "<p>LimitRange의 <code>type: Container</code>에서 <code>default</code>는 limits 기본값, <code>defaultRequest</code>는 requests 기본값입니다. 파드 생성 시 어드미션이 값이 없는 컨테이너에 자동으로 채워 넣습니다. <code>max</code>, <code>min</code>으로 상한과 하한도 걸 수 있습니다.</p>\n<p>참고로 원본 문서의 \"기본 emptyDir 용량 한계\"는 정확히는 <b>컨테이너 전체 ephemeral-storage limit</b>입니다. 이 값에는 컨테이너 쓰기 레이어, 로그, 디스크 기반 emptyDir 사용량이 합산됩니다. emptyDir 하나에만 한도를 주려면 볼륨의 <code>sizeLimit</code>을 씁니다.</p>",
+      "exp": "<p>LimitRange의 <code>type: Container</code>에서 <code>default</code>는 limits 기본값, <code>defaultRequest</code>는 requests 기본값입니다. 파드 생성 시 어드미션이 값이 없는 컨테이너에 자동으로 채워 넣습니다. <code>max</code>, <code>min</code>으로 상한과 하한도 걸 수 있습니다.</p>\n<p>참고로 원본 문서의 \"기본 emptyDir 용량 한계\"는 정확히는 <b>컨테이너 전체 ephemeral-storage limit</b>입니다. 컨테이너 한도와 Pod 합산 한도를 구분해야 합니다. emptyDir 하나에만 한도를 주려면 볼륨의 <code>sizeLimit</code>을 씁니다.</p><p><b>집계 범위:</b> 컨테이너별 limit은 해당 컨테이너의 쓰기 레이어와 로그에 적용됩니다. 디스크 emptyDir는 컨테이너들의 limit을 합친 Pod 전체 한도를 검사할 때 포함됩니다. 메모리 emptyDir는 메모리 사용량입니다.</p>",
       "whyno": [
         "<b>ResourceQuota</b>: 네임스페이스 합계 제한입니다. 기본값을 채워 주지 않고, 오히려 값이 없는 파드를 거부합니다.",
         "<b>PVC 타입</b>: PVC 크기 제한입니다.",
@@ -2916,10 +2916,10 @@
         "CKS"
       ],
       "title": "Falco 볼륨 감시",
-      "q": "컨테이너가 마운트된 <code>/data</code> 디렉터리에 파일을 쓰거나 바꾸면 Falco가 탐지해 알림을 내도록 하라. 올바른 방법은?",
+      "q": "컨테이너가 마운트된 <code>/data</code> 디렉터리에 파일을 쓰기 모드로 열면 Falco가 탐지해 알림을 내도록 하라. 올바른 방법은?",
       "opts": [
         "kube-apiserver 감사 정책(Audit Policy)에 /data 쓰기 규칙을 추가한다",
-        "<code>/etc/falco/falco_rules.local.yaml</code>에 <code>open_write and container and fd.name startswith /data</code> 조건의 rule을 추가하고 Falco를 재시작한다",
+        "<code>/etc/falco/falco_rules.local.yaml</code>에 <code>open_write and container and fd.name startswith /data/</code> 조건의 rule을 추가하고 Falco를 재시작한다",
         "seccomp 프로파일에 write 시스템콜을 추가한다",
         "NetworkPolicy로 /data 접근을 막는다"
       ],
@@ -2931,13 +2931,13 @@
         ],
         "model": "open_write"
       },
-      "exp": "<p>Falco는 커널 시스템콜을 관찰해 규칙에 맞는 이벤트가 생기면 알림을 냅니다. 사용자 규칙은 기본 규칙 파일이 아니라 <code>falco_rules.local.yaml</code>(또는 rules.d 디렉터리)에 추가해야 업그레이드 시 덮어써지지 않습니다. <code>open_write</code>는 쓰기 모드로 파일을 여는 이벤트를 뜻하는 기본 매크로입니다.</p>\n<p>원본 문서의 \"실시간 차단\"은 정확하지 않습니다. Falco 자체는 <b>탐지와 알림</b> 도구이며, 차단하려면 Falcosidekick/Talon 같은 대응 도구를 연동하거나 다른 통제(readOnly 마운트 등)를 함께 써야 합니다.</p>",
+      "exp": "<p>Falco는 커널 시스템콜을 관찰해 규칙에 맞는 이벤트가 생기면 알림을 냅니다. 사용자 규칙은 기본 규칙 파일이 아니라 <code>falco_rules.local.yaml</code>(또는 rules.d 디렉터리)에 추가해야 업그레이드 시 덮어써지지 않습니다. <code>open_write</code>는 쓰기 모드로 파일을 여는 이벤트를 뜻하는 기본 매크로입니다.</p>\n<p>원본 문서의 \"실시간 차단\"은 정확하지 않습니다. Falco 자체는 <b>탐지와 알림</b> 도구이며, 차단하려면 Falcosidekick/Talon 같은 대응 도구를 연동하거나 다른 통제(readOnly 마운트 등)를 함께 써야 합니다.</p><p>이 규칙은 /data/ 아래 파일을 쓰기 모드로 여는 이벤트를 탐지합니다. 이미 열린 파일의 모든 write나 rename·삭제까지 포괄하지는 않습니다.</p>",
       "whyno": [
         "<b>Audit Policy</b>: API 요청을 기록할 뿐 컨테이너 안 파일 I/O는 보지 못합니다.",
         "<b>seccomp</b>: 시스템콜을 허용/차단하는 필터로, 경로별 탐지·알림이 아닙니다.",
         "<b>NetworkPolicy</b>: 네트워크 트래픽 제어입니다."
       ],
-      "code": "# /etc/falco/falco_rules.local.yaml\n- rule: Write below data volume\n  desc: Detect file writes under /data inside containers\n  condition: open_write and container and fd.name startswith /data\n  output: >\n    File write under /data (file=%fd.name proc=%proc.name user=%user.name\n    container=%container.name pod=%k8s.pod.name ns=%k8s.ns.name)\n  priority: WARNING\n  tags: [filesystem, k8s]\n\nsudo systemctl restart falco\nsudo journalctl -u falco -f\n# 다른 터미널에서\nkubectl exec app -- sh -c 'echo x > /data/test'",
+      "code": "# /etc/falco/falco_rules.local.yaml\n- rule: Write below data volume\n  desc: Detect file writes under /data inside containers\n  condition: open_write and container and fd.name startswith /data/\n  output: >\n    File write under /data (file=%fd.name proc=%proc.name user=%user.name\n    container=%container.name pod=%k8s.pod.name ns=%k8s.ns.name)\n  priority: WARNING\n  tags: [filesystem, k8s]\n\nsudo systemctl restart falco\nsudo journalctl -u falco -f\n# 다른 터미널에서\nkubectl exec app -- sh -c 'echo x > /data/test'",
       "trap": "시험에서 출력 형식(필드 순서, 구분자)을 지정하는 경우가 많습니다. output 문자열을 문제 요구와 정확히 맞추세요.",
       "docs": [
         [
@@ -3063,7 +3063,7 @@
         "<b>바로 rm -rf</b>: 마운트가 살아 있으면 <b>원격 볼륨의 실제 데이터가 지워집니다</b>. 가장 위험한 선택입니다.",
         "<b>kubeadm reset</b>: 노드 전체를 날리는 과한 조치입니다."
       ],
-      "code": "UID=abcd-1234\nkubectl get pods -A -o jsonpath='{range .items[*]}{.metadata.uid}{\"\\n\"}{end}' | grep $UID   # 결과 없어야 함\n\nssh worker-1\ngrep \"/var/lib/kubelet/pods/$UID\" /proc/mounts\nsudo umount /var/lib/kubelet/pods/$UID/volumes/kubernetes.io~csi/pvc-xxx/mount\ngrep \"/var/lib/kubelet/pods/$UID\" /proc/mounts   # 비어 있는지 재확인\nsudo journalctl -u kubelet -f | grep -i orphan",
+      "code": "POD_UID=abcd-1234\nkubectl get pods -A -o jsonpath='{range .items[*]}{.metadata.uid}{\"\\n\"}{end}' | grep $POD_UID   # 결과 없어야 함\n\nssh worker-1\n# 원격 노드에서도 파드 UID를 설정한다.\nPOD_UID=abcd-1234\ngrep \"/var/lib/kubelet/pods/$POD_UID\" /proc/mounts\nsudo umount /var/lib/kubelet/pods/$POD_UID/volumes/kubernetes.io~csi/pvc-xxx/mount\ngrep \"/var/lib/kubelet/pods/$POD_UID\" /proc/mounts   # 비어 있는지 재확인\nsudo journalctl -u kubelet -f | grep -i orphan",
       "trap": "'디렉터리를 지워라'는 지시를 봐도 반드시 마운트 해제를 먼저 확인하세요. 이 순서를 지키는지가 실무와 시험 모두에서 핵심입니다.",
       "docs": [
         [
@@ -3120,6 +3120,415 @@
       ],
       "freq": 0,
       "freqNote": "알파 SIG 프로젝트로 세 시험 모두 범위 밖입니다."
+    },
+    {
+      "id": 75,
+      "part": 1,
+      "exam": [
+        "CKA"
+      ],
+      "title": "PVC 연결 후 검증",
+      "q": "app-data PVC를 사용하는 앱을 배포했다. 작업 완료를 확인하는 방법은?",
+      "opts": [
+        "PVC가 존재하는지만 확인한다.",
+        "PVC가 원하는 PV에 Bound됐는지, Pod 마운트와 실제 앱 사용자로 파일 읽기·쓰기가 가능한지 확인한다.",
+        "kubectl apply가 성공하면 데이터 접근도 보장된다.",
+        "PV의 이름만 확인하고 파드는 확인하지 않는다."
+      ],
+      "a": 1,
+      "type": {
+        "p": "PV와 PVC가 바인딩됐을 때 PVC의 phase 값은?",
+        "acc": [
+          "bound"
+        ],
+        "model": "Bound"
+      },
+      "exp": "<p>PVC 바인딩, 파드의 실제 마운트, 앱 사용자 권한까지 확인해야 데이터 접근을 검증할 수 있습니다.</p>",
+      "whyno": [
+        "<b>PVC가 존재하는지만 확인한다.</b>: PVC 바인딩, 파드의 실제 마운트, 앱 사용자 권한까지 확인해야 데이터 접근을 검증할 수 있습니다.",
+        "<b>kubectl apply가 성공하면 데이터 접근도 보장된다.</b>: PVC 바인딩, 파드의 실제 마운트, 앱 사용자 권한까지 확인해야 데이터 접근을 검증할 수 있습니다.",
+        "<b>PV의 이름만 확인하고 파드는 확인하지 않는다.</b>: PVC 바인딩, 파드의 실제 마운트, 앱 사용자 권한까지 확인해야 데이터 접근을 검증할 수 있습니다."
+      ],
+      "code": "kubectl get pvc app-data -o wide\nkubectl describe pod <app-pod>\nkubectl exec <app-pod> -- id\n# 앱과 같은 사용자로 지정된 테스트 경로에서 파일 접근 확인",
+      "trap": "생성 성공과 실제 사용 성공을 구분해 검증하세요.",
+      "docs": [
+        [
+          "Persistent Volumes · Class",
+          "https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1"
+        ],
+        [
+          "Task: PV를 사용하는 파드 구성",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/"
+        ]
+      ],
+      "freq": 5,
+      "freqNote": "실습 완료 조건 확인을 위한 보충 문항입니다."
+    },
+    {
+      "id": 76,
+      "part": 7,
+      "exam": [
+        "CKA"
+      ],
+      "title": "etcd 복원 완료 확인",
+      "q": "복원한 디렉터리로 etcd의 hostPath를 연결하고 재기동했다. 적절한 완료 기준은?",
+      "opts": [
+        "etcd 컨테이너가 생성됐는지만 확인한다.",
+        "매니페스트 파일의 수정 시간만 확인한다.",
+        "etcd endpoint health와 API 서버 응답, 스냅샷 시점에 있던 대표 리소스의 복원 여부를 확인한다.",
+        "백업 파일이 존재하면 복원이 완료된 것이다."
+      ],
+      "a": 2,
+      "type": {
+        "p": "etcdctl에서 엔드포인트의 정상 동작을 확인하는 하위 명령은?",
+        "acc": [
+          "endpoint health"
+        ],
+        "model": "endpoint health"
+      },
+      "exp": "<p>프로세스 기동만으로 데이터 복원 성공을 보장하지 않습니다. etcd 접속과 API 동작, 복원된 객체까지 확인합니다.</p>",
+      "whyno": [
+        "<b>etcd 컨테이너가 생성됐는지만 확인한다.</b>: 프로세스 기동만으로 데이터 복원 성공을 보장하지 않습니다. etcd 접속과 API 동작, 복원된 객체까지 확인합니다.",
+        "<b>매니페스트 파일의 수정 시간만 확인한다.</b>: 프로세스 기동만으로 데이터 복원 성공을 보장하지 않습니다. etcd 접속과 API 동작, 복원된 객체까지 확인합니다.",
+        "<b>백업 파일이 존재하면 복원이 완료된 것이다.</b>: 프로세스 기동만으로 데이터 복원 성공을 보장하지 않습니다. etcd 접속과 API 동작, 복원된 객체까지 확인합니다."
+      ],
+      "code": "ETCDCTL_API=3 etcdctl endpoint health --endpoints=https://127.0.0.1:2379 \\\n  --cacert=/etc/kubernetes/pki/etcd/ca.crt \\\n  --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \\\n  --key=/etc/kubernetes/pki/etcd/healthcheck-client.key\nkubectl get nodes\nkubectl get pods -A",
+      "trap": "생성 성공과 실제 사용 성공을 구분해 검증하세요.",
+      "docs": [
+        [
+          "Operating etcd · Restoring an etcd cluster",
+          "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster"
+        ]
+      ],
+      "freq": 5,
+      "freqNote": "실습 완료 조건 확인을 위한 보충 문항입니다."
+    },
+    {
+      "id": 77,
+      "part": 7,
+      "exam": [
+        "CKA"
+      ],
+      "title": "CSI 전환 후 사용 검증",
+      "q": "업그레이드 전에 EBS CSI 드라이버를 설치했다. 기존 PV 워크로드의 전환을 검증할 조합은?",
+      "opts": [
+        "드라이버 이름이 있으면 모든 볼륨의 전환 성공으로 판단한다.",
+        "모든 PV를 지웠다가 다시 만든다.",
+        "기존 PVC 이름만 확인한다.",
+        "CSI 컨트롤러·노드 플러그인 상태, PV 마이그레이션 정보와 기존 볼륨을 사용하는 파드의 실제 마운트·읽기/쓰기를 확인한다."
+      ],
+      "a": 3,
+      "type": {
+        "p": "등록된 CSI 드라이버 목록을 확인하는 kubectl 명령은?",
+        "acc": [
+          "kubectl get csidrivers",
+          "kubectl get csidriver"
+        ],
+        "model": "kubectl get csidrivers"
+      },
+      "exp": "<p>드라이버 등록 여부 외에 실제 컨트롤러·노드 플러그인의 동작과 기존 데이터 접근을 확인해야 합니다.</p>",
+      "whyno": [
+        "<b>드라이버 이름이 있으면 모든 볼륨의 전환 성공으로 판단한다.</b>: 드라이버 등록 여부 외에 실제 컨트롤러·노드 플러그인의 동작과 기존 데이터 접근을 확인해야 합니다.",
+        "<b>모든 PV를 지웠다가 다시 만든다.</b>: 드라이버 등록 여부 외에 실제 컨트롤러·노드 플러그인의 동작과 기존 데이터 접근을 확인해야 합니다.",
+        "<b>기존 PVC 이름만 확인한다.</b>: 드라이버 등록 여부 외에 실제 컨트롤러·노드 플러그인의 동작과 기존 데이터 접근을 확인해야 합니다."
+      ],
+      "code": "kubectl get csidrivers\nkubectl get pods -n kube-system\nkubectl describe pv <pv>\nkubectl describe pod <app-pod>",
+      "trap": "생성 성공과 실제 사용 성공을 구분해 검증하세요.",
+      "docs": [
+        [
+          "Volumes · CSI migration",
+          "https://kubernetes.io/docs/concepts/storage/volumes/#csi-migration"
+        ],
+        [
+          "Feature Gates (removed)",
+          "https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates-removed/"
+        ]
+      ],
+      "freq": 1,
+      "freqNote": "실습 완료 조건 확인을 위한 보충 문항입니다."
+    },
+    {
+      "id": 78,
+      "part": 8,
+      "exam": [
+        "기타"
+      ],
+      "title": "COSI 적용 전 API 확인",
+      "q": "COSI 예제를 적용하기 전에 해당 클러스터에서 확인할 사항은?",
+      "opts": [
+        "objectstorage.k8s.io CRD와 호환 드라이버·컨트롤러의 설치 여부, 설치된 API 버전과 spec 스키마를 확인한다.",
+        "PVC가 동작하므로 COSI도 기본 설치된 것으로 판단한다.",
+        "BucketClaim을 core/v1로 바꾼다.",
+        "버킷 이름을 PV 이름으로 바꾸면 된다."
+      ],
+      "a": 0,
+      "type": {
+        "p": "설치된 BucketClaim spec 스키마를 확인하는 명령은?",
+        "acc": [
+          "kubectl explain bucketclaim.spec"
+        ],
+        "model": "kubectl explain bucketclaim.spec"
+      },
+      "exp": "<p>COSI는 별도 CRD와 구현이 필요한 확장입니다. 예제의 API 버전과 필드를 설치된 스키마와 대조합니다.</p>",
+      "whyno": [
+        "<b>PVC가 동작하므로 COSI도 기본 설치된 것으로 판단한다.</b>: COSI는 별도 CRD와 구현이 필요한 확장입니다. 예제의 API 버전과 필드를 설치된 스키마와 대조합니다.",
+        "<b>BucketClaim을 core/v1로 바꾼다.</b>: COSI는 별도 CRD와 구현이 필요한 확장입니다. 예제의 API 버전과 필드를 설치된 스키마와 대조합니다.",
+        "<b>버킷 이름을 PV 이름으로 바꾸면 된다.</b>: COSI는 별도 CRD와 구현이 필요한 확장입니다. 예제의 API 버전과 필드를 설치된 스키마와 대조합니다."
+      ],
+      "code": "kubectl api-resources --api-group=objectstorage.k8s.io\nkubectl explain bucketclaim.spec",
+      "trap": "생성 성공과 실제 사용 성공을 구분해 검증하세요.",
+      "docs": [
+        [
+          "Blog: Introducing COSI",
+          "https://kubernetes.io/blog/2022/09/02/cosi-kubernetes-object-storage-management/"
+        ],
+        [
+          "COSI GitHub",
+          "https://github.com/kubernetes-sigs/container-object-storage-interface"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "실습 완료 조건 확인을 위한 보충 문항입니다."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "case-6",
+      "title": "정적 볼륨을 애플리케이션에 연결하기",
+      "objective": "가용 PV를 확인하고 요구 조건에 맞는 PVC를 바인딩한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        6,
+        1,
+        7,
+        2,
+        75
+      ]
+    },
+    {
+      "id": "case-3",
+      "title": "기본 스토리지 클래스와 지연 바인딩 정비",
+      "objective": "클래스 선택 규칙을 정리하고 파드 배치에 맞춰 볼륨을 공급한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        3,
+        8,
+        9,
+        25,
+        58
+      ]
+    },
+    {
+      "id": "case-4",
+      "title": "볼륨 확장과 성능 변경",
+      "objective": "용량과 성능 변경을 구분하고 확장 후 대기 상태를 해결한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        4,
+        61,
+        23
+      ]
+    },
+    {
+      "id": "case-5",
+      "title": "사이드카의 공유 임시 공간 구성",
+      "objective": "컨테이너 간 데이터 공유와 디스크·메모리 사용 한도를 설계한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        5,
+        22,
+        40,
+        56
+      ]
+    },
+    {
+      "id": "case-10",
+      "title": "로컬·공유·블록 스토리지 선택",
+      "objective": "서로 다른 워크로드 요구에 맞는 볼륨 유형과 마운트 설정을 결정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        10,
+        12,
+        15,
+        16,
+        66
+      ]
+    },
+    {
+      "id": "case-19",
+      "title": "설정 파일을 필요한 경로에 주입하기",
+      "objective": "설정 볼륨과 파일 단위 마운트를 구성하고 갱신 제약을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        19,
+        11,
+        47,
+        35
+      ]
+    },
+    {
+      "id": "case-20",
+      "title": "볼륨 상태 확인과 안전한 정리",
+      "objective": "드라이버와 볼륨 상태를 조사하고 삭제·재사용·잔여 마운트 문제를 처리한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        20,
+        13,
+        17,
+        31,
+        73
+      ]
+    },
+    {
+      "id": "case-18",
+      "title": "비루트 워크로드의 볼륨 접근 복구",
+      "objective": "권한 오류와 소유권 변경 비용을 조사해 접근 정책을 조정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        18,
+        42,
+        52
+      ]
+    },
+    {
+      "id": "case-21",
+      "title": "볼륨 생성 요청의 한도와 수명 설정",
+      "objective": "네임스페이스 한도와 임시 볼륨의 생성·소멸 방식을 결정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        21,
+        24,
+        32,
+        71
+      ]
+    },
+    {
+      "id": "case-26",
+      "title": "데이터 복제와 스냅샷 복구",
+      "objective": "PVC 복제와 스냅샷 복원, 여러 볼륨의 일관된 백업 방식을 선택한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        26,
+        41,
+        62
+      ]
+    },
+    {
+      "id": "case-27",
+      "title": "메타데이터와 외부 데이터를 볼륨으로 전달",
+      "objective": "메타데이터 주입, 파드별 경로 분리, 초기 데이터 준비를 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        27,
+        28,
+        48,
+        30,
+        29,
+        49
+      ]
+    },
+    {
+      "id": "case-33",
+      "title": "컨테이너 파일시스템 보호",
+      "objective": "쓰기 경로와 호스트 접근을 제한하고 커널 격리 수단을 적용한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        33,
+        34,
+        46,
+        50,
+        57
+      ]
+    },
+    {
+      "id": "case-37",
+      "title": "민감정보 주입과 저장 암호화",
+      "objective": "외부 시크릿 전달과 API 서버의 암호화 설정을 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        37,
+        36,
+        55,
+        72
+      ]
+    },
+    {
+      "id": "case-39",
+      "title": "상태가 있는 워크로드의 볼륨 수명 설계",
+      "objective": "인스턴스별 PVC와 축소·삭제 시 보존 정책을 정하고 배치 작업의 공유 조건을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        39,
+        67,
+        38,
+        68
+      ]
+    },
+    {
+      "id": "case-14",
+      "title": "노드 스토리지 운영 장애 조사",
+      "objective": "정적 파드 마운트, 노드 디스크 압박, kubelet 저장 경로와 파일 복사를 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        14,
+        43,
+        63,
+        64
+      ]
+    },
+    {
+      "id": "case-44",
+      "title": "호스트 볼륨 정책과 탐지 구성",
+      "objective": "마운트 전파와 허용 경로 정책을 정하고 파일 접근을 감시한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        44,
+        45,
+        69,
+        70
+      ]
+    },
+    {
+      "id": "case-53",
+      "title": "볼륨 연결 충돌과 상태 진단",
+      "objective": "접근 모드, 중복 연결, 노드 한도와 볼륨 상태를 함께 조사한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        53,
+        51,
+        59,
+        60
+      ]
+    },
+    {
+      "id": "case-54",
+      "title": "etcd 데이터 경로 복원과 완료 검증",
+      "objective": "스냅샷이 복원된 새 호스트 경로를 etcd에 연결하고 복구 상태를 검증한다.",
+      "context": "스냅샷은 /var/lib/etcd-new에 복원되어 있습니다. 기존 컨테이너 경로는 유지하면서 데이터를 연결하세요.",
+      "steps": [
+        54,
+        76
+      ]
+    },
+    {
+      "id": "case-65",
+      "title": "기존 EBS 볼륨의 CSI 전환",
+      "objective": "기존 PV를 보존하면서 CSI 전환 조건과 워크로드 사용 가능 여부를 확인한다.",
+      "context": "in-tree EBS PV를 사용하는 클러스터의 업그레이드를 준비합니다. 실제 사용 중인 드라이버와 Kubernetes 버전을 확인하세요.",
+      "steps": [
+        65,
+        77
+      ]
+    },
+    {
+      "id": "case-74",
+      "title": "오브젝트 스토리지 버킷 요청",
+      "objective": "설치된 COSI API를 확인하고 버킷·접근 자격증명 요청 리소스를 선택한다.",
+      "context": "S3 호환 버킷을 앱에 제공하려 합니다. 예제는 objectstorage.k8s.io/v1alpha1 API 환경을 가정합니다.",
+      "steps": [
+        78,
+        74
+      ]
     }
   ]
 }

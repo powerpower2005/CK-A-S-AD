@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "parts": {
     "1": "Part 1 · Service 기초 & L4 VIP",
     "2": "Part 2 · Endpoints·EndpointSlice & 토폴로지",
@@ -1711,7 +1711,7 @@
         "<b>targetPort</b>: 포트이지 경로가 아닙니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/use-regex: \"true\"\n    nginx.ingress.kubernetes.io/rewrite-target: /$2\nspec:\n  ingressClassName: nginx\n  rules:\n  - http:\n      paths:\n      - path: /v2(/|$)(.*)\n        pathType: ImplementationSpecific\n        backend: { service: { name: api-svc, port: { number: 80 } } }",
-      "trap": "kubectl로 적용할 때 셸이 <code>$2</code>를 해석하지 않도록 YAML 파일로 작성하세요.",
+      "trap": "kubectl로 적용할 때 셸이 <code>$2</code>를 해석하지 않도록 YAML 파일로 작성하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Rewrite",
@@ -1754,7 +1754,7 @@
         "<b>ssl-redirect</b>: true/false 값입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/app-root: /dashboard\n\ncurl -I http://<IngressIP>/     # 302 Location: /dashboard",
-      "trap": "Gateway API에서는 RequestRedirect 필터(유형 064)로 같은 효과를 냅니다.",
+      "trap": "Gateway API에서는 RequestRedirect 필터(유형 064)로 같은 효과를 냅니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Annotations",
@@ -1876,7 +1876,7 @@
         "<b>443 Service</b>: 리다이렉트를 만들지 않습니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/force-ssl-redirect: \"true\"\n\ncurl -I http://app.com/    # 308 Location: https://...",
-      "trap": "앞단 LB가 X-Forwarded-Proto를 넘기지 않으면 리다이렉트 루프가 생길 수 있습니다.",
+      "trap": "앞단 LB가 X-Forwarded-Proto를 넘기지 않으면 리다이렉트 루프가 생길 수 있습니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Server-side HTTPS enforcement",
@@ -1915,7 +1915,7 @@
         "<b>평문 어노테이션</b>: 보안상 틀리고 지원되지 않습니다."
       ],
       "code": "htpasswd -c auth admin\nkubectl create secret generic basic-auth --from-file=auth\n\nmetadata:\n  annotations:\n    nginx.ingress.kubernetes.io/auth-type: basic\n    nginx.ingress.kubernetes.io/auth-secret: basic-auth\n    nginx.ingress.kubernetes.io/auth-realm: \"Authentication Required\"",
-      "trap": "<code>--from-file=auth</code>로 만들면 파일 이름이 키가 됩니다. 파일 이름을 반드시 auth로 하세요.",
+      "trap": "<code>--from-file=auth</code>로 만들면 파일 이름이 키가 됩니다. 파일 이름을 반드시 auth로 하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Basic Authentication",
@@ -1954,7 +1954,7 @@
         "<b>서버 인증서</b>: 단방향 TLS일 뿐입니다."
       ],
       "code": "kubectl create secret generic client-ca --from-file=ca.crt=ca.crt -n web\nmetadata:\n  annotations:\n    nginx.ingress.kubernetes.io/auth-tls-secret: web/client-ca\n    nginx.ingress.kubernetes.io/auth-tls-verify-client: \"on\"\n    nginx.ingress.kubernetes.io/auth-tls-verify-depth: \"1\"\n\ncurl --cert client.crt --key client.key https://app.com/",
-      "trap": "Secret의 키 이름은 <code>ca.crt</code>여야 합니다.",
+      "trap": "Secret의 키 이름은 <code>ca.crt</code>여야 합니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Client Certificate Authentication",
@@ -1994,7 +1994,7 @@
         "<b>라벨</b>: 403이 아니라 503/404 증상입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/whitelist-source-range: \"10.0.0.0/8\"\n\nkubectl -n ingress-nginx patch svc ingress-nginx-controller \\\n  -p '{\"spec\":{\"externalTrafficPolicy\":\"Local\"}}'\nkubectl -n ingress-nginx logs deploy/ingress-nginx-controller | tail",
-      "trap": "컨트롤러 액세스 로그의 remote_addr로 실제 보이는 IP를 먼저 확인하세요.",
+      "trap": "컨트롤러 액세스 로그의 remote_addr로 실제 보이는 IP를 먼저 확인하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Annotations",
@@ -2037,7 +2037,7 @@
         "<b>limit-connections</b>: 동시 연결 수입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/limit-rps: \"10\"\n\nfor i in $(seq 1 50); do curl -s -o /dev/null -w \"%{http_code}\\n\" http://app.com/; done | sort | uniq -c",
-      "trap": "컨트롤러 레플리카가 여럿이면 한도는 레플리카별로 적용됩니다.",
+      "trap": "컨트롤러 레플리카가 여럿이면 한도는 레플리카별로 적용됩니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Rate Limiting",
@@ -2076,7 +2076,7 @@
         "<b>Service</b>: 헤더를 추가하지 않습니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/enable-cors: \"true\"\n    nginx.ingress.kubernetes.io/cors-allow-origin: \"https://web.example.com\"\n    nginx.ingress.kubernetes.io/cors-allow-methods: \"GET, POST, OPTIONS\"\n    nginx.ingress.kubernetes.io/cors-allow-credentials: \"true\"",
-      "trap": "preflight(OPTIONS) 요청에 대한 응답 헤더를 curl -X OPTIONS로 확인하세요.",
+      "trap": "preflight(OPTIONS) 요청에 대한 응답 헤더를 curl -X OPTIONS로 확인하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Enable CORS",
@@ -2115,7 +2115,7 @@
         "<b>NodePort</b>: 무관합니다."
       ],
       "code": "kubectl -n ingress-nginx get cm ingress-nginx-controller -o yaml | grep -i snippet\nkubectl -n ingress-nginx logs deploy/ingress-nginx-controller | grep -i snippet",
-      "trap": "CKS 관점에서는 snippet을 켜는 것 자체가 위험 요소입니다. 요구가 없다면 끈 상태를 유지하세요.",
+      "trap": "CKS 관점에서는 snippet을 켜는 것 자체가 위험 요소입니다. 요구가 없다면 끈 상태를 유지하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Configuration snippet",
@@ -2159,7 +2159,7 @@
         "<b>limit-rps</b>: 요청 제한입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/proxy-read-timeout: \"120\"\n    nginx.ingress.kubernetes.io/proxy-send-timeout: \"120\"",
-      "trap": "앞단 클라우드 LB의 유휴 타임아웃도 함께 늘려야 합니다.",
+      "trap": "앞단 클라우드 LB의 유휴 타임아웃도 함께 늘려야 합니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Custom timeouts",
@@ -2198,7 +2198,7 @@
         "<b>limit-rps</b>: 503 증상용입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/proxy-body-size: \"50m\"",
-      "trap": "값에 단위(m, k)를 빼먹으면 바이트로 해석됩니다.",
+      "trap": "값에 단위(m, k)를 빼먹으면 바이트로 해석됩니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Custom max body size",
@@ -2238,7 +2238,7 @@
         "<b>remote_addr 해시</b>: IP 기반이라 같은 문제입니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/affinity: \"cookie\"\n    nginx.ingress.kubernetes.io/session-cookie-name: \"route-cookie\"\n    nginx.ingress.kubernetes.io/session-cookie-max-age: \"3600\"\n\ncurl -I http://app.com/ | grep -i set-cookie",
-      "trap": "백엔드 파드가 교체되면 쿠키가 가리키는 대상이 사라져 재할당됩니다.",
+      "trap": "백엔드 파드가 교체되면 쿠키가 가리키는 대상이 사라져 재할당됩니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · Sticky sessions",
@@ -5527,7 +5527,7 @@
         "CKS"
       ],
       "title": "AdminNetworkPolicy (ANP)",
-      "q": "개발자가 네임스페이스 NetworkPolicy로 풀 수 없는 클러스터 전역 Deny 규칙이 필요하다. 해당하는 API와 특징은?",
+      "q": "<b>v1alpha1 AdminNetworkPolicy/BaselineAdminNetworkPolicy CRD가 설치된 환경입니다.</b> 개발자가 네임스페이스 NetworkPolicy로 풀 수 없는 클러스터 전역 Deny 규칙이 필요하다. 해당하는 API와 특징은?",
       "opts": [
         "ResourceQuota",
         "PodSecurity",
@@ -5542,7 +5542,7 @@
         ],
         "model": "AdminNetworkPolicy"
       },
-      "exp": "<p>AdminNetworkPolicy는 클러스터 관리자용 정책으로, 네임스페이스 정책보다 먼저 평가되며 <code>Deny</code>는 개발자 정책으로 뒤집을 수 없습니다. <code>Pass</code>는 판단을 네임스페이스 정책에 넘깁니다. 쿠버네티스 코어가 아닌 SIG 프로젝트 CRD(policy.networking.k8s.io, 알파)이고, API 이름과 구조가 개편 중이므로 설치된 버전과 CNI(OVN-Kubernetes, Antrea, Calico 등) 지원을 확인해야 합니다.</p>",
+      "exp": "<p>AdminNetworkPolicy는 클러스터 관리자용 정책으로, 네임스페이스 정책보다 먼저 평가되며 <code>Deny</code>는 개발자 정책으로 뒤집을 수 없습니다. <code>Pass</code>는 판단을 네임스페이스 정책에 넘깁니다. 쿠버네티스 코어가 아닌 SIG 프로젝트 CRD(policy.networking.k8s.io, 알파)이고, API 이름과 구조가 개편 중이므로 설치된 버전과 CNI(OVN-Kubernetes, Antrea, Calico 등) 지원을 확인해야 합니다.</p><p>신규 v1alpha2 계열은 ClusterNetworkPolicy의 Admin/Baseline tier로 통합됐습니다. 이 문항은 기존 v1alpha1 환경에 한정합니다.</p>",
       "whyno": [
         "<b>priority 필드</b>: 표준 NetworkPolicy에 없습니다.",
         "<b>ResourceQuota</b>: 자원 한도입니다.",
@@ -5567,7 +5567,7 @@
         "CKS"
       ],
       "title": "BaselineAdminNetworkPolicy",
-      "q": "클러스터 전체에 기본 정책을 두되, 네임스페이스 NetworkPolicy가 있으면 그것이 우선하게 하려 한다.",
+      "q": "<b>v1alpha1 AdminNetworkPolicy/BaselineAdminNetworkPolicy CRD가 설치된 환경입니다.</b> 클러스터 전체에 기본 정책을 두되, 네임스페이스 NetworkPolicy가 있으면 그것이 우선하게 하려 한다.",
       "opts": [
         "AdminNetworkPolicy priority 1000의 Deny",
         "표준 NetworkPolicy를 kube-system에",
@@ -5582,7 +5582,7 @@
         ],
         "model": "BaselineAdminNetworkPolicy"
       },
-      "exp": "<p>평가 순서는 AdminNetworkPolicy → 네임스페이스 NetworkPolicy → BaselineAdminNetworkPolicy입니다. BANP는 \"아무 정책도 판단하지 않은 트래픽\"에 대한 기본값을 정하므로, 개발자가 NetworkPolicy를 만들면 그쪽이 우선합니다. 이름이 <code>default</code>인 단일 객체만 허용됩니다.</p>",
+      "exp": "<p>평가 순서는 AdminNetworkPolicy → 네임스페이스 NetworkPolicy → BaselineAdminNetworkPolicy입니다. BANP는 \"아무 정책도 판단하지 않은 트래픽\"에 대한 기본값을 정하므로, 개발자가 NetworkPolicy를 만들면 그쪽이 우선합니다. 이름이 <code>default</code>인 단일 객체만 허용됩니다.</p><p>신규 v1alpha2 계열은 ClusterNetworkPolicy의 Admin/Baseline tier로 통합됐습니다. 이 문항은 기존 v1alpha1 환경에 한정합니다.</p>",
       "whyno": [
         "<b>ANP Deny</b>: 개발자 정책으로 뒤집을 수 없습니다.",
         "<b>kube-system 정책</b>: 해당 네임스페이스에만 적용됩니다.",
@@ -6557,7 +6557,7 @@
         "<b>Secret</b>: 무관합니다."
       ],
       "code": "kubectl -n ingress-nginx edit cm ingress-nginx-controller\ndata:\n  ssl-protocols: \"TLSv1.3\"\n\nopenssl s_client -connect app.com:443 -tls1_2 </dev/null   # 실패해야 함\nopenssl s_client -connect app.com:443 -tls1_3 </dev/null",
-      "trap": "TLS 1.3만 허용하면 오래된 클라이언트가 접속하지 못합니다. 요구사항을 확인하세요.",
+      "trap": "TLS 1.3만 허용하면 오래된 클라이언트가 접속하지 못합니다. 요구사항을 확인하세요.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · ConfigMap ssl-protocols",
@@ -7241,7 +7241,7 @@
         "<b>body-size</b>: 무관합니다."
       ],
       "code": "metadata:\n  annotations:\n    nginx.ingress.kubernetes.io/proxy-read-timeout: \"3600\"\n    nginx.ingress.kubernetes.io/proxy-send-timeout: \"3600\"",
-      "trap": "컨트롤러가 재로드(설정 변경)되면 기존 WebSocket 연결이 결국 끊길 수 있으니 클라이언트 재연결 로직이 필요합니다.",
+      "trap": "컨트롤러가 재로드(설정 변경)되면 기존 WebSocket 연결이 결국 끊길 수 있으니 클라이언트 재연결 로직이 필요합니다.<br>버전 안내: Ingress NGINX는 2026년 3월 유지보수가 종료됐습니다. 이 문항은 기존 설치 환경의 동작을 다루며, 신규 운영은 유지보수되는 컨트롤러나 Gateway API 구현을 검토하세요.",
       "docs": [
         [
           "Ingress NGINX · WebSockets",
@@ -8149,6 +8149,544 @@
       ],
       "freq": 1,
       "freqNote": "외부 애드온이라 시험에는 거의 나오지 않습니다."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "case-1",
+      "title": "애플리케이션 외부 노출 방식 선택",
+      "objective": "서비스 유형과 외부 접속 범위를 워크로드 요구에 맞춰 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "case-6",
+      "title": "서비스와 백엔드 포트 연결",
+      "objective": "Headless·수동 백엔드와 실제 컨테이너 포트 연결을 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "case-11",
+      "title": "세션 유지와 노드별 트래픽 분배",
+      "objective": "클라이언트 고정과 로컬 트래픽 정책의 조건을 설정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "id": "case-15",
+      "title": "서비스 주소와 로드밸런서 확장",
+      "objective": "주소 체계와 공급자별 로드밸런서 설정을 결정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "case-20",
+      "title": "엔드포인트 생성과 규모 관리",
+      "objective": "Ready 상태 노출, 자동·수동 엔드포인트와 분할 정책을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "id": "case-24",
+      "title": "토폴로지와 엔드포인트 전환",
+      "objective": "존 배치와 준비·종료 상태 변화에 따른 트래픽 처리를 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "id": "case-31",
+      "title": "서비스 엔드포인트 연결 장애 조사",
+      "objective": "주소 충돌, 백엔드 부재, DNS와 라벨 선택 조건을 조사한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        31,
+        32,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "id": "case-36",
+      "title": "Ingress 경로와 호스트 라우팅",
+      "objective": "요청 경로·호스트의 매칭 조건을 정하고 HTTPS 호스트를 연결한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "id": "case-42",
+      "title": "기존 Ingress NGINX 라우팅 정비",
+      "objective": "Ingress NGINX가 설치된 기존 환경에서 재작성·클래스·기본 응답을 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "id": "case-46",
+      "title": "기존 Ingress NGINX 접근 통제",
+      "objective": "기존 컨트롤러의 HTTPS 전환과 인증·접근 제한을 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "id": "case-51",
+      "title": "기존 Ingress NGINX 프록시 조정",
+      "objective": "기존 컨트롤러에서 헤더·확장 설정·시간 제한·업로드·세션을 조정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        51,
+        52,
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "id": "case-56",
+      "title": "Gateway 기반 HTTP 진입점 구성",
+      "objective": "GatewayClass부터 리스너와 요청 매칭까지 연결한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61
+      ]
+    },
+    {
+      "id": "case-62",
+      "title": "HTTPRoute 트래픽 전환과 변환",
+      "objective": "트래픽 분할·복제·리다이렉트·재작성과 헤더 처리를 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        62,
+        63,
+        64,
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "id": "case-68",
+      "title": "Gateway 참조 권한과 연결 상태 검증",
+      "objective": "네임스페이스 간 참조를 허용하고 백엔드 TLS와 상태를 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        68,
+        69,
+        74,
+        75
+      ]
+    },
+    {
+      "id": "case-70",
+      "title": "Gateway의 프로토콜별 라우팅",
+      "objective": "TLS·TCP·UDP·gRPC 서비스에 필요한 경로 유형을 구분한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        70,
+        71,
+        72,
+        73
+      ]
+    },
+    {
+      "id": "case-76",
+      "title": "CoreDNS 설정 변경과 관측",
+      "objective": "포워딩·레코드 변환·정적 레코드를 설정하고 로그와 재적용을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ]
+    },
+    {
+      "id": "case-82",
+      "title": "파드 DNS 지연과 정책 정비",
+      "objective": "DNS 캐시·검색 경로와 파드 DNS 정책을 조정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88
+      ]
+    },
+    {
+      "id": "case-89",
+      "title": "DNS 보안과 레코드 진단",
+      "objective": "서비스 레코드·보안 전달·스케일·루프와 역방향 조회를 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ]
+    },
+    {
+      "id": "case-96",
+      "title": "Calico와 Flannel 노드 통신 복구",
+      "objective": "CNI 설정과 바이너리부터 라우팅·터널 조건을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102
+      ]
+    },
+    {
+      "id": "case-103",
+      "title": "클라우드 CNI 주소 할당",
+      "objective": "클라우드 네트워크의 파드 IP 공급과 사전 확보량을 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        103,
+        104,
+        105
+      ]
+    },
+    {
+      "id": "case-106",
+      "title": "Cilium 데이터 경로와 BGP 구성",
+      "objective": "직접 라우팅·터널·외부 경로 광고의 역할을 구분한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        106,
+        107,
+        120
+      ]
+    },
+    {
+      "id": "case-108",
+      "title": "파드에 추가 인터페이스 연결",
+      "objective": "멀티 인터페이스와 하드웨어·언더레이 연결 방식을 선택한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        108,
+        109,
+        113,
+        114
+      ]
+    },
+    {
+      "id": "case-110",
+      "title": "파드 네트워크 주소·링크 장애 조사",
+      "objective": "주소 고갈, MTU·브리지·설정 반복 변경 문제를 조사한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        110,
+        111,
+        112,
+        115
+      ]
+    },
+    {
+      "id": "case-116",
+      "title": "노드 CNI 실행 환경 복구",
+      "objective": "런타임 설정 경로·루프백·veth와 IPAM 잔여 상태를 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        116,
+        117,
+        118,
+        119
+      ]
+    },
+    {
+      "id": "case-121",
+      "title": "네임스페이스 기본 격리와 허용 대상 정의",
+      "objective": "기본 차단을 설정하고 네임스페이스·파드 셀렉터의 결합을 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126
+      ]
+    },
+    {
+      "id": "case-127",
+      "title": "외부 통신과 DNS 최소 허용",
+      "objective": "CIDR 예외와 DNS·포트·프로토콜 조건을 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        127,
+        128,
+        129,
+        130,
+        131,
+        132
+      ]
+    },
+    {
+      "id": "case-133",
+      "title": "테넌트 격리 정책 검증",
+      "objective": "호스트 통신과 빈 셀렉터·정책 합산 동작을 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        133,
+        134,
+        135,
+        136
+      ]
+    },
+    {
+      "id": "case-137",
+      "title": "클러스터 관리자 네트워크 정책",
+      "objective": "설치된 API 버전과 CNI를 확인하고 관리자·기본·감사 정책을 구분한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        137,
+        138,
+        139,
+        140
+      ]
+    },
+    {
+      "id": "case-141",
+      "title": "네트워크 정책 적용 여부 조사",
+      "objective": "CNI 지원과 API 접속·프록시·프로토콜·드롭 관측을 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        141,
+        142,
+        143,
+        144,
+        145
+      ]
+    },
+    {
+      "id": "case-146",
+      "title": "비인가 외부 연결 탐지",
+      "objective": "메타데이터 접근과 셸·스캔·비인가 목적지 통신을 탐지한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        146,
+        147,
+        148,
+        149
+      ]
+    },
+    {
+      "id": "case-150",
+      "title": "노드와 컨트롤 플레인 네트워크 하드닝",
+      "objective": "kubelet·API 서버·etcd의 노출과 인증을 정비한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        150,
+        151,
+        152,
+        153
+      ]
+    },
+    {
+      "id": "case-154",
+      "title": "호스트 네트워크 권한 제한",
+      "objective": "호스트 포트·네트워크와 컨테이너 권한 및 노드 방화벽을 제한한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        154,
+        155,
+        156,
+        157,
+        158
+      ]
+    },
+    {
+      "id": "case-159",
+      "title": "애플리케이션 통신 정책 강화",
+      "objective": "런타임·L7·도메인·TLS 정책과 노출 범위를 설정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        159,
+        160,
+        161,
+        162,
+        163
+      ]
+    },
+    {
+      "id": "case-164",
+      "title": "클러스터 통신 암호화와 신원 확인",
+      "objective": "DNS 보호·노드 암호화·메시 인증 및 워크로드 신원을 구분한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        164,
+        165,
+        166,
+        167,
+        168
+      ]
+    },
+    {
+      "id": "case-169",
+      "title": "프라이빗 클러스터 관리 경로 설계",
+      "objective": "컨트롤 플레인 터널과 관리자의 접속 경로를 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        169,
+        170
+      ]
+    },
+    {
+      "id": "case-171",
+      "title": "파드 내부 통신과 초기 의존성",
+      "objective": "프록시·어댑터·사이드카와 초기화 컨테이너의 역할을 정한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        171,
+        172,
+        173,
+        174
+      ]
+    },
+    {
+      "id": "case-175",
+      "title": "서비스 상태 확인 프로브 구성",
+      "objective": "HTTP·TCP·gRPC 상태 확인과 느린 시작 보호를 구성한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        175,
+        176,
+        177,
+        178
+      ]
+    },
+    {
+      "id": "case-179",
+      "title": "장기 연결과 서비스 전환",
+      "objective": "프록시 연결 수명·분산·추적과 배포 전환·종료 처리를 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185
+      ]
+    },
+    {
+      "id": "case-186",
+      "title": "노드 연결 자원 고갈 조사",
+      "objective": "연결 추적·이웃 테이블·로컬 포트·네트워크 네임스페이스를 조사한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        186,
+        187,
+        188,
+        189
+      ]
+    },
+    {
+      "id": "case-190",
+      "title": "서비스 패킷 경로와 TCP 방어",
+      "objective": "서비스 규칙과 백엔드 상태, TCP 연결 자원 사용을 점검한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        190,
+        191,
+        192,
+        193
+      ]
+    },
+    {
+      "id": "case-194",
+      "title": "패킷 캡처와 노드 연결 복구",
+      "objective": "패킷과 경로·리셋·CNI 소켓 상태를 확인한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        194,
+        195,
+        196,
+        197
+      ]
+    },
+    {
+      "id": "case-198",
+      "title": "노드 트래픽 제어와 온프레미스 노출",
+      "objective": "대역폭 제어·패킷 필터와 외부 VIP 공급 방식을 구분한다.",
+      "context": "각 하위 문항에 제시된 리소스 이름과 관측 결과를 기준으로 판단하세요. 이전 단계의 선택에 따라 다음 단계의 조건이 바뀌지는 않습니다.",
+      "steps": [
+        198,
+        199,
+        200
+      ]
     }
   ]
 }

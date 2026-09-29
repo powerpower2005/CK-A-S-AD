@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: '24'
       - name: Validate data and build static site
-        run: npm run build
+        run: |
+          npm test
+          npm run build
       - name: Upload site
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
