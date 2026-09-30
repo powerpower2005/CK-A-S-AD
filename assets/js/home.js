@@ -8,7 +8,7 @@ async function init() {
     <header class="library-heading">
       <p class="eyebrow">CKA / CKS / CKAD · PRACTICE NOTES</p>
       <h1>쿠버네티스 문제집</h1>
-      <p class="lead">오늘 연습할 주제를 골라 보세요.<br>하나의 과제를 여러 단계로 풀고, 제출 후 전체 풀이를 확인합니다.</p>
+      <p class="lead">오늘 연습할 주제를 골라 보세요.<br>하나의 과제를 여러 단계로 풀고, 문항마다 제출해 바로 풀이를 확인합니다.</p>
       <div class="library-meta"><span>${catalog.length}개 문제집</span><span>${total}개 시나리오 · ${steps}개 하위 문항</span><span>단계별 부분 점수</span></div>
     </header>
     <section class="subject-grid" aria-label="문제집 선택">
