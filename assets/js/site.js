@@ -34,8 +34,9 @@ export async function initShell() {
   const subject = catalog.find(item => item.id === subjectId);
   if (subjectId && !subject) throw new Error('Unknown subject: ' + subjectId);
   const nav = document.getElementById('subjectNav');
-  nav.innerHTML = [{ path: '', title: '전체 문제집', id: undefined }, ...catalog].map(item =>
-    `<a href="${escapeHtml(new URL(item.path, siteRoot).href)}" ${item.id === subjectId ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a>`
+  const pageId = document.body.dataset.page || subjectId;
+  nav.innerHTML = [{ path: '', title: '전체 문제집', id: undefined }, ...catalog, { path: 'labs/', title: '직접 실행 실습', id: 'labs' }].map(item =>
+    `<a href="${escapeHtml(new URL(item.path, siteRoot).href)}" ${item.id === pageId ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a>`
   ).join('');
   if (subject) document.getElementById('homeBtn').textContent = `${subject.title} · 풀이 설정`;
   return subject || catalog;

@@ -225,3 +225,12 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;paddi
 .mode-switch{margin-top:12px}.submit-panel{border-top:1px solid var(--line);padding:16px 0}.case-index{margin-top:24px}
 summary{cursor:pointer;font-size:14px;padding:10px 0}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--omr);outline-offset:3px}
 @media(max-width:560px){.filter-grid{grid-template-columns:1fr;gap:0}.card-bottom{flex-wrap:wrap}.scenario-step{padding:20px 0}.nav{flex-wrap:wrap}}
+
+.typebox textarea{display:block;box-sizing:border-box;width:100%;min-height:76px;resize:vertical;font:14px var(--mono);line-height:1.7;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--code-bg);color:var(--ink);margin-top:8px}
+textarea:focus-visible{outline:3px solid var(--omr);outline-offset:3px}
+.session-bar{position:sticky;top:0;z-index:2;display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:var(--sheet);border:1px solid var(--line);border-radius:8px;margin-bottom:16px}
+.session-bar strong{font:600 22px var(--mono);margin-right:auto}
+.resume-panel{padding:16px;border:1px solid var(--omr);border-radius:8px;margin:20px 0}
+.lab-flow{padding-left:24px}.lab-flow p{color:var(--muted);line-height:1.8}
+.lab-filter{margin:24px 0}.lab-check{border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px}.lab-check pre{margin-top:0}.lab-check label{display:flex;gap:10px;align-items:flex-start;font-size:14px}.lab-check input{accent-color:var(--omr);margin-top:4px}
+.lab-check p{line-height:1.8}.docs{display:flex;gap:12px;flex-wrap:wrap}

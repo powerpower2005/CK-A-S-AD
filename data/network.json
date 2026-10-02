@@ -23,24 +23,29 @@
       "title": "ClusterIP 생성",
       "q": "Deployment <code>app</code>의 컨테이너는 8080에서 듣는다. 클러스터 내부에서 <code>app:80</code>으로 접근되게 Service를 만드는 명령은?",
       "opts": [
-        "<code>kubectl create service nodeport app --tcp=80:8080</code>",
-        "<code>kubectl expose deploy app --type=External --port=80</code>",
-        "<code>kubectl expose deploy app --port=80 --target-port=8080</code>",
-        "<code>kubectl expose deploy app --port=8080 --target-port=80</code>"
+        "kubectl expose deploy app --port=80 --target-port=80",
+        "kubectl expose deploy app --port=8080 --target-port=8080",
+        "kubectl expose deploy app --port=80 --target-port=8080",
+        "kubectl expose deploy app --port=8080 --target-port=80"
       ],
       "a": 2,
       "type": {
         "p": "컨테이너 포트를 지정하는 옵션을 입력하세요.",
         "acc": [
-          "--target-port=8080"
+          "--target-port=8080",
+          "--target-port 8080",
+          "kubectl expose deploy app --port=80 --target-port=8080",
+          "kubectl expose deployment app --port=80 --target-port=8080",
+          "kubectl expose deploy app --port 80 --target-port 8080",
+          "kubectl expose deployment app --port 80 --target-port 8080"
         ],
         "model": "kubectl expose deploy app --port=80 --target-port=8080"
       },
       "exp": "<p><code>--port</code>는 Service가 받는 포트, <code>--target-port</code>는 트래픽을 넘길 컨테이너 포트입니다. <code>--type</code>을 생략하면 ClusterIP가 기본이며, selector는 Deployment의 selector를 그대로 복사합니다.</p><p>검증은 임시 파드에서 이름으로 호출해 보는 것이 가장 확실합니다.</p>",
       "whyno": [
-        "<b>포트 반대</b>: Service가 8080을 받고 컨테이너 80으로 보내 Connection refused가 납니다.",
-        "<b>nodeport</b>: 외부 노출 타입이라 요구와 다릅니다.",
-        "<b>External</b>: 그런 타입은 없습니다."
+        "kubectl expose deploy app --port=80 --target-port=80: 요구 조건과 다릅니다. 정답의 kubectl expose deploy app --port=80 --target-port=8080와 방향·대상·선택 범위를 비교하세요.",
+        "kubectl expose deploy app --port=8080 --target-port=8080: 요구 조건과 다릅니다. 정답의 kubectl expose deploy app --port=80 --target-port=8080와 방향·대상·선택 범위를 비교하세요.",
+        "kubectl expose deploy app --port=8080 --target-port=80: 요구 조건과 다릅니다. 정답의 kubectl expose deploy app --port=80 --target-port=8080와 방향·대상·선택 범위를 비교하세요."
       ],
       "code": "kubectl expose deploy app --port=80 --target-port=8080\nkubectl get svc app -o wide\nkubectl get endpointslices -l kubernetes.io/service-name=app\nkubectl run t --rm -it --image=busybox --restart=Never -- wget -qO- http://app",
       "trap": "YAML이 필요하면 <code>--dry-run=client -o yaml &gt; svc.yaml</code>로 뽑아 수정하세요.",
@@ -4871,10 +4876,10 @@
       "title": "Default Deny All Ingress",
       "q": "네임스페이스 <code>prod</code>의 모든 파드로 들어오는 트래픽을 기본 차단하라.",
       "opts": [
-        "<code>podSelector</code> 생략, <code>policyTypes: [Egress]</code>",
-        "<code>namespaceSelector: {}</code>를 spec에",
-        "<code>podSelector: {}</code>, <code>policyTypes: [Ingress]</code>, ingress 규칙 없음",
-        "<code>podSelector: {}</code>, <code>ingress: [{}]</code>"
+        "podSelector: {}; policyTypes: [Egress]; egress: []",
+        "podSelector: {}; policyTypes: [Ingress]; ingress: [{}]",
+        "podSelector: {}; policyTypes: [Ingress]; ingress: []",
+        "podSelector: {matchLabels: {app: web}}; policyTypes: [Ingress]; ingress: []"
       ],
       "a": 2,
       "type": {
@@ -4886,9 +4891,9 @@
       },
       "exp": "<p>빈 <code>podSelector: {}</code>는 네임스페이스의 모든 파드를 선택합니다. Ingress 정책 유형을 가지면서 허용 규칙이 하나도 없으면 모든 인바운드가 거부됩니다. 반대로 <code>ingress: [{}]</code>(빈 규칙 하나)는 \"모두 허용\"이라 정반대입니다. NetworkPolicy는 이를 구현하는 CNI(Calico, Cilium 등)가 있어야 동작합니다(유형 141).</p>",
       "whyno": [
-        "<b>ingress: [{}]</b>: 모두 허용입니다.",
-        "<b>Egress만</b>: 인바운드는 그대로입니다.",
-        "<b>namespaceSelector를 spec에</b>: spec에는 podSelector만 있습니다."
+        "podSelector: {}; policyTypes: [Egress]; egress: []: 요구 조건과 다릅니다. 정답의 podSelector: {}; policyTypes: [Ingress]; ingress: []와 방향·대상·선택 범위를 비교하세요.",
+        "podSelector: {}; policyTypes: [Ingress]; ingress: [{}]: 요구 조건과 다릅니다. 정답의 podSelector: {}; policyTypes: [Ingress]; ingress: []와 방향·대상·선택 범위를 비교하세요.",
+        "podSelector: {matchLabels: {app: web}}; policyTypes: [Ingress]; ingress: []: 요구 조건과 다릅니다. 정답의 podSelector: {}; policyTypes: [Ingress]; ingress: []와 방향·대상·선택 범위를 비교하세요."
       ],
       "code": "apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: default-deny-ingress\n  namespace: prod\nspec:\n  podSelector: {}\n  policyTypes:\n  - Ingress",
       "trap": "정책을 적용한 뒤 필요한 허용 정책을 추가하는 순서를 지키세요. 시험에서는 기존 트래픽이 끊겼는지 검증 단계가 있을 수 있습니다.",
@@ -5034,10 +5039,10 @@
       "title": "네임스페이스 AND 파드 결합",
       "q": "\"<code>team=a</code> 네임스페이스 <b>안의</b> <code>role=client</code> 파드만\" 허용하려 한다. 올바른 YAML은?",
       "opts": [
-        "podSelector에 team 라벨을 넣는다",
-        "두 개의 NetworkPolicy로 나눈다",
-        "from 목록의 <b>한 항목</b>에 namespaceSelector와 podSelector를 함께 둔다 (하이픈 하나)",
-        "from 목록에 namespaceSelector와 podSelector를 각각 하이픈으로 분리"
+        "namespaceSelector에서 Pod role 라벨까지 선택",
+        "namespaceSelector와 podSelector를 두 정책으로 분리",
+        "하나의 from 항목 안에 두 selector를 함께 지정",
+        "별도 from 항목에 두 selector를 각각 지정"
       ],
       "a": 2,
       "type": {
@@ -5050,9 +5055,9 @@
       },
       "exp": "<p>from 목록의 각 항목(<code>-</code>로 시작)은 OR로 결합되고, 한 항목 안의 셀렉터들은 AND로 결합됩니다. 그래서 <code>- namespaceSelector: ...</code> 바로 아래 같은 들여쓰기로 <code>podSelector:</code>를 적으면 \"그 네임스페이스의 그 파드\"가 됩니다. 하이픈을 하나 더 붙이면 \"그 네임스페이스의 모든 파드 <b>또는</b> 내 네임스페이스의 그 파드\"로 의미가 완전히 바뀝니다.</p>",
       "whyno": [
-        "<b>하이픈 분리</b>: OR가 됩니다(유형 126).",
-        "<b>podSelector에 team</b>: 네임스페이스 라벨이 아닙니다.",
-        "<b>두 정책</b>: 정책은 합집합이라 AND가 되지 않습니다."
+        "namespaceSelector에서 Pod role 라벨까지 선택: 요구 조건과 다릅니다. 정답의 하나의 from 항목 안에 두 selector를 함께 지정와 방향·대상·선택 범위를 비교하세요.",
+        "namespaceSelector와 podSelector를 두 정책으로 분리: 요구 조건과 다릅니다. 정답의 하나의 from 항목 안에 두 selector를 함께 지정와 방향·대상·선택 범위를 비교하세요.",
+        "별도 from 항목에 두 selector를 각각 지정: 요구 조건과 다릅니다. 정답의 하나의 from 항목 안에 두 selector를 함께 지정와 방향·대상·선택 범위를 비교하세요."
       ],
       "code": "ingress:\n- from:\n  - namespaceSelector:\n      matchLabels: { team: a }\n    podSelector:\n      matchLabels: { role: client }",
       "trap": "CKA·CKS에서 가장 자주 틀리는 문법입니다. <code>kubectl describe netpol</code> 출력으로 AND/OR 해석을 확인하세요.",
@@ -5076,10 +5081,10 @@
       "title": "네임스페이스 OR 파드 분리",
       "q": "\"<code>monitoring</code> 네임스페이스의 모든 파드 <b>또는</b> 같은 네임스페이스의 <code>app=web</code> 파드\" 허용.",
       "opts": [
-        "한 항목에 두 셀렉터를 함께",
-        "ipBlock 두 개",
-        "policyTypes에 Or 추가",
-        "from에 <code>- namespaceSelector</code>와 <code>- podSelector</code>를 별도 항목으로"
+        "한 from 항목 안에 두 selector를 함께 지정",
+        "podSelector로 다른 Namespace의 Pod까지 선택",
+        "namespaceSelector만 지정해 같은 Namespace Pod도 선택",
+        "두 from 항목에 selector를 각각 나누어 지정"
       ],
       "a": 3,
       "type": {
@@ -5092,9 +5097,9 @@
       },
       "exp": "<p>서로 다른 from 항목은 OR입니다. 하나라도 맞으면 허용됩니다. 유형 125와 YAML이 한 글자(하이픈) 차이이므로 들여쓰기와 하이픈을 꼼꼼히 봅니다.</p>",
       "whyno": [
-        "<b>한 항목</b>: AND가 됩니다.",
-        "<b>ipBlock</b>: 라벨 기반이 아닙니다.",
-        "<b>Or</b>: 없는 값입니다."
+        "한 from 항목 안에 두 selector를 함께 지정: 요구 조건과 다릅니다. 정답의 두 from 항목에 selector를 각각 나누어 지정와 방향·대상·선택 범위를 비교하세요.",
+        "podSelector로 다른 Namespace의 Pod까지 선택: 요구 조건과 다릅니다. 정답의 두 from 항목에 selector를 각각 나누어 지정와 방향·대상·선택 범위를 비교하세요.",
+        "namespaceSelector만 지정해 같은 Namespace Pod도 선택: 요구 조건과 다릅니다. 정답의 두 from 항목에 selector를 각각 나누어 지정와 방향·대상·선택 범위를 비교하세요."
       ],
       "code": "ingress:\n- from:\n  - namespaceSelector:\n      matchLabels:\n        kubernetes.io/metadata.name: monitoring\n  - podSelector:\n      matchLabels: { app: web }",
       "trap": "<code>kubectl describe networkpolicy</code>는 각 항목을 따로 나열해 OR 구조를 확인하기 좋습니다.",
@@ -5200,10 +5205,10 @@
       "title": "Egress 적용 시 DNS 차단 트랩",
       "q": "api 파드에 egress를 <code>db:5432</code>만 허용했더니 <code>db</code> 이름을 해석하지 못해 연결이 실패한다. 추가할 규칙은?",
       "opts": [
-        "ingress에 53 허용",
-        "hostAliases에 db IP 추가",
-        "kube-system의 CoreDNS(<code>k8s-app: kube-dns</code>)로 <b>UDP와 TCP 53</b> egress 허용",
-        "UDP 53만 0.0.0.0/0으로 허용"
+        "CoreDNS로 TCP·UDP 53 ingress 허용",
+        "db Pod로 TCP·UDP 53 egress 허용",
+        "CoreDNS로 TCP·UDP 53 egress 허용",
+        "CoreDNS로 UDP 53만 egress 허용"
       ],
       "a": 2,
       "type": {
@@ -5215,9 +5220,9 @@
       },
       "exp": "<p>Egress를 제한하면 DNS 질의도 막힙니다. CoreDNS로 가는 53 포트를 UDP와 TCP 모두 허용해야 합니다(응답이 크면 TCP로 재시도). 대상은 kube-system 네임스페이스의 CoreDNS 파드 라벨로 지정하는 것이 가장 정확합니다. NodeLocal DNSCache를 쓰면 그 링크 로컬 IP도 허용해야 합니다.</p>",
       "whyno": [
-        "<b>UDP만, 전체 대역</b>: TCP 폴백이 막히고 범위가 과합니다.",
-        "<b>ingress 53</b>: 방향이 반대입니다.",
-        "<b>hostAliases</b>: 우회책일 뿐이고 IP 변경에 취약합니다."
+        "CoreDNS로 TCP·UDP 53 ingress 허용: 요구 조건과 다릅니다. 정답의 CoreDNS로 TCP·UDP 53 egress 허용와 방향·대상·선택 범위를 비교하세요.",
+        "db Pod로 TCP·UDP 53 egress 허용: 요구 조건과 다릅니다. 정답의 CoreDNS로 TCP·UDP 53 egress 허용와 방향·대상·선택 범위를 비교하세요.",
+        "CoreDNS로 UDP 53만 egress 허용: 요구 조건과 다릅니다. 정답의 CoreDNS로 TCP·UDP 53 egress 허용와 방향·대상·선택 범위를 비교하세요."
       ],
       "code": "egress:\n- to:\n  - namespaceSelector:\n      matchLabels: { kubernetes.io/metadata.name: kube-system }\n    podSelector:\n      matchLabels: { k8s-app: kube-dns }\n  ports:\n  - { protocol: UDP, port: 53 }\n  - { protocol: TCP, port: 53 }\n- to:\n  - podSelector:\n      matchLabels: { app: db }\n  ports:\n  - { protocol: TCP, port: 5432 }",
       "trap": "CoreDNS는 Service 포트 53이지만 파드는 다른 포트(예: 8053)로 들을 수도 있습니다. 정책은 파드 포트 기준인 CNI가 많으니 CoreDNS containerPort를 확인하세요.",

@@ -7,8 +7,8 @@ export const store = {
     } catch { return fallback; }
   },
   set(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); }
-    catch { /* Practice still works when browser storage is unavailable. */ }
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch { return false; }
   },
 };
 

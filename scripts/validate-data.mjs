@@ -62,7 +62,31 @@ export async function validateData() {
     assert(covered.size === ids.size, `${subject.id}: orphan questions`);
     summaries.push({ ...subject, count: data.scenarios.length, stepCount: data.questions.length, partCount: Object.keys(data.parts).length });
   }
-  console.log(`Validated ${summaries.length} subjects, ${summaries.reduce((sum, item) => sum + item.count, 0)} scenarios, ${summaries.reduce((sum, item) => sum + item.stepCount, 0)} steps.`);
+  const labData = await readJSON('labs.json');
+  assert(labData.schemaVersion === 1 && Array.isArray(labData.labs), 'Invalid lab data');
+  const labIds = new Set();
+  for (const lab of labData.labs) {
+    const label = `lab ${lab.id}`;
+    assert(/^[a-z][a-z0-9-]*$/.test(lab.id) && !labIds.has(lab.id), `${label}: duplicate/invalid ID`);
+    labIds.add(lab.id);
+    assert(subjectIds.has(lab.subject), `${label}: unknown subject`);
+    assert(lab.namespace === `lab-${lab.id}`, `${label}: unexpected namespace`);
+    for (const field of ['title', 'objective', 'setup', 'solution', 'cleanup', 'environment', 'reviewedAt']) assert(text(lab[field]), `${label}: missing ${field}`);
+    for (const field of ['requirements', 'tasks']) assert(Array.isArray(lab[field]) && lab[field].length && lab[field].every(text), `${label}: invalid ${field}`);
+    assert(lab.exam.length && lab.exam.every(e => ['CKA', 'CKAD', 'CKS'].includes(e)), `${label}: invalid exams`);
+    assert(lab.execution === 'not-run', `${label}: execution status must describe the actual verification`);
+    assert(lab.checks.length && lab.checks.every(c => text(c.command) && text(c.expected)), `${label}: invalid checks`);
+    assert(!JSON.stringify(lab).includes('$NS'), `${label}: unresolved namespace placeholder`);
+    assert(lab.cleanup.includes(`kubectl delete namespace ${lab.namespace}`), `${label}: missing cleanup`);
+    const files = new Set();
+    for (const file of lab.files) {
+      assert(/^[a-z0-9.-]+\.yaml$/.test(file.name) && !files.has(file.name) && text(file.content), `${label}: invalid starter file`);
+      files.add(file.name);
+    }
+    assert(lab.docs.length && lab.docs.every(d => d.length === 2 && d.every(text) && new URL(d[1]).protocol === 'https:'), `${label}: invalid docs`);
+  }
+  await access(path.join(root, 'labs', 'index.html'));
+  console.log(`Validated ${summaries.length} subjects, ${summaries.reduce((sum, item) => sum + item.count, 0)} scenarios, ${summaries.reduce((sum, item) => sum + item.stepCount, 0)} steps and ${labIds.size} lab guides.`);
   return summaries;
 }
 

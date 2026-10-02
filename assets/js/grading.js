@@ -3,11 +3,11 @@ export const normalizeAnswer = value => value.toLowerCase().replace(/[\s`]/g, ''
 export function gradeTyped(question, value) {
   const answer = normalizeAnswer(value);
   if (!answer) return false;
-  // Full model answers must work even when the accepted keyword is short.
+  // This checks explicitly listed recall answers, never substrings of a command.
   if (answer === normalizeAnswer(question.type.model)) return true;
   return question.type.acc.some(item => {
     const key = normalizeAnswer(item);
-    return answer === key || (key.length >= 6 && answer.includes(key));
+    return answer === key;
   });
 }
 

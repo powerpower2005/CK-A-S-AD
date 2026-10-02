@@ -1,0 +1,1901 @@
+{
+  "schemaVersion": 2,
+  "parts": {
+    "1": "Part 1 · Helm 패키지 배포와 변경",
+    "2": "Part 2 · Kustomize 렌더링과 오버레이",
+    "3": "Part 3 · 컨테이너 이미지 빌드",
+    "4": "Part 4 · Deployment 업데이트와 복구",
+    "5": "Part 5 · ConfigMap과 Secret 구성",
+    "6": "Part 6 · Job과 CronJob 실행",
+    "7": "Part 7 · ServiceAccount 최소 권한",
+    "8": "Part 8 · CRD와 Operator 구분",
+    "9": "Part 9 · 프로브와 초기화 컨테이너",
+    "10": "Part 10 · 리소스 요청과 제한",
+    "11": "Part 11 · 블루그린과 카나리 배포",
+    "12": "Part 12 · 이미지 공급망 점검"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "차트 값 확인",
+      "q": "기존 차트 ./demo-chart를 설치하기 전에 기본 values를 확인할 명령은?",
+      "opts": [
+        "helm show values ./demo-chart",
+        "helm get values ./demo-chart",
+        "helm status ./demo-chart",
+        "helm history ./demo-chart"
+      ],
+      "a": 0,
+      "type": {
+        "p": "차트 기본값 조회 명령을 입력하세요.",
+        "model": "helm show values ./demo-chart",
+        "acc": [
+          "helm show values ./demo-chart"
+        ]
+      },
+      "exp": "<p>show values는 차트의 기본 설정을 봅니다. get values는 이미 설치한 릴리스의 설정을 봅니다.</p>",
+      "whyno": [
+        "get values는 설치된 릴리스 이름을 받습니다.",
+        "status는 릴리스 상태를 봅니다.",
+        "history는 릴리스 revision 이력을 봅니다."
+      ],
+      "code": "helm show values ./demo-chart",
+      "trap": "Helm 설치·변경 후 실제 리소스가 준비됐는지도 확인하세요. --wait 없이 명령이 끝나도 Pod 준비 완료를 보장하지 않습니다.",
+      "docs": [
+        [
+          "Using Helm",
+          "https://helm.sh/docs/intro/using_helm/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 2,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "릴리스 설치",
+      "q": "./demo-chart를 릴리스 demo로 lab-helm 네임스페이스에 설치하고 replicas를 2로 지정하려 한다. 네임스페이스도 함께 생성할 명령은?",
+      "opts": [
+        "helm upgrade demo ./demo-chart -n lab-helm --set replicaCount=2",
+        "helm install demo ./demo-chart -n lab-helm --create-namespace --set replicaCount=2",
+        "helm template demo ./demo-chart -n lab-helm --set replicaCount=2",
+        "helm show values ./demo-chart -n lab-helm --set replicaCount=2"
+      ],
+      "a": 1,
+      "type": {
+        "p": "새 릴리스를 설치하는 Helm 하위 명령을 입력하세요.",
+        "model": "install",
+        "acc": [
+          "install"
+        ]
+      },
+      "exp": "<p>install은 신규 릴리스를 만듭니다. template은 렌더링만 하고 upgrade는 기본적으로 기존 릴리스를 변경합니다.</p>",
+      "whyno": [
+        "신규 릴리스라면 upgrade에 --install이 필요합니다.",
+        "template은 YAML을 출력할 뿐 리소스를 만들지 않습니다.",
+        "show values는 기본값 조회이며 설치하지 않습니다."
+      ],
+      "code": "helm install demo ./demo-chart -n lab-helm --create-namespace --set replicaCount=2",
+      "trap": "Helm 설치·변경 후 실제 리소스가 준비됐는지도 확인하세요. --wait 없이 명령이 끝나도 Pod 준비 완료를 보장하지 않습니다.",
+      "docs": [
+        [
+          "Using Helm",
+          "https://helm.sh/docs/intro/using_helm/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 3,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "릴리스 롤백",
+      "q": "lab-helm의 demo 릴리스를 이력의 revision 1로 되돌릴 명령은?",
+      "opts": [
+        "helm rollback demo 1 -n lab-helm",
+        "helm upgrade demo 1 -n lab-helm",
+        "helm install demo 1 -n lab-helm",
+        "helm history demo 1 -n lab-helm"
+      ],
+      "a": 0,
+      "type": {
+        "p": "롤백 명령을 입력하세요.",
+        "model": "helm rollback demo 1 -n lab-helm",
+        "acc": [
+          "helm rollback demo 1 -n lab-helm"
+        ]
+      },
+      "exp": "<p>history로 revision을 확인한 뒤 rollback에 대상 revision을 지정합니다. kubectl rollout undo는 Helm 릴리스 이력 전체를 되돌리지 않습니다.</p>",
+      "whyno": [
+        "upgrade의 두 번째 인수는 revision이 아니라 차트입니다.",
+        "install은 과거 revision으로 되돌리는 명령이 아닙니다.",
+        "history는 이력 조회이며 롤백하지 않습니다."
+      ],
+      "code": "helm history demo -n lab-helm\nhelm rollback demo 1 -n lab-helm\nhelm status demo -n lab-helm",
+      "trap": "Helm 설치·변경 후 실제 리소스가 준비됐는지도 확인하세요. --wait 없이 명령이 끝나도 Pod 준비 완료를 보장하지 않습니다.",
+      "docs": [
+        [
+          "Using Helm",
+          "https://helm.sh/docs/intro/using_helm/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 4,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "렌더링 확인",
+      "q": "overlays/dev의 kustomization을 클러스터에 반영하기 전에 렌더링만 할 명령은?",
+      "opts": [
+        "kubectl apply -k overlays/dev",
+        "kubectl kustomize overlays/dev",
+        "kubectl create -f overlays/dev",
+        "kubectl diff -f overlays/dev"
+      ],
+      "a": 1,
+      "type": {
+        "p": "렌더링 명령을 입력하세요.",
+        "model": "kubectl kustomize overlays/dev",
+        "acc": [
+          "kubectl kustomize overlays/dev"
+        ]
+      },
+      "exp": "<p>kubectl kustomize는 최종 YAML을 출력하고 apply -k는 API 서버에 반영합니다.</p>",
+      "whyno": [
+        "apply -k는 리소스를 실제로 변경합니다.",
+        "create -f는 렌더링만 하는 명령이 아닙니다.",
+        "diff -f는 Kustomize 디렉터리를 렌더링하는 명령이 아닙니다."
+      ],
+      "code": "kubectl kustomize overlays/dev",
+      "trap": "렌더링 결과를 먼저 확인하세요. kustomization.yaml은 일반 Kubernetes API 객체가 아닙니다.",
+      "docs": [
+        [
+          "Kustomize",
+          "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 5,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "오버레이 적용",
+      "q": "kustomization.yaml을 포함한 overlays/dev를 반영할 명령은?",
+      "opts": [
+        "kubectl apply -f overlays/dev",
+        "kubectl replace -f overlays/dev",
+        "kubectl apply -k overlays/dev",
+        "kubectl create -k overlays/dev --dry-run=client"
+      ],
+      "a": 2,
+      "type": {
+        "p": "반영 명령을 입력하세요.",
+        "model": "kubectl apply -k overlays/dev",
+        "acc": [
+          "kubectl apply -k overlays/dev"
+        ]
+      },
+      "exp": "<p>-k는 Kustomize 디렉터리를 처리합니다. -f는 일반 매니페스트를 처리하며 kustomization.yaml 자체를 API 객체로 만들 수 없습니다.</p>",
+      "whyno": [
+        "-f는 kustomization.yaml을 일반 API 객체처럼 처리합니다.",
+        "replace -f는 Kustomize 오버레이 반영 방식이 아닙니다.",
+        "--dry-run=client라서 클러스터에 반영하지 않습니다."
+      ],
+      "code": "kubectl apply -k overlays/dev",
+      "trap": "렌더링 결과를 먼저 확인하세요. kustomization.yaml은 일반 Kubernetes API 객체가 아닙니다.",
+      "docs": [
+        [
+          "Kustomize",
+          "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 6,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "생성 ConfigMap 참조",
+      "q": "configMapGenerator로 설정을 바꿀 때 이름에 해시 접미사를 붙이는 기본 동작의 목적은?",
+      "opts": [
+        "기존 Pod 환경변수를 즉시 수정한다",
+        "API 서버의 모든 Secret을 갱신한다",
+        "ConfigMap의 이름을 항상 고정한다",
+        "새 설정 이름을 Pod 템플릿에 반영한다"
+      ],
+      "a": 3,
+      "type": {
+        "p": "ConfigMap 생성 필드명을 입력하세요.",
+        "model": "configMapGenerator",
+        "acc": [
+          "configMapGenerator"
+        ]
+      },
+      "exp": "<p>생성 이름의 해시가 바뀌고 참조도 변환되므로 Deployment Pod 템플릿 변경으로 새 롤아웃을 유도합니다. 실행 중 프로세스 환경변수가 즉시 바뀌는 것은 아닙니다.</p>",
+      "whyno": [
+        "기존 프로세스의 환경변수는 즉시 갱신되지 않습니다.",
+        "ConfigMap 생성이 다른 Secret을 갱신하지 않습니다.",
+        "이름 고정에는 별도 generatorOptions가 필요합니다."
+      ],
+      "code": "configMapGenerator:\n- name: app-config\n  literals:\n  - MODE=dev",
+      "trap": "렌더링 결과를 먼저 확인하세요. kustomization.yaml은 일반 Kubernetes API 객체가 아닙니다.",
+      "docs": [
+        [
+          "Kustomize",
+          "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 7,
+      "part": 3,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "Dockerfile COPY",
+      "q": "빌드 컨텍스트의 index.html을 이미지 /usr/share/nginx/html/index.html에 넣는 Dockerfile 지시문은?",
+      "opts": [
+        "RUN cp index.html /usr/share/nginx/html/index.html",
+        "COPY index.html /usr/share/nginx/html/index.html",
+        "CMD cp index.html /usr/share/nginx/html/index.html",
+        "ENTRYPOINT cp index.html /usr/share/nginx/html/index.html"
+      ],
+      "a": 1,
+      "type": {
+        "p": "파일 복사 Dockerfile 지시문을 입력하세요.",
+        "model": "COPY",
+        "acc": [
+          "COPY"
+        ]
+      },
+      "exp": "<p>COPY는 빌드 컨텍스트의 파일을 이미지에 넣습니다. RUN은 이미지 안에서 실행하며 호스트 파일을 자동으로 볼 수 없습니다.</p>",
+      "whyno": [
+        "RUN은 호스트 빌드 컨텍스트의 파일을 자동으로 읽지 않습니다.",
+        "CMD는 컨테이너 시작 명령이며 빌드 파일 복사 지시문이 아닙니다.",
+        "ENTRYPOINT는 시작 동작이며 호스트 파일을 이미지에 넣지 않습니다."
+      ],
+      "code": "FROM nginx:alpine\nCOPY index.html /usr/share/nginx/html/index.html",
+      "trap": "빌드된 로컬 이미지와 Kubernetes 노드 이미지 저장소는 별개입니다. 빌드·적재·실행을 각각 확인하세요.",
+      "docs": [
+        [
+          "Dockerfile",
+          "https://docs.docker.com/build/concepts/dockerfile/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 8,
+      "part": 3,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "빌드 컨텍스트",
+      "q": "현재 디렉터리 Dockerfile로 demo-web:v1 이미지를 만들 명령은?",
+      "opts": [
+        "docker run -t demo-web:v1 .",
+        "docker pull -t demo-web:v1 .",
+        "docker build -t demo-web:v1 .",
+        "docker image inspect demo-web:v1 ."
+      ],
+      "a": 2,
+      "type": {
+        "p": "빌드 명령을 입력하세요.",
+        "model": "docker build -t demo-web:v1 .",
+        "acc": [
+          "docker build -t demo-web:v1 ."
+        ]
+      },
+      "exp": "<p>마지막 점은 현재 디렉터리가 빌드 컨텍스트라는 뜻입니다. .dockerignore로 불필요한 파일을 제외할 수 있습니다.</p>",
+      "whyno": [
+        "run은 이미지를 실행하며 Dockerfile을 빌드하지 않습니다.",
+        "pull은 레지스트리에서 이미지를 받습니다.",
+        "inspect는 존재하는 이미지의 메타데이터를 봅니다."
+      ],
+      "code": "docker build -t demo-web:v1 .\ndocker image inspect demo-web:v1",
+      "trap": "빌드된 로컬 이미지와 Kubernetes 노드 이미지 저장소는 별개입니다. 빌드·적재·실행을 각각 확인하세요.",
+      "docs": [
+        [
+          "Dockerfile",
+          "https://docs.docker.com/build/concepts/dockerfile/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 9,
+      "part": 3,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "클러스터 이미지 전달",
+      "q": "Docker에서 로컬로 빌드한 demo-web:v1을 별도 kind 클러스터가 사용하려 한다. 레지스트리 없이 전달할 올바른 방법은?",
+      "opts": [
+        "Pod 이름을 이미지 태그로 바꾼다",
+        "imagePullPolicy: Always만 지정한다",
+        "Service의 targetPort를 바꾼다",
+        "kind load docker-image로 적재한다"
+      ],
+      "a": 3,
+      "type": {
+        "p": "kind의 이미지 적재 하위 명령 두 단어를 입력하세요.",
+        "model": "load docker-image",
+        "acc": [
+          "load docker-image"
+        ]
+      },
+      "exp": "<p>로컬 Docker 이미지와 Kubernetes 노드 이미지 저장소는 별개입니다. kind load docker-image 또는 접근 가능한 레지스트리가 필요합니다.</p>",
+      "whyno": [
+        "Pod 이름 변경은 노드 이미지 저장소와 관계없습니다.",
+        "Always는 레지스트리에서 확인·가져오려 하므로 로컬 빌드 적재를 대체하지 못합니다.",
+        "targetPort는 Service 연결 대상 포트이며 이미지 배포와 관계없습니다."
+      ],
+      "code": "kind load docker-image demo-web:v1 --name study\n# Pod imagePullPolicy: IfNotPresent 또는 Never",
+      "trap": "빌드된 로컬 이미지와 Kubernetes 노드 이미지 저장소는 별개입니다. 빌드·적재·실행을 각각 확인하세요.",
+      "docs": [
+        [
+          "Dockerfile",
+          "https://docs.docker.com/build/concepts/dockerfile/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 10,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "컨테이너 이미지 변경",
+      "q": "lab-rollout의 web Deployment에서 컨테이너 nginx의 이미지를 nginx:alpine으로 바꿀 명령은?",
+      "opts": [
+        "kubectl set image deploy/web nginx=nginx:alpine -n lab-rollout",
+        "kubectl set image pod/web nginx=nginx:alpine -n lab-rollout",
+        "kubectl set resources deploy/web nginx=nginx:alpine -n lab-rollout",
+        "kubectl scale deploy/web nginx=nginx:alpine -n lab-rollout"
+      ],
+      "a": 0,
+      "type": {
+        "p": "이미지 변경 하위 명령 두 단어를 입력하세요.",
+        "model": "set image",
+        "acc": [
+          "set image"
+        ]
+      },
+      "exp": "<p>Deployment의 Pod 템플릿을 변경하면 새 ReplicaSet과 롤링 업데이트가 만들어집니다.</p>",
+      "whyno": [
+        "Pod 이름 web은 Deployment 이름과 다르며 Pod 변경은 Deployment 템플릿 변경을 대체하지 않습니다.",
+        "set resources는 requests·limits 변경용입니다.",
+        "scale은 replica 수 변경용입니다."
+      ],
+      "code": "kubectl set image deploy/web nginx=nginx:alpine -n lab-rollout\nkubectl rollout status deploy/web -n lab-rollout",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 11,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "배포 상태 확인",
+      "q": "apply 성공 후 Deployment 업데이트 완료를 기다릴 명령은?",
+      "opts": [
+        "kubectl get deploy/web -n lab-rollout",
+        "kubectl rollout status deploy/web -n lab-rollout",
+        "kubectl rollout history deploy/web -n lab-rollout",
+        "kubectl describe deploy/web -n lab-rollout"
+      ],
+      "a": 1,
+      "type": {
+        "p": "완료 대기 하위 명령 두 단어를 입력하세요.",
+        "model": "rollout status",
+        "acc": [
+          "rollout status"
+        ]
+      },
+      "exp": "<p>API 객체 저장 성공은 Pod 준비 완료를 뜻하지 않습니다. rollout status로 업데이트 결과를 기다립니다.</p>",
+      "whyno": [
+        "get은 한 시점의 상태를 조회하고 업데이트 완료까지 기다리지 않습니다.",
+        "history는 이전 revision을 조회합니다.",
+        "describe는 이벤트와 설정을 조회하며 완료 대기를 보장하지 않습니다."
+      ],
+      "code": "kubectl rollout status deploy/web -n lab-rollout --timeout=120s",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 12,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "이전 리비전 복구",
+      "q": "잘못된 이미지로 업데이트한 web Deployment를 직전 리비전으로 되돌릴 명령은?",
+      "opts": [
+        "kubectl rollout restart deploy/web -n lab-rollout",
+        "kubectl rollout pause deploy/web -n lab-rollout",
+        "kubectl rollout undo deploy/web -n lab-rollout",
+        "kubectl rollout resume deploy/web -n lab-rollout"
+      ],
+      "a": 2,
+      "type": {
+        "p": "복구 하위 명령 두 단어를 입력하세요.",
+        "model": "rollout undo",
+        "acc": [
+          "rollout undo"
+        ]
+      },
+      "exp": "<p>undo는 이전 Pod 템플릿을 복원합니다. restart는 현재 템플릿의 Pod를 다시 만들 뿐입니다.</p>",
+      "whyno": [
+        "restart는 현재 이미지로 다시 생성하므로 잘못된 이미지가 유지됩니다.",
+        "pause는 업데이트를 멈추고 이전 템플릿을 복원하지 않습니다.",
+        "resume는 멈춘 업데이트를 재개합니다."
+      ],
+      "code": "kubectl rollout undo deploy/web -n lab-rollout\nkubectl rollout status deploy/web -n lab-rollout",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 13,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "ConfigMap 생성",
+      "q": "MODE=dev 값을 가진 app-config ConfigMap을 lab-config에 만들 명령은?",
+      "opts": [
+        "kubectl create configmap app-config -n lab-config --from-literal=MODE=dev",
+        "kubectl create secret generic app-config -n lab-config --from-literal=MODE=dev",
+        "kubectl set env configmap/app-config -n lab-config MODE=dev",
+        "kubectl label configmap app-config -n lab-config MODE=dev"
+      ],
+      "a": 0,
+      "type": {
+        "p": "생성 리소스 이름을 입력하세요.",
+        "model": "configmap",
+        "acc": [
+          "configmap"
+        ]
+      },
+      "exp": "<p>ConfigMap은 비밀이 아닌 설정을 저장합니다. Pod에서 envFrom 또는 볼륨으로 소비해야 앱이 설정을 사용합니다.</p>",
+      "whyno": [
+        "Secret 생성 명령이며 요청한 ConfigMap과 다른 객체입니다.",
+        "set env는 ConfigMap 생성 명령이 아닙니다.",
+        "label은 메타데이터 라벨을 수정하고 ConfigMap data를 만들지 않습니다."
+      ],
+      "code": "kubectl create configmap app-config -n lab-config --from-literal=MODE=dev",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "ConfigMap",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 14,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "환경변수와 갱신",
+      "q": "envFrom으로 주입한 ConfigMap MODE를 변경했다. 새 값을 앱 환경변수에 적용하려면?",
+      "opts": [
+        "기존 Pod의 환경변수를 자동 갱신한다",
+        "ConfigMap 이름만 조회하고 기다린다",
+        "기존 Pod에 새 ConfigMap 라벨을 붙인다",
+        "새 Pod가 생성되도록 롤아웃한다"
+      ],
+      "a": 3,
+      "type": {
+        "p": "Deployment Pod 재생성 하위 명령 두 단어를 입력하세요.",
+        "model": "rollout restart",
+        "acc": [
+          "rollout restart"
+        ]
+      },
+      "exp": "<p>환경변수는 컨테이너 생성 시 결정됩니다. 마운트 파일 갱신과 달리 새 Pod를 만들어야 합니다.</p>",
+      "whyno": [
+        "실행 중 환경변수는 ConfigMap 변경만으로 갱신되지 않습니다.",
+        "환경변수 사용에서는 기다리기만 해도 새 값이 반영되지 않습니다.",
+        "Pod 라벨은 앱 환경변수 값을 변경하지 않습니다."
+      ],
+      "code": "kubectl rollout restart deploy/web -n lab-config",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "ConfigMap",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 15,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Secret 참조",
+      "q": "Secret app-secret의 token 키를 TOKEN 환경변수로 사용하려 한다. valueFrom 아래 필드는?",
+      "opts": [
+        "configMapKeyRef",
+        "secretKeyRef",
+        "resourceFieldRef",
+        "fieldRef"
+      ],
+      "a": 1,
+      "type": {
+        "p": "참조 필드명을 입력하세요.",
+        "model": "secretKeyRef",
+        "acc": [
+          "secretKeyRef"
+        ]
+      },
+      "exp": "<p>secretKeyRef는 Secret 이름과 키를 지정합니다. base64 인코딩 자체는 암호화가 아닙니다.</p>",
+      "whyno": [
+        "configMapKeyRef는 ConfigMap의 키를 참조합니다.",
+        "resourceFieldRef는 컨테이너 자원 requests·limits를 참조합니다.",
+        "fieldRef는 Pod 메타데이터·지원 상태 필드를 참조합니다."
+      ],
+      "code": "env:\n- name: TOKEN\n  valueFrom:\n    secretKeyRef:\n      name: app-secret\n      key: token",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "ConfigMap",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 16,
+      "part": 6,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "Job 완료 대기",
+      "q": "lab-job의 once Job이 성공 완료될 때까지 기다릴 명령은?",
+      "opts": [
+        "kubectl wait -n lab-job --for=condition=Ready job/once",
+        "kubectl wait -n lab-job --for=condition=Complete job/once",
+        "kubectl wait -n lab-job --for=condition=Available job/once",
+        "kubectl wait -n lab-job --for=condition=Bound job/once"
+      ],
+      "a": 1,
+      "type": {
+        "p": "성공한 Job 조건 이름을 입력하세요.",
+        "model": "Complete",
+        "acc": [
+          "Complete"
+        ]
+      },
+      "exp": "<p>Job 성공 완료 조건은 Complete입니다. Pod Ready나 Deployment Available과 구분합니다.</p>",
+      "whyno": [
+        "Job 성공 조건은 Ready가 아닙니다.",
+        "Available은 Deployment 가용성 조건입니다.",
+        "Bound는 PVC의 phase이며 Job 성공 조건이 아닙니다."
+      ],
+      "code": "kubectl wait -n lab-job --for=condition=Complete job/once --timeout=120s\nkubectl logs -n lab-job job/once",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Jobs",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/job/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 17,
+      "part": 6,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "Job 재시작 정책",
+      "q": "실패한 Job 컨테이너를 같은 Pod에서 재시작하도록 할 restartPolicy는?",
+      "opts": [
+        "Always",
+        "Never",
+        "OnFailure",
+        "UnlessStopped"
+      ],
+      "a": 2,
+      "type": {
+        "p": "restartPolicy 값을 입력하세요.",
+        "model": "OnFailure",
+        "acc": [
+          "OnFailure"
+        ]
+      },
+      "exp": "<p>Job Pod는 Never 또는 OnFailure를 사용합니다. Never는 컨테이너를 같은 Pod에서 재시작하지 않습니다.</p>",
+      "whyno": [
+        "Always는 일반 Job Pod에 허용되지 않습니다.",
+        "Never는 같은 Pod의 컨테이너를 재시작하지 않습니다.",
+        "UnlessStopped는 Kubernetes restartPolicy 값이 아닙니다."
+      ],
+      "code": "spec:\n  template:\n    spec:\n      restartPolicy: OnFailure",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Jobs",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/job/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 18,
+      "part": 6,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "CronJob 수동 실행",
+      "q": "lab-job의 CronJob report에서 즉시 한 번 실행할 Job manual-report를 만들 명령은?",
+      "opts": [
+        "kubectl run manual-report --from=cronjob/report -n lab-job",
+        "kubectl create cronjob manual-report --from=job/report -n lab-job",
+        "kubectl start job manual-report --from=cronjob/report -n lab-job",
+        "kubectl create job manual-report --from=cronjob/report -n lab-job"
+      ],
+      "a": 3,
+      "type": {
+        "p": "기존 CronJob 지정 옵션과 값을 입력하세요.",
+        "model": "--from=cronjob/report",
+        "acc": [
+          "--from=cronjob/report"
+        ]
+      },
+      "exp": "<p>create job --from=cronjob은 기존 CronJob 템플릿으로 일회성 Job을 만듭니다.</p>",
+      "whyno": [
+        "run으로 기존 CronJob 템플릿을 가져오지 않습니다.",
+        "요청한 일회성 Job 생성 방식이 아닙니다.",
+        "kubectl start job이라는 하위 명령은 없습니다."
+      ],
+      "code": "kubectl create job manual-report --from=cronjob/report -n lab-job",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Jobs",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/job/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 19,
+      "part": 7,
+      "exam": [
+        "CKA",
+        "CKAD",
+        "CKS"
+      ],
+      "title": "네임스페이스 Role",
+      "q": "lab-rbac의 reader에게 해당 네임스페이스 pods get/list만 허용하려 한다. 적합한 객체 조합은?",
+      "opts": [
+        "Role + RoleBinding",
+        "Role + ClusterRoleBinding",
+        "ClusterRole + cluster-admin",
+        "ServiceAccount + Secret"
+      ],
+      "a": 0,
+      "type": {
+        "p": "네임스페이스 범위 권한 규칙 객체를 입력하세요.",
+        "model": "Role",
+        "acc": [
+          "Role"
+        ]
+      },
+      "exp": "<p>Role과 RoleBinding으로 네임스페이스 권한을 한정합니다. ClusterRoleBinding으로 전체 범위를 열 필요가 없습니다.</p>",
+      "whyno": [
+        "Role을 ClusterRoleBinding으로 네임스페이스 범위 밖에 바인딩할 수 없습니다.",
+        "cluster-admin은 요구한 최소 권한보다 과도합니다.",
+        "ServiceAccount와 Secret만으로 pods 조회 권한을 부여하지 않습니다."
+      ],
+      "code": "kubectl create role pod-reader -n lab-rbac --verb=get,list --resource=pods\nkubectl create rolebinding read -n lab-rbac --role=pod-reader --serviceaccount=lab-rbac:reader",
+      "trap": "허용해야 하는 작업은 yes, 차단해야 하는 작업은 no인지 모두 검증하세요.",
+      "docs": [
+        [
+          "RBAC",
+          "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security",
+        "CKS": "Cluster Hardening"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 20,
+      "part": 7,
+      "exam": [
+        "CKA",
+        "CKAD",
+        "CKS"
+      ],
+      "title": "권한 검증",
+      "q": "lab-rbac의 reader가 Pod 삭제를 할 수 없는지 확인할 명령은?",
+      "opts": [
+        "kubectl get sa reader -n lab-rbac",
+        "kubectl auth can-i delete pods -n lab-rbac --as=system:serviceaccount:lab-rbac:reader",
+        "kubectl get rolebinding read -n lab-rbac",
+        "kubectl describe role pod-reader -n lab-rbac"
+      ],
+      "a": 1,
+      "type": {
+        "p": "권한 확인 하위 명령 두 단어를 입력하세요.",
+        "model": "auth can-i",
+        "acc": [
+          "auth can-i"
+        ]
+      },
+      "exp": "<p>리소스 존재만 확인하지 말고 can-i로 허용 작업은 yes, 금지 작업은 no인지 검증합니다. 가장할 권한이 필요합니다.</p>",
+      "whyno": [
+        "ServiceAccount 존재만 확인하며 인가 결과를 검증하지 않습니다.",
+        "RoleBinding 존재만 확인하며 최종 허용 여부를 검증하지 않습니다.",
+        "Role 규칙만 확인해서는 실제 subject 바인딩과 다른 권한의 영향을 검증하지 못합니다."
+      ],
+      "code": "kubectl auth can-i get pods -n lab-rbac --as=system:serviceaccount:lab-rbac:reader\nkubectl auth can-i delete pods -n lab-rbac --as=system:serviceaccount:lab-rbac:reader",
+      "trap": "허용해야 하는 작업은 yes, 차단해야 하는 작업은 no인지 모두 검증하세요.",
+      "docs": [
+        [
+          "RBAC",
+          "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security",
+        "CKS": "Cluster Hardening"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 21,
+      "part": 7,
+      "exam": [
+        "CKA",
+        "CKAD",
+        "CKS"
+      ],
+      "title": "기본 토큰 마운트 차단",
+      "q": "API에 접근하지 않는 Pod에 ServiceAccount 토큰이 자동 마운트되지 않게 할 Pod spec 필드는?",
+      "opts": [
+        "serviceAccountName: default",
+        "hostNetwork: false",
+        "automountServiceAccountToken: false",
+        "enableServiceLinks: false"
+      ],
+      "a": 2,
+      "type": {
+        "p": "필드와 값을 입력하세요.",
+        "model": "automountServiceAccountToken: false",
+        "acc": [
+          "automountServiceAccountToken: false"
+        ]
+      },
+      "exp": "<p>Pod 또는 ServiceAccount에서 automountServiceAccountToken을 false로 설정합니다. serviceAccountName만 지정하는 것으로 차단되지 않습니다.</p>",
+      "whyno": [
+        "default ServiceAccount를 선택해도 자동 토큰 마운트는 차단되지 않습니다.",
+        "hostNetwork는 Pod의 네트워크 네임스페이스 사용 방식입니다.",
+        "enableServiceLinks는 Service 환경변수 생성 여부입니다."
+      ],
+      "code": "spec:\n  automountServiceAccountToken: false",
+      "trap": "허용해야 하는 작업은 yes, 차단해야 하는 작업은 no인지 모두 검증하세요.",
+      "docs": [
+        [
+          "RBAC",
+          "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security",
+        "CKS": "Cluster Hardening"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 22,
+      "part": 8,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "확장 API 발견",
+      "q": "설치된 커스텀 리소스 종류와 API group을 탐색할 명령은?",
+      "opts": [
+        "kubectl api-resources",
+        "kubectl get nodes",
+        "kubectl get events",
+        "kubectl cluster-info"
+      ],
+      "a": 0,
+      "type": {
+        "p": "API 리소스 목록 명령을 입력하세요.",
+        "model": "kubectl api-resources",
+        "acc": [
+          "kubectl api-resources"
+        ]
+      },
+      "exp": "<p>api-resources로 등록된 종류를 발견하고 explain으로 스키마를 탐색합니다.</p>",
+      "whyno": [
+        "nodes 조회는 등록된 리소스 종류·API group 탐색이 아닙니다.",
+        "events 조회는 이벤트 기록 탐색입니다.",
+        "cluster-info는 클러스터 접속 정보 등을 표시합니다."
+      ],
+      "code": "kubectl api-resources\nkubectl get crds",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Operator pattern",
+          "https://kubernetes.io/docs/concepts/extend-kubernetes/operator/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 23,
+      "part": 8,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "CRD와 컨트롤러",
+      "q": "CRD와 Custom Resource를 만들었는데 실제 백업 작업이 실행되지 않는다. CRD의 역할에 대한 올바른 설명은?",
+      "opts": [
+        "CRD 생성이 모든 앱 작업을 실행한다",
+        "CRD는 API를 등록하며 동작은 컨트롤러가 구현한다",
+        "CRD에는 항상 kubelet 실행 코드가 들어간다",
+        "CRD를 만들면 외부 스토리지가 자동 제공된다"
+      ],
+      "a": 1,
+      "type": {
+        "p": "상태를 조정하는 구성요소 이름을 입력하세요.",
+        "model": "controller",
+        "acc": [
+          "controller",
+          "컨트롤러"
+        ]
+      },
+      "exp": "<p>CRD는 API 스키마·저장을 확장합니다. Operator의 컨트롤러가 리소스를 관찰하고 실제 상태를 목표 상태로 조정합니다.</p>",
+      "whyno": [
+        "CRD를 등록하는 것만으로 앱 동작을 수행하는 컨트롤러가 생성되지 않습니다.",
+        "CRD는 kubelet 실행 코드를 포함하는 객체가 아닙니다.",
+        "실제 프로비저닝은 해당 컨트롤러·백엔드 구현이 필요합니다."
+      ],
+      "code": "kubectl get crd\n# 해당 Operator Deployment, 로그, 권한과 Custom Resource status 확인",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Operator pattern",
+          "https://kubernetes.io/docs/concepts/extend-kubernetes/operator/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 24,
+      "part": 8,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "리소스 필드 탐색",
+      "q": "설치된 Widget CR의 spec 필드와 스키마를 재귀적으로 확인할 명령은?",
+      "opts": [
+        "kubectl describe widgets.spec",
+        "kubectl get widgets.spec",
+        "kubectl explain widgets.spec --recursive",
+        "kubectl logs widgets.spec"
+      ],
+      "a": 2,
+      "type": {
+        "p": "스키마 탐색 하위 명령을 입력하세요.",
+        "model": "explain",
+        "acc": [
+          "explain"
+        ]
+      },
+      "exp": "<p>explain은 API 서버가 제공하는 스키마를 조회합니다. describe는 특정 객체의 상태를 확인합니다.</p>",
+      "whyno": [
+        "describe는 객체를 설명하며 spec 스키마 경로를 조회하는 명령이 아닙니다.",
+        "get은 객체 값을 읽으며 스키마를 재귀 출력하지 않습니다.",
+        "logs는 실행 중 컨테이너 로그를 읽습니다."
+      ],
+      "code": "kubectl explain widgets.spec --recursive",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Operator pattern",
+          "https://kubernetes.io/docs/concepts/extend-kubernetes/operator/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Cluster Architecture, Installation & Configuration",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 25,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "트래픽 준비 상태",
+      "q": "앱은 실행 중이지만 초기 설정이 완료되기 전에는 Service 트래픽을 받지 않아야 한다. 적절한 프로브는?",
+      "opts": [
+        "readinessProbe",
+        "livenessProbe",
+        "startupProbe만",
+        "terminationProbe"
+      ],
+      "a": 0,
+      "type": {
+        "p": "트래픽 준비 프로브 필드명을 입력하세요.",
+        "model": "readinessProbe",
+        "acc": [
+          "readinessProbe"
+        ]
+      },
+      "exp": "<p>readiness 실패는 준비되지 않은 Pod로의 Service 트래픽을 제외합니다. liveness 실패는 컨테이너 재시작을 유도합니다.</p>",
+      "whyno": [
+        "liveness는 실패 시 재시작을 유도하며 트래픽 준비 여부를 직접 나타내지 않습니다.",
+        "startup 성공 이후 지속적인 트래픽 준비 상태에는 readiness가 필요합니다.",
+        "terminationProbe는 Kubernetes 프로브 필드가 아닙니다."
+      ],
+      "code": "readinessProbe:\n  httpGet: { path: /, port: 80 }\n  periodSeconds: 5",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Probes",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 26,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "느린 시작 보호",
+      "q": "최초 기동이 오래 걸려 liveness에 의해 재시작된다. 기동 완료까지 liveness와 readiness 시작을 지연시킬 프로브는?",
+      "opts": [
+        "readinessProbe만",
+        "startupProbe",
+        "livenessProbe만",
+        "preStopProbe"
+      ],
+      "a": 1,
+      "type": {
+        "p": "시작 프로브 필드명을 입력하세요.",
+        "model": "startupProbe",
+        "acc": [
+          "startupProbe"
+        ]
+      },
+      "exp": "<p>startupProbe 성공 전에는 liveness·readiness 검사가 시작되지 않습니다. failureThreshold와 periodSeconds로 시작 대기 예산을 정합니다.</p>",
+      "whyno": [
+        "readiness만으로 liveness 시작을 지연시키지 못합니다.",
+        "기동 중 liveness 자체가 이미 실행되어 재시작을 유발할 수 있습니다.",
+        "preStopProbe는 Kubernetes 프로브 필드가 아닙니다."
+      ],
+      "code": "startupProbe:\n  httpGet: { path: /, port: 80 }\n  periodSeconds: 5\n  failureThreshold: 30",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Probes",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 27,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Init 실행 순서",
+      "q": "앱 시작 전에 설정 파일을 생성하는 일반 init container의 실행 순서는?",
+      "opts": [
+        "앱 컨테이너 종료 후 실행된다",
+        "앱과 항상 동시에 실행된다",
+        "완료 후 다음 init·앱 컨테이너가 시작된다",
+        "Service 생성 때만 실행된다"
+      ],
+      "a": 2,
+      "type": {
+        "p": "일반 초기화 컨테이너 목록 필드명을 입력하세요.",
+        "model": "initContainers",
+        "acc": [
+          "initContainers"
+        ]
+      },
+      "exp": "<p>일반 init container는 순서대로 성공 완료해야 다음 단계가 실행됩니다. restartPolicy: Always인 네이티브 sidecar와 구분합니다.</p>",
+      "whyno": [
+        "일반 init은 앱 종료 후가 아니라 앱 시작 전에 실행합니다.",
+        "일반 init은 성공 완료 후 다음 컨테이너가 시작합니다.",
+        "init은 Pod 수명주기에 속하며 Service 생성과 관계없습니다."
+      ],
+      "code": "initContainers:\n- name: prepare\n  image: busybox:1.36\n  command: [sh, -c, \"echo ready > /work/status\"]",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Probes",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 28,
+      "part": 10,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "CPU 요청",
+      "q": "스케줄링 시 보장할 CPU를 100m으로 지정할 필드 경로는?",
+      "opts": [
+        "resources.requests.cpu",
+        "resources.limits.cpu",
+        "resources.capacity.cpu",
+        "resources.allocatable.cpu"
+      ],
+      "a": 0,
+      "type": {
+        "p": "필드 경로를 입력하세요.",
+        "model": "resources.requests.cpu",
+        "acc": [
+          "resources.requests.cpu"
+        ]
+      },
+      "exp": "<p>스케줄러는 requests를 기준으로 배치를 판단합니다. limits는 사용 상한이며 같은 개념이 아닙니다.</p>",
+      "whyno": [
+        "limits.cpu는 사용 상한이며 스케줄링 요청값이 아닙니다.",
+        "컨테이너 resources.capacity.cpu 필드는 없습니다.",
+        "allocatable은 노드 자원 정보이며 컨테이너 요청 설정이 아닙니다."
+      ],
+      "code": "resources:\n  requests: { cpu: 100m, memory: 64Mi }\n  limits: { cpu: 200m, memory: 128Mi }",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Resource management",
+          "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 29,
+      "part": 10,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "CPU 초과 동작",
+      "q": "컨테이너가 CPU limit을 넘기려 할 때 일반적인 동작은?",
+      "opts": [
+        "항상 OOMKilled로 종료한다",
+        "CPU 사용 시간을 스로틀링한다",
+        "PVC 용량을 자동으로 확장한다",
+        "자동으로 노드를 재부팅한다"
+      ],
+      "a": 1,
+      "type": {
+        "p": "CPU 제한 동작 이름을 입력하세요.",
+        "model": "throttling",
+        "acc": [
+          "throttling",
+          "스로틀링"
+        ]
+      },
+      "exp": "<p>CPU는 시간을 제한하는 스로틀링이 적용됩니다. 메모리 제한 초과에 따른 OOM 종료와 구분합니다.</p>",
+      "whyno": [
+        "OOMKilled는 메모리 문제이며 CPU 상한 초과 자체의 결과가 아닙니다.",
+        "CPU 상한은 PVC 크기와 관계없습니다.",
+        "CPU 제한이 노드 재부팅을 유발하는 정상 동작은 없습니다."
+      ],
+      "code": "kubectl top pods -n lab-resources",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Resource management",
+          "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 30,
+      "part": 10,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "설정 적용 위치",
+      "q": "Deployment의 앱 컨테이너에 requests와 limits를 넣을 위치는?",
+      "opts": [
+        "metadata.resources",
+        "spec.resources",
+        "spec.template.spec.containers[].resources",
+        "spec.selector.resources"
+      ],
+      "a": 2,
+      "type": {
+        "p": "Pod 컨테이너 필드명을 입력하세요.",
+        "model": "resources",
+        "acc": [
+          "resources"
+        ]
+      },
+      "exp": "<p>Deployment에서는 Pod 템플릿 안 컨테이너에 설정해야 새 Pod에 반영됩니다.</p>",
+      "whyno": [
+        "metadata에 컨테이너 자원 설정을 넣을 수 없습니다.",
+        "Deployment spec.resources가 아니라 Pod 템플릿의 컨테이너 설정입니다.",
+        "selector는 Pod 선택 조건이며 자원 설정 위치가 아닙니다."
+      ],
+      "code": "kubectl set resources deploy/web -n lab-resources --requests=cpu=100m,memory=64Mi --limits=cpu=200m,memory=128Mi",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Resource management",
+          "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 31,
+      "part": 11,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "블루그린 전환",
+      "q": "blue와 green Deployment가 모두 준비됐다. Service가 blue만 선택할 때 green으로 일괄 전환할 변경은?",
+      "opts": [
+        "Service selector의 version을 green으로 변경",
+        "blue Pod의 containerPort를 green으로 변경",
+        "green Deployment의 이름을 Service로 변경",
+        "Namespace의 phase를 green으로 변경"
+      ],
+      "a": 0,
+      "type": {
+        "p": "Service에서 백엔드를 고르는 필드명을 입력하세요.",
+        "model": "selector",
+        "acc": [
+          "selector"
+        ]
+      },
+      "exp": "<p>Service selector를 green Pod 라벨과 맞추면 새 연결의 백엔드를 전환합니다. 기존 연결 처리와 green 준비 상태도 확인합니다.</p>",
+      "whyno": [
+        "containerPort는 숫자 포트 정보이며 Service의 버전 선택 조건이 아닙니다.",
+        "Deployment 이름만 변경해도 Service selector는 바뀌지 않습니다.",
+        "Namespace phase는 배포 버전 전환 설정이 아닙니다."
+      ],
+      "code": "kubectl patch svc web -n lab-bluegreen --type=merge -p '{\"spec\":{\"selector\":{\"app\":\"web\",\"version\":\"green\"}}}'",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 32,
+      "part": 11,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "카나리 비율 한계",
+      "q": "Service가 stable 9개와 canary 1개 Pod를 함께 선택한다. 실제 HTTP 요청 비율에 대한 올바른 설명은?",
+      "opts": [
+        "매 요청 정확히 90:10을 보장한다",
+        "Pod 수 비율은 요청 비율의 보장이 아니다",
+        "canary Pod가 모든 요청을 받는다",
+        "stable Pod는 트래픽에서 제외된다"
+      ],
+      "a": 1,
+      "type": {
+        "p": "분산 대상으로 집계되는 객체 종류를 입력하세요.",
+        "model": "Pod",
+        "acc": [
+          "Pod"
+        ]
+      },
+      "exp": "<p>연결 재사용·세션 고정 때문에 Pod 수 비율이 정확한 HTTP 요청 비율을 보장하지 않습니다. 가중 라우팅이 필요하면 지원하는 L7 라우터를 사용합니다.</p>",
+      "whyno": [
+        "연결 재사용과 세션 고정 때문에 정확한 요청 비율이 보장되지 않습니다.",
+        "양쪽 Pod가 선택되므로 canary가 모든 트래픽을 독점하지 않습니다.",
+        "selector가 stable도 선택하므로 트래픽에서 제외되지 않습니다."
+      ],
+      "code": "kubectl get endpointslices -n lab-canary -l kubernetes.io/service-name=web",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 33,
+      "part": 11,
+      "exam": [
+        "CKAD"
+      ],
+      "title": "롤링 업데이트 예산",
+      "q": "업데이트 중 기존 replica 수 아래로 가용 Pod가 줄지 않게 할 Deployment 전략 값은?",
+      "opts": [
+        "maxUnavailable: 1",
+        "maxSurge: 0",
+        "maxUnavailable: 0",
+        "progressDeadlineSeconds: 0"
+      ],
+      "a": 2,
+      "type": {
+        "p": "필드와 값을 입력하세요.",
+        "model": "maxUnavailable: 0",
+        "acc": [
+          "maxUnavailable: 0"
+        ]
+      },
+      "exp": "<p>maxUnavailable은 업데이트 중 허용할 비가용 수입니다. maxSurge에 여유를 줘야 새 Pod를 먼저 생성할 수 있습니다.</p>",
+      "whyno": [
+        "1이면 업데이트 중 가용 Pod 한 개 감소를 허용합니다.",
+        "maxSurge는 추가 Pod 예산이며 비가용 감소를 차단하는 값이 아닙니다.",
+        "진행 시간 설정은 비가용 Pod 수 예산을 지정하지 않습니다."
+      ],
+      "code": "strategy:\n  type: RollingUpdate\n  rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }",
+      "trap": "API 반영 성공과 앱의 정상 동작을 구분하세요. 해설의 검증 명령과 실제 출력까지 확인하세요.",
+      "docs": [
+        [
+          "Deployments",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKAD": "Application Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 34,
+      "part": 12,
+      "exam": [
+        "CKS"
+      ],
+      "title": "SBOM 생성",
+      "q": "이미지 구성요소를 CycloneDX SBOM 파일로 기록할 Trivy 옵션은?",
+      "opts": [
+        "--format cyclonedx --output sbom.json",
+        "--severity HIGH --exit-code 0",
+        "--ignore-unfixed --quiet",
+        "--format table --output scan.txt"
+      ],
+      "a": 0,
+      "type": {
+        "p": "SBOM 출력 형식 이름을 입력하세요.",
+        "model": "cyclonedx",
+        "acc": [
+          "cyclonedx"
+        ]
+      },
+      "exp": "<p>SBOM은 구성요소 목록입니다. 생성 자체가 취약점 제거·서명 검증을 뜻하지 않습니다.</p>",
+      "whyno": [
+        "severity와 exit-code는 취약점 검사 조건이지 SBOM 형식이 아닙니다.",
+        "ignore-unfixed와 quiet는 SBOM 출력 형식이 아닙니다.",
+        "table 출력은 CycloneDX 구성요소 목록이 아닙니다."
+      ],
+      "code": "trivy image --format cyclonedx --output sbom.json nginx:alpine",
+      "trap": "SBOM 생성, 취약점 검사, 이미지 digest 고정, 서명 검증은 각각 다른 검증입니다.",
+      "docs": [
+        [
+          "Trivy SBOM",
+          "https://trivy.dev/latest/docs/supply-chain/sbom/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKS": "Supply Chain Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 35,
+      "part": 12,
+      "exam": [
+        "CKS"
+      ],
+      "title": "취약점 CI 실패 조건",
+      "q": "Trivy 이미지 스캔에서 CRITICAL 취약점을 찾으면 프로세스가 1로 종료되게 할 옵션 조합은?",
+      "opts": [
+        "--severity LOW --exit-code 1",
+        "--severity CRITICAL --exit-code 1",
+        "--severity CRITICAL --exit-code 0",
+        "--severity UNKNOWN --exit-code 1"
+      ],
+      "a": 1,
+      "type": {
+        "p": "검출 시 종료 코드를 지정할 옵션과 값을 입력하세요.",
+        "model": "--exit-code 1",
+        "acc": [
+          "--exit-code 1"
+        ]
+      },
+      "exp": "<p>severity로 검출 범위를 선택하고 exit-code로 결과가 있을 때의 종료 코드를 지정합니다.</p>",
+      "whyno": [
+        "LOW만 선택하므로 CRITICAL 검출 조건과 다릅니다.",
+        "검출해도 0으로 종료하므로 CI 실패 조건을 충족하지 않습니다.",
+        "UNKNOWN만 선택하므로 CRITICAL 검사 조건과 다릅니다."
+      ],
+      "code": "trivy image --severity CRITICAL --exit-code 1 nginx:alpine",
+      "trap": "SBOM 생성, 취약점 검사, 이미지 digest 고정, 서명 검증은 각각 다른 검증입니다.",
+      "docs": [
+        [
+          "Trivy SBOM",
+          "https://trivy.dev/latest/docs/supply-chain/sbom/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKS": "Supply Chain Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    },
+    {
+      "id": 36,
+      "part": 12,
+      "exam": [
+        "CKS"
+      ],
+      "title": "태그와 digest",
+      "q": "검증한 이미지 내용이 배포 시 바뀌지 않게 참조하려면?",
+      "opts": [
+        "reg.example.com/app:latest",
+        "reg.example.com/app:stable",
+        "reg.example.com/app@sha256:검증한_digest",
+        "reg.example.com/app:production"
+      ],
+      "a": 2,
+      "type": {
+        "p": "내용 기반 이미지 식별자 이름을 입력하세요.",
+        "model": "digest",
+        "acc": [
+          "digest"
+        ]
+      },
+      "exp": "<p>태그는 다른 이미지로 이동할 수 있습니다. digest는 내용을 식별하며 출처·서명 검증은 별도로 수행해야 합니다.</p>",
+      "whyno": [
+        "latest 태그는 다른 이미지로 이동할 수 있습니다.",
+        "stable 태그도 내용 고정을 보장하지 않습니다.",
+        "production 태그도 내용 기반 식별자가 아닙니다."
+      ],
+      "code": "image: reg.example.com/app@sha256:<검증한-digest>",
+      "trap": "SBOM 생성, 취약점 검사, 이미지 digest 고정, 서명 검증은 각각 다른 검증입니다.",
+      "docs": [
+        [
+          "Trivy SBOM",
+          "https://trivy.dev/latest/docs/supply-chain/sbom/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKS": "Supply Chain Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-02"
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "case-1",
+      "title": "Helm 패키지 배포와 변경",
+      "objective": "Helm 패키지 배포와 변경의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "case-4",
+      "title": "Kustomize 렌더링과 오버레이",
+      "objective": "Kustomize 렌더링과 오버레이의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "case-7",
+      "title": "컨테이너 이미지 빌드",
+      "objective": "컨테이너 이미지 빌드의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "case-10",
+      "title": "Deployment 업데이트와 복구",
+      "objective": "Deployment 업데이트와 복구의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": "case-13",
+      "title": "ConfigMap과 Secret 구성",
+      "objective": "ConfigMap과 Secret 구성의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "case-16",
+      "title": "Job과 CronJob 실행",
+      "objective": "Job과 CronJob 실행의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "case-19",
+      "title": "ServiceAccount 최소 권한",
+      "objective": "ServiceAccount 최소 권한의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "id": "case-22",
+      "title": "CRD와 Operator 구분",
+      "objective": "CRD와 Operator 구분의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "id": "case-25",
+      "title": "프로브와 초기화 컨테이너",
+      "objective": "프로브와 초기화 컨테이너의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "id": "case-28",
+      "title": "리소스 요청과 제한",
+      "objective": "리소스 요청과 제한의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "id": "case-31",
+      "title": "블루그린과 카나리 배포",
+      "objective": "블루그린과 카나리 배포의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "id": "case-34",
+      "title": "이미지 공급망 점검",
+      "objective": "이미지 공급망 점검의 준비·수행·검증 방법을 연습한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령의 핵심 요소를 회상하고 별도 실습 가이드에서 전체 작업을 수행하세요.",
+      "steps": [
+        34,
+        35,
+        36
+      ]
+    }
+  ]
+}

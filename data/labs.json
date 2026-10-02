@@ -1,0 +1,950 @@
+{
+  "schemaVersion": 1,
+  "labs": [
+    {
+      "id": "service-port",
+      "title": "Service 포트 오류 복구",
+      "subject": "network",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web Service는 80 포트에서 받아야 합니다. 실제 nginx 컨테이너 포트로 연결되게 수정하고 HTTP 응답을 확인하세요.",
+      "namespace": "lab-service-port",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-service-port\nkubectl apply -f service-port-starter.yaml",
+      "files": [
+        {
+          "name": "service-port-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-service-port}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n---\napiVersion: v1\nkind: Service\nmetadata: {name: web, namespace: lab-service-port}\nspec:\n  selector: {app: web}\n  ports: [{port: 80, targetPort: 8080}]\n"
+        }
+      ],
+      "tasks": [
+        "web Service는 80 포트에서 받아야 합니다.",
+        "실제 nginx 컨테이너 포트로 연결되게 수정하고 HTTP 응답을 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get svc web -n lab-service-port -o jsonpath='{.spec.ports[0].port}:{.spec.ports[0].targetPort}'",
+          "expected": "80:80"
+        },
+        {
+          "command": "kubectl run client -n lab-service-port --rm -i --restart=Never --image=busybox:1.36 -- wget -T 5 -qO- http://web",
+          "expected": "nginx HTML 응답. Deployment가 Ready인지 먼저 확인."
+        }
+      ],
+      "solution": "kubectl patch svc web -n lab-service-port --type=merge -p '{\"spec\":{\"ports\":[{\"port\":80,\"targetPort\":80}]}}'\nkubectl rollout status deploy/web -n lab-service-port --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-service-port",
+      "docs": [
+        [
+          "Service",
+          "https://kubernetes.io/docs/concepts/services-networking/service/"
+        ]
+      ]
+    },
+    {
+      "id": "service-selector",
+      "title": "Service 백엔드 연결",
+      "subject": "network",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web Service의 selector 오류를 진단하세요. Deployment Pod를 선택하도록 수정하고 EndpointSlice에 백엔드 주소가 들어오는지 확인하세요.",
+      "namespace": "lab-service-selector",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-service-selector\nkubectl apply -f service-selector-starter.yaml",
+      "files": [
+        {
+          "name": "service-selector-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-service-selector}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n---\napiVersion: v1\nkind: Service\nmetadata: {name: web, namespace: lab-service-selector}\nspec:\n  selector: {app: wrong}\n  ports: [{port: 80, targetPort: 80}]\n"
+        }
+      ],
+      "tasks": [
+        "web Service의 selector 오류를 진단하세요.",
+        "Deployment Pod를 선택하도록 수정하고 EndpointSlice에 백엔드 주소가 들어오는지 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get pods -n lab-service-selector --show-labels",
+          "expected": "web Pod의 app=web 라벨"
+        },
+        {
+          "command": "kubectl get endpointslices -n lab-service-selector -l kubernetes.io/service-name=web -o yaml",
+          "expected": "endpoints에 web Pod IP가 있고 ready: true"
+        },
+        {
+          "command": "kubectl run client -n lab-service-selector --rm -i --restart=Never --image=busybox:1.36 -- wget -T 5 -qO- http://web",
+          "expected": "HTTP HTML 응답"
+        }
+      ],
+      "solution": "kubectl patch svc web -n lab-service-selector --type=merge -p '{\"spec\":{\"selector\":{\"app\":\"web\"}}}'\nkubectl rollout status deploy/web -n lab-service-selector --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-service-selector",
+      "docs": [
+        [
+          "Service",
+          "https://kubernetes.io/docs/concepts/services-networking/service/"
+        ]
+      ]
+    },
+    {
+      "id": "dns",
+      "title": "Pod에서 Service DNS 검증",
+      "subject": "network",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web Deployment와 ClusterIP Service를 만드세요. 같은 네임스페이스에서 짧은 이름과 전체 Service 이름을 각각 조회하세요.",
+      "namespace": "lab-dns",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "CoreDNS가 동작하고 cluster domain이 cluster.local인 환경"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-dns\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "web Deployment와 ClusterIP Service를 만드세요.",
+        "같은 네임스페이스에서 짧은 이름과 전체 Service 이름을 각각 조회하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl run lookup -n lab-dns --rm -i --restart=Never --image=busybox:1.36 -- nslookup web",
+          "expected": "web Service의 ClusterIP로 해석된다."
+        },
+        {
+          "command": "kubectl run lookup-full -n lab-dns --rm -i --restart=Never --image=busybox:1.36 -- nslookup web.lab-dns.svc.cluster.local",
+          "expected": "같은 ClusterIP. 다른 cluster domain은 환경에 맞게 변경."
+        }
+      ],
+      "solution": "kubectl create deployment web -n lab-dns --image=nginx:alpine\nkubectl expose deploy web -n lab-dns --port=80 --target-port=80\nkubectl rollout status deploy/web -n lab-dns --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-dns",
+      "docs": [
+        [
+          "DNS for Services",
+          "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/"
+        ]
+      ]
+    },
+    {
+      "id": "network-policy",
+      "title": "허용·차단을 모두 검증하는 NetworkPolicy",
+      "subject": "network",
+      "exam": [
+        "CKA",
+        "CKAD",
+        "CKS"
+      ],
+      "objective": "app=web Pod에 ingress 정책을 적용하세요. 같은 namespace의 role=allowed Pod만 TCP 80으로 접속할 수 있게 하세요. role=denied Pod의 접속 실패도 확인하세요.",
+      "namespace": "lab-network-policy",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "NetworkPolicy를 실제로 강제하는 CNI (Calico, Cilium 등). kind 기본 CNI는 정책 검증용으로 사용할 수 없음."
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-network-policy\nkubectl apply -f network-policy-starter.yaml",
+      "files": [
+        {
+          "name": "network-policy-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-network-policy}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n---\napiVersion: v1\nkind: Service\nmetadata: {name: web, namespace: lab-network-policy}\nspec:\n  selector: {app: web}\n  ports: [{port: 80, targetPort: 80}]\n"
+        }
+      ],
+      "tasks": [
+        "app=web Pod에 ingress 정책을 적용하세요.",
+        "같은 namespace의 role=allowed Pod만 TCP 80으로 접속할 수 있게 하세요.",
+        "role=denied Pod의 접속 실패도 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl run allowed -n lab-network-policy --labels=role=allowed --rm -i --restart=Never --image=busybox:1.36 -- wget -T 3 -qO- http://web",
+          "expected": "nginx HTML 응답"
+        },
+        {
+          "command": "kubectl run denied -n lab-network-policy --labels=role=denied --rm -i --restart=Never --image=busybox:1.36 -- wget -T 3 -qO- http://web",
+          "expected": "시간 초과 또는 접속 실패. 성공하면 정책·CNI를 확인."
+        }
+      ],
+      "solution": "cat > allow-client.yaml <<'EOF'\napiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata: {name: web-ingress, namespace: lab-network-policy}\nspec:\n  podSelector: {matchLabels: {app: web}}\n  policyTypes: [Ingress]\n  ingress:\n  - from:\n    - podSelector: {matchLabels: {role: allowed}}\n    ports: [{protocol: TCP, port: 80}]\nEOF\nkubectl apply -f allow-client.yaml\nkubectl rollout status deploy/web -n lab-network-policy --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-network-policy",
+      "docs": [
+        [
+          "NetworkPolicy",
+          "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
+        ]
+      ]
+    },
+    {
+      "id": "rollout",
+      "title": "이미지 변경과 롤백",
+      "subject": "workloads",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web을 2 replica로 확장하세요. 이미지를 nginx:stable-alpine으로 바꾸고 rollout 완료를 확인하세요. 직전 이미지 nginx:alpine으로 롤백하세요.",
+      "namespace": "lab-rollout",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-rollout\nkubectl apply -f rollout-starter.yaml",
+      "files": [
+        {
+          "name": "rollout-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-rollout}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "web을 2 replica로 확장하세요.",
+        "이미지를 nginx:stable-alpine으로 바꾸고 rollout 완료를 확인하세요.",
+        "직전 이미지 nginx:alpine으로 롤백하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl rollout status deploy/web -n lab-rollout --timeout=120s",
+          "expected": "successfully rolled out"
+        },
+        {
+          "command": "kubectl get deploy web -n lab-rollout -o jsonpath='{.spec.replicas} {.spec.template.spec.containers[0].image} {.status.availableReplicas}'",
+          "expected": "2 nginx:alpine 2"
+        }
+      ],
+      "solution": "kubectl scale deploy/web -n lab-rollout --replicas=2\nkubectl rollout status deploy/web -n lab-rollout --timeout=120s\nkubectl set image deploy/web -n lab-rollout nginx=nginx:stable-alpine\nkubectl rollout status deploy/web -n lab-rollout --timeout=120s\nkubectl rollout undo deploy/web -n lab-rollout\nkubectl rollout status deploy/web -n lab-rollout --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-rollout",
+      "docs": [
+        [
+          "Deployment",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ]
+    },
+    {
+      "id": "bad-image",
+      "title": "ImagePullBackOff 원인 복구",
+      "subject": "troubleshooting",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web Deployment가 시작되지 않는 원인을 이벤트에서 찾으세요. 이미지 참조를 nginx:alpine으로 수정하고 준비 완료를 확인하세요.",
+      "namespace": "lab-bad-image",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-bad-image\nkubectl apply -f bad-image-starter.yaml",
+      "files": [
+        {
+          "name": "bad-image-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-bad-image}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:study-does-not-exist\n"
+        }
+      ],
+      "tasks": [
+        "web Deployment가 시작되지 않는 원인을 이벤트에서 찾으세요.",
+        "이미지 참조를 nginx:alpine으로 수정하고 준비 완료를 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get pods -n lab-bad-image",
+          "expected": "web Pod가 Running, READY 1/1"
+        },
+        {
+          "command": "kubectl rollout status deploy/web -n lab-bad-image --timeout=120s",
+          "expected": "successfully rolled out"
+        }
+      ],
+      "solution": "kubectl describe pods -n lab-bad-image\nkubectl set image deploy/web -n lab-bad-image nginx=nginx:alpine\nkubectl rollout status deploy/web -n lab-bad-image --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-bad-image",
+      "docs": [
+        [
+          "Deployment",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+        ]
+      ]
+    },
+    {
+      "id": "configmap",
+      "title": "ConfigMap 환경변수 주입과 갱신",
+      "subject": "workloads",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "MODE=dev ConfigMap app-config를 만드세요. web Deployment에 환경변수로 주입하세요. MODE=prod로 바꾸고 새 Pod에서 prod가 보이게 하세요.",
+      "namespace": "lab-configmap",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-configmap\nkubectl apply -f configmap-starter.yaml",
+      "files": [
+        {
+          "name": "configmap-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-configmap}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "MODE=dev ConfigMap app-config를 만드세요.",
+        "web Deployment에 환경변수로 주입하세요.",
+        "MODE=prod로 바꾸고 새 Pod에서 prod가 보이게 하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl exec -n lab-configmap deploy/web -- printenv MODE",
+          "expected": "prod"
+        },
+        {
+          "command": "kubectl rollout status deploy/web -n lab-configmap --timeout=120s",
+          "expected": "successfully rolled out"
+        }
+      ],
+      "solution": "kubectl create configmap app-config -n lab-configmap --from-literal=MODE=dev\nkubectl set env deploy/web -n lab-configmap --from=configmap/app-config\nkubectl rollout status deploy/web -n lab-configmap --timeout=120s\nkubectl create configmap app-config -n lab-configmap --from-literal=MODE=prod --dry-run=client -o yaml | kubectl apply -f -\nkubectl rollout restart deploy/web -n lab-configmap\nkubectl rollout status deploy/web -n lab-configmap --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-configmap",
+      "docs": [
+        [
+          "ConfigMap",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        ]
+      ]
+    },
+    {
+      "id": "secret",
+      "title": "Secret 키를 환경변수로 소비",
+      "subject": "workloads",
+      "exam": [
+        "CKAD",
+        "CKS"
+      ],
+      "objective": "연습용 token=demo-token Secret app-secret를 만드세요. web의 TOKEN 환경변수가 Secret token 키를 참조하도록 구성하세요.",
+      "namespace": "lab-secret",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-secret\nkubectl apply -f secret-starter.yaml",
+      "files": [
+        {
+          "name": "secret-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-secret}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "연습용 token=demo-token Secret app-secret를 만드세요.",
+        "web의 TOKEN 환경변수가 Secret token 키를 참조하도록 구성하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get deploy web -n lab-secret -o jsonpath='{.spec.template.spec.containers[0].env}'",
+          "expected": "TOKEN의 valueFrom.secretKeyRef가 app-secret/token"
+        },
+        {
+          "command": "kubectl exec -n lab-secret deploy/web -- sh -c 'test \"$TOKEN\" = demo-token && echo matched'",
+          "expected": "matched. 실제 비밀 값은 이 실습에 사용하지 않는다."
+        }
+      ],
+      "solution": "kubectl create secret generic app-secret -n lab-secret --from-literal=token=demo-token\nkubectl patch deploy web -n lab-secret --type=strategic -p '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"nginx\",\"env\":[{\"name\":\"TOKEN\",\"valueFrom\":{\"secretKeyRef\":{\"name\":\"app-secret\",\"key\":\"token\"}}}]}]}}}}'\nkubectl rollout status deploy/web -n lab-secret --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-secret",
+      "docs": [
+        [
+          "Secrets",
+          "https://kubernetes.io/docs/concepts/configuration/secret/"
+        ]
+      ]
+    },
+    {
+      "id": "job",
+      "title": "일회성 Job 생성과 완료 확인",
+      "subject": "workloads",
+      "exam": [
+        "CKAD"
+      ],
+      "objective": "busybox:1.36으로 echo done을 실행하는 Job once를 만드세요. 완료 조건과 실제 로그를 모두 확인하세요.",
+      "namespace": "lab-job",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-job\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "busybox:1.36으로 echo done을 실행하는 Job once를 만드세요.",
+        "완료 조건과 실제 로그를 모두 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl wait -n lab-job --for=condition=Complete job/once --timeout=120s",
+          "expected": "condition met"
+        },
+        {
+          "command": "kubectl logs -n lab-job job/once",
+          "expected": "done"
+        }
+      ],
+      "solution": "kubectl create job once -n lab-job --image=busybox:1.36 -- sh -c 'echo done'",
+      "cleanup": "kubectl delete namespace lab-job",
+      "docs": [
+        [
+          "Job",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/job/"
+        ]
+      ]
+    },
+    {
+      "id": "cronjob",
+      "title": "CronJob 스케줄과 수동 실행",
+      "subject": "workloads",
+      "exam": [
+        "CKAD"
+      ],
+      "objective": "5분마다 echo report를 실행하는 CronJob report를 만드세요. 스케줄을 기다리지 않고 manual-report Job을 만들어 검증하세요.",
+      "namespace": "lab-cronjob",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-cronjob\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "5분마다 echo report를 실행하는 CronJob report를 만드세요.",
+        "스케줄을 기다리지 않고 manual-report Job을 만들어 검증하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get cronjob report -n lab-cronjob -o jsonpath='{.spec.schedule}'",
+          "expected": "*/5 * * * *"
+        },
+        {
+          "command": "kubectl wait -n lab-cronjob --for=condition=Complete job/manual-report --timeout=120s",
+          "expected": "condition met"
+        },
+        {
+          "command": "kubectl logs -n lab-cronjob job/manual-report",
+          "expected": "report"
+        }
+      ],
+      "solution": "kubectl create cronjob report -n lab-cronjob --image=busybox:1.36 --schedule=\"*/5 * * * *\" -- sh -c 'echo report'\nkubectl create job manual-report -n lab-cronjob --from=cronjob/report",
+      "cleanup": "kubectl delete namespace lab-cronjob",
+      "docs": [
+        [
+          "CronJob",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/"
+        ]
+      ]
+    },
+    {
+      "id": "rbac",
+      "title": "ServiceAccount 최소 권한 검증",
+      "subject": "cluster",
+      "exam": [
+        "CKA",
+        "CKAD",
+        "CKS"
+      ],
+      "objective": "ServiceAccount reader를 만드세요. 현재 실습 namespace의 pods get/list만 허용하는 Role과 RoleBinding을 만드세요. 조회 허용과 삭제 금지를 모두 확인하세요.",
+      "namespace": "lab-rbac",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "Role·RoleBinding 생성 권한과 ServiceAccount impersonation 권한"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-rbac\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "ServiceAccount reader를 만드세요.",
+        "현재 실습 namespace의 pods get/list만 허용하는 Role과 RoleBinding을 만드세요.",
+        "조회 허용과 삭제 금지를 모두 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl auth can-i get pods -n lab-rbac --as=system:serviceaccount:lab-rbac:reader",
+          "expected": "yes"
+        },
+        {
+          "command": "kubectl auth can-i delete pods -n lab-rbac --as=system:serviceaccount:lab-rbac:reader",
+          "expected": "no"
+        },
+        {
+          "command": "kubectl auth can-i get pods -n default --as=system:serviceaccount:lab-rbac:reader",
+          "expected": "no (별도 기존 권한이 없는 환경)"
+        }
+      ],
+      "solution": "kubectl create sa reader -n lab-rbac\nkubectl create role pod-reader -n lab-rbac --verb=get,list --resource=pods\nkubectl create rolebinding reader -n lab-rbac --role=pod-reader --serviceaccount=lab-rbac:reader",
+      "cleanup": "kubectl delete namespace lab-rbac",
+      "docs": [
+        [
+          "RBAC",
+          "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+        ]
+      ]
+    },
+    {
+      "id": "requests",
+      "title": "컨테이너 requests·limits 구성",
+      "subject": "workloads",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web 컨테이너 requests를 CPU 100m·메모리 64Mi로 설정하세요. limits를 CPU 200m·메모리 128Mi로 설정하고 새 Pod에 반영됐는지 확인하세요.",
+      "namespace": "lab-requests",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "Node에 연습 Pod requests를 수용할 여유 자원"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-requests\nkubectl apply -f requests-starter.yaml",
+      "files": [
+        {
+          "name": "requests-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-requests}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "web 컨테이너 requests를 CPU 100m·메모리 64Mi로 설정하세요.",
+        "limits를 CPU 200m·메모리 128Mi로 설정하고 새 Pod에 반영됐는지 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get deploy web -n lab-requests -o jsonpath='{.spec.template.spec.containers[0].resources}'",
+          "expected": "requests 100m/64Mi, limits 200m/128Mi"
+        },
+        {
+          "command": "kubectl rollout status deploy/web -n lab-requests --timeout=120s",
+          "expected": "successfully rolled out"
+        }
+      ],
+      "solution": "kubectl set resources deploy/web -n lab-requests --requests=cpu=100m,memory=64Mi --limits=cpu=200m,memory=128Mi\nkubectl rollout status deploy/web -n lab-requests --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-requests",
+      "docs": [
+        [
+          "Resources",
+          "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+        ]
+      ]
+    },
+    {
+      "id": "readiness",
+      "title": "잘못된 readinessProbe 수정",
+      "subject": "troubleshooting",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "web Pod가 Running이어도 Ready가 되지 않는 이유를 찾으세요. nginx 기본 페이지 /를 검사하도록 수정하세요.",
+      "namespace": "lab-readiness",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-readiness\nkubectl apply -f readiness-starter.yaml",
+      "files": [
+        {
+          "name": "readiness-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-readiness}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n        readinessProbe:\n          httpGet: {path: /study-missing, port: 80}\n          periodSeconds: 3\n"
+        }
+      ],
+      "tasks": [
+        "web Pod가 Running이어도 Ready가 되지 않는 이유를 찾으세요.",
+        "nginx 기본 페이지 /를 검사하도록 수정하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl rollout status deploy/web -n lab-readiness --timeout=120s",
+          "expected": "successfully rolled out"
+        },
+        {
+          "command": "kubectl get pods -n lab-readiness",
+          "expected": "READY 1/1"
+        }
+      ],
+      "solution": "kubectl describe pods -n lab-readiness\nkubectl patch deploy web -n lab-readiness --type=strategic -p '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"nginx\",\"readinessProbe\":{\"httpGet\":{\"path\":\"/\",\"port\":80}}}]}}}}'",
+      "cleanup": "kubectl delete namespace lab-readiness",
+      "docs": [
+        [
+          "Probes",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        ]
+      ]
+    },
+    {
+      "id": "emptydir",
+      "title": "init container와 emptyDir 공유",
+      "subject": "storage",
+      "exam": [
+        "CKAD"
+      ],
+      "objective": "busybox init container가 /work/status에 ready를 쓰게 하세요. 같은 emptyDir을 nginx 앱 컨테이너 /work에 마운트하세요.",
+      "namespace": "lab-emptydir",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-emptydir\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "busybox init container가 /work/status에 ready를 쓰게 하세요.",
+        "같은 emptyDir을 nginx 앱 컨테이너 /work에 마운트하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl exec -n lab-emptydir shared -- cat /work/status",
+          "expected": "ready"
+        },
+        {
+          "command": "kubectl get pod shared -n lab-emptydir -o jsonpath='{.status.initContainerStatuses[0].state.terminated.exitCode}'",
+          "expected": "0"
+        }
+      ],
+      "solution": "cat > shared.yaml <<'EOF'\napiVersion: v1\nkind: Pod\nmetadata: {name: shared, namespace: lab-emptydir}\nspec:\n  volumes:\n  - name: work\n    emptyDir: {}\n  initContainers:\n  - name: prepare\n    image: busybox:1.36\n    command: [sh, -c, \"echo ready > /work/status\"]\n    volumeMounts: [{name: work, mountPath: /work}]\n  containers:\n  - name: nginx\n    image: nginx:alpine\n    volumeMounts: [{name: work, mountPath: /work}]\nEOF\nkubectl apply -f shared.yaml\nkubectl wait -n lab-emptydir --for=condition=Ready pod/shared --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-emptydir",
+      "docs": [
+        [
+          "Volumes",
+          "https://kubernetes.io/docs/concepts/storage/volumes/"
+        ]
+      ]
+    },
+    {
+      "id": "pvc",
+      "title": "PVC를 Pod에 연결하고 파일 확인",
+      "subject": "storage",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "기본 StorageClass로 1Gi RWO PVC app-data를 만드세요. busybox Pod writer의 /data에 마운트하고 /data/check에 hello를 쓰세요.",
+      "namespace": "lab-pvc",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "동적 프로비저닝 가능한 기본 StorageClass. 자동 생성 PV의 reclaimPolicy와 실제 자원 삭제 동작을 확인."
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-pvc\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "기본 StorageClass로 1Gi RWO PVC app-data를 만드세요.",
+        "busybox Pod writer의 /data에 마운트하고 /data/check에 hello를 쓰세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get pvc app-data -n lab-pvc",
+          "expected": "STATUS Bound (WaitForFirstConsumer이면 Pod 생성 후)"
+        },
+        {
+          "command": "kubectl exec -n lab-pvc writer -- cat /data/check",
+          "expected": "hello"
+        }
+      ],
+      "solution": "cat > pvc.yaml <<'EOF'\napiVersion: v1\nkind: PersistentVolumeClaim\nmetadata: {name: app-data, namespace: lab-pvc}\nspec:\n  accessModes: [ReadWriteOnce]\n  resources:\n    requests: {storage: 1Gi}\n---\napiVersion: v1\nkind: Pod\nmetadata: {name: writer, namespace: lab-pvc}\nspec:\n  containers:\n  - name: writer\n    image: busybox:1.36\n    command: [sh, -c, \"echo hello > /data/check; sleep 3600\"]\n    volumeMounts: [{name: data, mountPath: /data}]\n  volumes:\n  - name: data\n    persistentVolumeClaim: {claimName: app-data}\nEOF\nkubectl apply -f pvc.yaml\nkubectl wait -n lab-pvc --for=condition=Ready pod/writer --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-pvc",
+      "docs": [
+        [
+          "Persistent Volumes",
+          "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+        ]
+      ]
+    },
+    {
+      "id": "token",
+      "title": "불필요한 API 토큰 마운트 차단",
+      "subject": "workloads",
+      "exam": [
+        "CKAD",
+        "CKS"
+      ],
+      "objective": "web Pod 템플릿의 ServiceAccount 자동 토큰 마운트를 차단하세요. 새 Pod에서 토큰 경로가 없는지 확인하세요.",
+      "namespace": "lab-token",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-token\nkubectl apply -f token-starter.yaml",
+      "files": [
+        {
+          "name": "token-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-token}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "web Pod 템플릿의 ServiceAccount 자동 토큰 마운트를 차단하세요.",
+        "새 Pod에서 토큰 경로가 없는지 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl get deploy web -n lab-token -o jsonpath='{.spec.template.spec.automountServiceAccountToken}'",
+          "expected": "false"
+        },
+        {
+          "command": "kubectl exec -n lab-token deploy/web -- sh -c 'test ! -e /var/run/secrets/kubernetes.io/serviceaccount/token && echo absent'",
+          "expected": "absent"
+        }
+      ],
+      "solution": "kubectl patch deploy web -n lab-token --type=merge -p '{\"spec\":{\"template\":{\"spec\":{\"automountServiceAccountToken\":false}}}}'\nkubectl rollout status deploy/web -n lab-token --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-token",
+      "docs": [
+        [
+          "ServiceAccounts",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/"
+        ]
+      ]
+    },
+    {
+      "id": "securitycontext",
+      "title": "비특권 컨테이너 보안 설정",
+      "subject": "workloads",
+      "exam": [
+        "CKAD",
+        "CKS"
+      ],
+      "objective": "busybox sleeper Pod를 UID 1000·비 root로 실행하세요. allowPrivilegeEscalation을 false로, capabilities drop을 ALL로, seccomp를 RuntimeDefault로 설정하세요.",
+      "namespace": "lab-securitycontext",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "런타임이 seccomp RuntimeDefault를 지원하는 Linux 노드"
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-securitycontext\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "busybox sleeper Pod를 UID 1000·비 root로 실행하세요.",
+        "allowPrivilegeEscalation을 false로, capabilities drop을 ALL로, seccomp를 RuntimeDefault로 설정하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl exec -n lab-securitycontext sleeper -- id -u",
+          "expected": "1000"
+        },
+        {
+          "command": "kubectl get pod sleeper -n lab-securitycontext -o jsonpath='{.spec.containers[0].securityContext}'",
+          "expected": "runAsNonRoot=true, runAsUser=1000, allowPrivilegeEscalation=false, drop ALL, RuntimeDefault"
+        }
+      ],
+      "solution": "cat > sleeper.yaml <<'EOF'\napiVersion: v1\nkind: Pod\nmetadata: {name: sleeper, namespace: lab-securitycontext}\nspec:\n  containers:\n  - name: sleeper\n    image: busybox:1.36\n    command: [sleep, \"3600\"]\n    securityContext:\n      runAsNonRoot: true\n      runAsUser: 1000\n      allowPrivilegeEscalation: false\n      capabilities: {drop: [ALL]}\n      seccompProfile: {type: RuntimeDefault}\nEOF\nkubectl apply -f sleeper.yaml\nkubectl wait -n lab-securitycontext --for=condition=Ready pod/sleeper --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-securitycontext",
+      "docs": [
+        [
+          "SecurityContext",
+          "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+        ]
+      ]
+    },
+    {
+      "id": "helm",
+      "title": "로컬 Helm 차트 설치·업그레이드·롤백",
+      "subject": "workloads",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "helm create로 만든 demo-chart 기본 차트를 사용하세요. 릴리스 demo를 1 replica로 설치한 뒤 2 replica로 upgrade하세요. history의 revision 1로 rollback하고 replica 수를 확인하세요.",
+      "namespace": "lab-helm",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "Helm 3 또는 4. helm create 기본 차트가 요구하는 이미지를 받을 수 있는 환경. 전용 로컬 작업 폴더 사용."
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-helm\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "helm create로 만든 demo-chart 기본 차트를 사용하세요.",
+        "릴리스 demo를 1 replica로 설치한 뒤 2 replica로 upgrade하세요.",
+        "history의 revision 1로 rollback하고 replica 수를 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "helm history demo -n lab-helm",
+          "expected": "install·upgrade·rollback 이력이 보인다."
+        },
+        {
+          "command": "kubectl get deploy -n lab-helm -l app.kubernetes.io/instance=demo -o jsonpath='{.items[0].spec.replicas}'",
+          "expected": "롤백 후 1"
+        }
+      ],
+      "solution": "helm create demo-chart\nhelm install demo ./demo-chart -n lab-helm --set replicaCount=1 --wait --timeout=2m\nhelm upgrade demo ./demo-chart -n lab-helm --set replicaCount=2 --wait --timeout=2m\nhelm history demo -n lab-helm\nhelm rollback demo 1 -n lab-helm --wait --timeout=2m",
+      "cleanup": "helm uninstall demo -n lab-helm\nkubectl delete namespace lab-helm\n# 로컬 demo-chart 폴더는 본인이 만든 전용 경로인지 확인 후 정리",
+      "docs": [
+        [
+          "Using Helm",
+          "https://helm.sh/docs/intro/using_helm/"
+        ]
+      ]
+    },
+    {
+      "id": "kustomize",
+      "title": "Kustomize 오버레이 렌더링과 적용",
+      "subject": "workloads",
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "objective": "base Deployment를 파일에 저장하고 dev 오버레이를 만드세요. dev 오버레이에서 replicas를 2로 설정하세요. 렌더링 결과를 먼저 확인한 뒤 apply -k로 반영하세요.",
+      "namespace": "lab-kustomize",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "kubectl의 내장 Kustomize. 전용 로컬 작업 폴더 사용."
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-kustomize\n# starter 파일은 base 자료입니다. 작업 조건에 따라 오버레이를 만든 뒤 적용하세요.",
+      "files": [
+        {
+          "name": "kustomize-starter.yaml",
+          "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata: {name: web, namespace: lab-kustomize}\nspec:\n  replicas: 1\n  selector: {matchLabels: {app: web}}\n  template:\n    metadata: {labels: {app: web}}\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:alpine\n"
+        }
+      ],
+      "tasks": [
+        "base Deployment를 파일에 저장하고 dev 오버레이를 만드세요.",
+        "dev 오버레이에서 replicas를 2로 설정하세요.",
+        "렌더링 결과를 먼저 확인한 뒤 apply -k로 반영하세요."
+      ],
+      "checks": [
+        {
+          "command": "kubectl kustomize overlays/dev",
+          "expected": "Deployment namespace lab-kustomize, replicas 2"
+        },
+        {
+          "command": "kubectl get deploy web -n lab-kustomize -o jsonpath='{.spec.replicas} {.status.availableReplicas}'",
+          "expected": "2 2"
+        }
+      ],
+      "solution": "mkdir -p base overlays/dev\ncp kustomize-starter.yaml base/deployment.yaml\ncat > base/kustomization.yaml <<'EOF'\nresources: [deployment.yaml]\nEOF\ncat > overlays/dev/kustomization.yaml <<'EOF'\nresources: [../../base]\nnamespace: lab-kustomize\nreplicas:\n- name: web\n  count: 2\nEOF\nkubectl kustomize overlays/dev\nkubectl apply -k overlays/dev\nkubectl rollout status deploy/web -n lab-kustomize --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-kustomize",
+      "docs": [
+        [
+          "Kustomize",
+          "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"
+        ]
+      ]
+    },
+    {
+      "id": "image",
+      "title": "이미지 빌드 후 kind에 배포",
+      "subject": "workloads",
+      "exam": [
+        "CKAD"
+      ],
+      "objective": "index.html에 study-image를 적고 nginx 기반 Dockerfile을 작성하세요. demo-web:v1을 빌드하고 kind 노드에 적재하세요. web Deployment를 IfNotPresent 정책으로 배포하고 HTTP 응답을 확인하세요.",
+      "namespace": "lab-image",
+      "minutes": 15,
+      "requirements": [
+        "Linux 또는 WSL의 Bash 셸, kubectl과 개인 연습 클러스터",
+        "실습용 namespace 생성·수정 권한과 예제 이미지 다운로드 연결",
+        "Docker, kind, study라는 이름의 kind 클러스터와 그 컨텍스트. 전용 로컬 빌드 폴더 사용. 일반 클러스터는 레지스트리 방식으로 대체."
+      ],
+      "environment": "기본 예제는 안정 API를 사용합니다. 별도 요구 기능은 준비 조건에서 확인하세요.",
+      "execution": "not-run",
+      "reviewedAt": "2026-10-02",
+      "setup": "kubectl create namespace lab-image\n# 아래 작업 조건에 따라 리소스를 직접 만드세요.",
+      "files": [],
+      "tasks": [
+        "index.html에 study-image를 적고 nginx 기반 Dockerfile을 작성하세요.",
+        "demo-web:v1을 빌드하고 kind 노드에 적재하세요.",
+        "web Deployment를 IfNotPresent 정책으로 배포하고 HTTP 응답을 확인하세요."
+      ],
+      "checks": [
+        {
+          "command": "docker image inspect demo-web:v1 --format '{{.Id}}'",
+          "expected": "sha256으로 시작하는 로컬 이미지 ID"
+        },
+        {
+          "command": "kubectl run client -n lab-image --rm -i --restart=Never --image=busybox:1.36 -- wget -T 5 -qO- http://web",
+          "expected": "study-image"
+        }
+      ],
+      "solution": "printf \"study-image\\n\" > index.html\ncat > Dockerfile <<'EOF'\nFROM nginx:alpine\nCOPY index.html /usr/share/nginx/html/index.html\nEOF\ndocker build -t demo-web:v1 .\nkind load docker-image demo-web:v1 --name study\nkubectl create deployment web -n lab-image --image=demo-web:v1\nkubectl patch deploy web -n lab-image --type=strategic -p '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"demo-web\",\"imagePullPolicy\":\"IfNotPresent\"}]}}}}'\nkubectl expose deploy web -n lab-image --port=80 --target-port=80\nkubectl rollout status deploy/web -n lab-image --timeout=120s",
+      "cleanup": "kubectl delete namespace lab-image\n# 필요하면 전용 로컬 이미지도 삭제: docker image rm demo-web:v1",
+      "docs": [
+        [
+          "Dockerfile",
+          "https://docs.docker.com/build/concepts/dockerfile/"
+        ],
+        [
+          "kind loading images",
+          "https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster"
+        ]
+      ]
+    }
+  ]
+}
