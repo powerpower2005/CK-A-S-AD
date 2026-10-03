@@ -1,0 +1,1112 @@
+{
+  "schemaVersion": 2,
+  "parts": {
+    "1": "Part 1 · 컨테이너 로그 조회",
+    "2": "Part 2 · 메트릭과 자원 해석",
+    "3": "Part 3 · 이벤트와 상태 진단",
+    "4": "Part 4 · JSONPath와 결과 추출",
+    "5": "Part 5 · 실행 중 컨테이너 디버깅",
+    "6": "Part 6 · API 폐기와 매니페스트 검증"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "다중 컨테이너 로그",
+      "q": "lab-observe의 Pod api에는 app과 proxy 컨테이너가 있다. app 로그만 조회할 명령은?",
+      "opts": [
+        "kubectl logs api -n lab-observe -c app",
+        "kubectl logs api -n lab-observe -c proxy",
+        "kubectl describe pod api -n lab-observe",
+        "kubectl get pod api -n lab-observe -o yaml"
+      ],
+      "a": 0,
+      "type": {
+        "p": "전체 로그 조회 명령을 입력하세요.",
+        "model": "kubectl logs api -n lab-observe -c app",
+        "acc": [
+          "kubectl logs api -n lab-observe -c app",
+          "kubectl logs -n lab-observe api -c app"
+        ]
+      },
+      "exp": "<p>-c로 컨테이너 이름을 지정합니다. 같은 Pod 안의 컨테이너도 로그 스트림은 각각 다릅니다.</p>",
+      "whyno": [
+        "proxy는 요청한 app 컨테이너가 아닙니다.",
+        "describe는 Pod 상태·이벤트를 보여주며 app의 출력 스트림을 조회하지 않습니다.",
+        "리소스 YAML에는 애플리케이션 로그가 포함되지 않습니다."
+      ],
+      "code": "kubectl logs api -n lab-observe -c app",
+      "trap": "로그는 컨테이너 단위입니다. 이전 로그는 같은 Pod에서 직전에 종료된 컨테이너 인스턴스가 남아 있을 때 조회할 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "로그",
+        "kubectl logs"
+      ]
+    },
+    {
+      "id": 2,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "재시작 이전 로그",
+      "q": "api의 app 컨테이너가 재시작했다. 현재 실행 대신 직전 종료 인스턴스의 로그를 보는 옵션은?",
+      "opts": [
+        "--follow",
+        "--previous",
+        "--timestamps",
+        "--tail=100"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--previous",
+        "acc": [
+          "--previous",
+          "-p"
+        ]
+      },
+      "exp": "<p>--previous 또는 -p로 직전 컨테이너 인스턴스의 로그를 요청합니다.</p>",
+      "whyno": [
+        "follow는 현재 로그 스트림을 계속 읽습니다.",
+        "timestamps는 출력에 시각을 추가합니다.",
+        "tail은 줄 수를 제한하며 이전 인스턴스를 선택하지 않습니다."
+      ],
+      "code": "kubectl logs api -n lab-observe -c app --previous",
+      "trap": "로그는 컨테이너 단위입니다. 이전 로그는 같은 Pod에서 직전에 종료된 컨테이너 인스턴스가 남아 있을 때 조회할 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "로그",
+        "kubectl logs"
+      ]
+    },
+    {
+      "id": 3,
+      "part": 1,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "최근 로그 시간 범위",
+      "q": "현재 app 컨테이너 로그 중 최근 10분만 조회할 시간 범위 옵션은?",
+      "opts": [
+        "--tail=10",
+        "--since=10s",
+        "--since=10m",
+        "--previous"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--since=10m",
+        "acc": [
+          "--since=10m",
+          "--since 10m"
+        ]
+      },
+      "exp": "<p>since는 상대 시간 범위이고 tail은 줄 수입니다. 필요하면 --timestamps로 시각을 함께 확인합니다.</p>",
+      "whyno": [
+        "최근 10줄이며 10분 범위가 아닙니다.",
+        "최근 10초만 선택합니다.",
+        "이전 인스턴스를 선택하며 시간 범위를 지정하지 않습니다."
+      ],
+      "code": "kubectl logs api -n lab-observe -c app --since=10m --timestamps",
+      "trap": "로그는 컨테이너 단위입니다. 이전 로그는 같은 Pod에서 직전에 종료된 컨테이너 인스턴스가 남아 있을 때 조회할 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "로그",
+        "kubectl logs"
+      ]
+    },
+    {
+      "id": 4,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "네임스페이스 CPU 정렬",
+      "q": "lab-observe의 Pod 실제 CPU 사용량을 높은 순으로 조회할 명령은?",
+      "opts": [
+        "kubectl top node --sort-by=cpu",
+        "kubectl get pod -n lab-observe --sort-by=.metadata.name",
+        "kubectl top pod -n lab-observe --sort-by=memory",
+        "kubectl top pod -n lab-observe --sort-by=cpu"
+      ],
+      "a": 3,
+      "type": {
+        "p": "전체 메트릭 조회 명령을 입력하세요.",
+        "model": "kubectl top pod -n lab-observe --sort-by=cpu",
+        "acc": [
+          "kubectl top pod -n lab-observe --sort-by=cpu",
+          "kubectl top pods -n lab-observe --sort-by=cpu"
+        ]
+      },
+      "exp": "<p>top pod는 최근 CPU·메모리 사용량을 보여주며 --sort-by=cpu로 CPU를 기준으로 정렬합니다.</p>",
+      "whyno": [
+        "노드 사용량이며 지정 네임스페이스의 Pod 목록이 아닙니다.",
+        "Pod 이름 기준이며 실제 CPU 사용량을 조회하지 않습니다.",
+        "정렬 기준이 메모리입니다."
+      ],
+      "code": "kubectl top pod -n lab-observe --sort-by=cpu",
+      "trap": "kubectl top은 최근 사용량입니다. requests·limits나 장기 이력을 대신하지 않으며 Metrics Server가 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_top/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "메트릭",
+        "Metrics Server"
+      ]
+    },
+    {
+      "id": 5,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "컨테이너별 사용량",
+      "q": "한 Pod 안의 두 컨테이너 중 메모리를 많이 쓰는 쪽을 확인하려 한다. top pod에 추가할 옵션은?",
+      "opts": [
+        "--containers",
+        "--all-namespaces",
+        "--no-headers",
+        "--sort-by=cpu"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--containers",
+        "acc": [
+          "--containers"
+        ]
+      },
+      "exp": "<p>--containers는 각 컨테이너의 사용량을 보여줍니다.</p>",
+      "whyno": [
+        "네임스페이스 범위를 넓히며 컨테이너 단위로 분리하지 않습니다.",
+        "헤더만 제거합니다.",
+        "CPU 정렬 옵션이며 컨테이너 분리 기능이 아닙니다."
+      ],
+      "code": "kubectl top pod api -n lab-observe --containers",
+      "trap": "kubectl top은 최근 사용량입니다. requests·limits나 장기 이력을 대신하지 않으며 Metrics Server가 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_top/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "메트릭",
+        "Metrics Server"
+      ]
+    },
+    {
+      "id": 6,
+      "part": 2,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "사용량과 requests 구분",
+      "q": "kubectl top이 Metrics API not available을 반환한다. 이 명령에 메트릭을 제공하는 표준 구성 요소는?",
+      "opts": [
+        "kube-scheduler",
+        "Metrics Server",
+        "CoreDNS",
+        "etcd"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "Metrics Server",
+        "acc": [
+          "Metrics Server",
+          "metrics-server"
+        ]
+      },
+      "exp": "<p>Metrics Server와 metrics.k8s.io APIService 상태를 확인합니다. describe node의 Allocated resources는 요청·제한 합계여서 실제 사용량과 다릅니다.</p>",
+      "whyno": [
+        "스케줄러는 배치 결정을 하며 Metrics API 사용량을 제공하지 않습니다.",
+        "CoreDNS는 DNS 이름 해석을 담당합니다.",
+        "etcd는 API 저장소이며 top의 사용량 수집기가 아닙니다."
+      ],
+      "code": "kubectl get apiservice v1beta1.metrics.k8s.io\nkubectl describe apiservice v1beta1.metrics.k8s.io",
+      "trap": "kubectl top은 최근 사용량입니다. requests·limits나 장기 이력을 대신하지 않으며 Metrics Server가 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_top/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "메트릭",
+        "Metrics Server"
+      ]
+    },
+    {
+      "id": 7,
+      "part": 3,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Pod 경고 이벤트",
+      "q": "lab-observe의 api Pod에 관한 Warning 이벤트만 조회할 명령은?",
+      "opts": [
+        "kubectl events -n lab-observe --for pod/api --types=Normal",
+        "kubectl logs api -n lab-observe --previous",
+        "kubectl events -n lab-observe --for pod/api --types=Warning",
+        "kubectl get pods -n lab-observe"
+      ],
+      "a": 2,
+      "type": {
+        "p": "전체 이벤트 조회 명령을 입력하세요.",
+        "model": "kubectl events -n lab-observe --for pod/api --types=Warning",
+        "acc": [
+          "kubectl events -n lab-observe --for pod/api --types=Warning"
+        ]
+      },
+      "exp": "<p>events는 --for로 리소스를, --types로 이벤트 종류를 제한할 수 있습니다.</p>",
+      "whyno": [
+        "Normal 이벤트만 선택하여 경고를 놓칩니다.",
+        "컨테이너 로그이며 스케줄링 이벤트가 아닙니다.",
+        "Pod 목록이며 Warning 이벤트를 필터링하지 않습니다."
+      ],
+      "code": "kubectl events -n lab-observe --for pod/api --types=Warning",
+      "trap": "이벤트는 보존 시간이 제한된 진단 자료입니다. Pending에는 스케줄링 실패뿐 아니라 이미지 다운로드·볼륨 준비도 포함될 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "이벤트",
+        "Pod 상태"
+      ]
+    },
+    {
+      "id": 8,
+      "part": 3,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Pending 원인 확인",
+      "q": "api가 Pending이다. 스케줄링 Conditions와 FailedScheduling 이벤트를 함께 보는 kubectl 하위 명령은?",
+      "opts": [
+        "logs",
+        "top",
+        "exec",
+        "describe"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "describe",
+        "acc": [
+          "describe"
+        ]
+      },
+      "exp": "<p>describe pod로 Conditions와 Events를 확인하고, 실제 사유에 맞춰 requests·테인트·볼륨 등을 조사합니다.</p>",
+      "whyno": [
+        "아직 실행되지 않은 컨테이너에는 조회할 로그가 없을 수 있습니다.",
+        "top은 사용량을 조회하며 스케줄링 실패 이유를 보여주지 않습니다.",
+        "exec는 실행 중 컨테이너의 명령 실행이며 Pending의 진단 방법이 아닙니다."
+      ],
+      "code": "kubectl describe pod api -n lab-observe",
+      "trap": "이벤트는 보존 시간이 제한된 진단 자료입니다. Pending에는 스케줄링 실패뿐 아니라 이미지 다운로드·볼륨 준비도 포함될 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "이벤트",
+        "Pod 상태"
+      ]
+    },
+    {
+      "id": 9,
+      "part": 3,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "최근 이벤트 정렬",
+      "q": "lab-observe의 core/v1 Event 목록을 metadata.creationTimestamp 오름차순으로 정렬하려 한다. get events의 정렬 옵션은?",
+      "opts": [
+        "--sort-by=.metadata.creationTimestamp",
+        "--sort-by=.metadata.name",
+        "--sort-by=.involvedObject.name",
+        "--sort-by=.type"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--sort-by=.metadata.creationTimestamp",
+        "acc": [
+          "--sort-by=.metadata.creationTimestamp",
+          "--sort-by .metadata.creationTimestamp"
+        ]
+      },
+      "exp": "<p>명시된 생성 시각 필드로 정렬합니다. 반복 이벤트의 마지막 발생 시각과 이벤트 객체의 생성 시각은 다를 수 있습니다.</p>",
+      "whyno": [
+        "이벤트 이름 기준으로 정렬합니다.",
+        "관련 리소스 이름 기준으로 정렬합니다.",
+        "Normal·Warning 종류 기준으로 정렬합니다."
+      ],
+      "code": "kubectl get events -n lab-observe --sort-by=.metadata.creationTimestamp",
+      "trap": "이벤트는 보존 시간이 제한된 진단 자료입니다. Pending에는 스케줄링 실패뿐 아니라 이미지 다운로드·볼륨 준비도 포함될 수 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_events/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "이벤트",
+        "Pod 상태"
+      ]
+    },
+    {
+      "id": 10,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "노드 이름 추출",
+      "q": "api Pod가 배치된 노드를 조회하려 한다. -o jsonpath에 넣을 표현식은?",
+      "opts": [
+        "{.metadata.name}",
+        "{.spec.nodeName}",
+        "{.status.podIP}",
+        "{.spec.serviceAccountName}"
+      ],
+      "a": 1,
+      "type": {
+        "p": "중괄호를 포함한 JSONPath 표현식을 입력하세요.",
+        "model": "{.spec.nodeName}",
+        "acc": [
+          "{.spec.nodeName}"
+        ]
+      },
+      "exp": "<p>배치된 노드 이름은 spec.nodeName입니다. 미배치 상태면 값이 없을 수 있습니다.</p>",
+      "whyno": [
+        "Pod 자체의 이름입니다.",
+        "Pod IP 주소입니다.",
+        "Pod의 ServiceAccount 이름입니다."
+      ],
+      "code": "kubectl get pod api -n lab-observe -o jsonpath='{.spec.nodeName}'",
+      "trap": "필드가 없으면 빈 출력이 나올 수 있습니다. Linux/Bash 인용 방식과 Windows 셸 인용 방식은 다릅니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/jsonpath/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "JSONPath",
+        "출력 형식"
+      ]
+    },
+    {
+      "id": 11,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Pod 이름 반복 출력",
+      "q": "Pod 목록의 각 이름을 한 줄씩 출력할 표현식은?",
+      "opts": [
+        "{.metadata.name}",
+        "{.items[0].metadata.name}",
+        "{range .items[*]}{.metadata.name}{\"\\n\"}{end}",
+        "{range .items[*]}{.spec.nodeName}{\"\\n\"}{end}"
+      ],
+      "a": 2,
+      "type": {
+        "p": "중괄호와 개행 문자열을 포함한 표현식을 입력하세요.",
+        "model": "{range .items[*]}{.metadata.name}{\"\\n\"}{end}",
+        "acc": [
+          "{range .items[*]}{.metadata.name}{\"\\n\"}{end}"
+        ]
+      },
+      "exp": "<p>List의 items를 range로 순회하고 각 객체의 metadata.name과 개행을 출력합니다.</p>",
+      "whyno": [
+        "List 객체에는 각 Pod의 metadata.name이 직접 놓이지 않습니다.",
+        "첫 번째 Pod만 출력합니다.",
+        "이름 대신 배치된 노드를 출력합니다."
+      ],
+      "code": "kubectl get pods -n lab-observe -o jsonpath='{range .items[*]}{.metadata.name}{\"\\n\"}{end}'",
+      "trap": "필드가 없으면 빈 출력이 나올 수 있습니다. Linux/Bash 인용 방식과 Windows 셸 인용 방식은 다릅니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/jsonpath/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "JSONPath",
+        "출력 형식"
+      ]
+    },
+    {
+      "id": 12,
+      "part": 4,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "커스텀 컬럼 만들기",
+      "q": "Pod 이름과 배치 노드를 NAME, NODE 컬럼으로 출력한다. -o의 값은?",
+      "opts": [
+        "custom-columns=NAME:.metadata.name,NODE:.status.podIP",
+        "custom-columns=NAME:.spec.nodeName,NODE:.metadata.name",
+        "custom-columns=NAME:.metadata.namespace,NODE:.spec.nodeName",
+        "custom-columns=NAME:.metadata.name,NODE:.spec.nodeName"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "custom-columns=NAME:.metadata.name,NODE:.spec.nodeName",
+        "acc": [
+          "custom-columns=NAME:.metadata.name,NODE:.spec.nodeName"
+        ]
+      },
+      "exp": "<p>custom-columns는 컬럼 이름과 필드 경로를 매핑합니다. 여러 Pod를 표로 비교할 때 유용합니다.</p>",
+      "whyno": [
+        "NODE 컬럼이 노드 이름 대신 Pod IP입니다.",
+        "이름과 노드 컬럼의 필드가 서로 바뀌었습니다.",
+        "NAME 컬럼이 Pod 이름 대신 네임스페이스입니다."
+      ],
+      "code": "kubectl get pods -n lab-observe -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeName",
+      "trap": "필드가 없으면 빈 출력이 나올 수 있습니다. Linux/Bash 인용 방식과 Windows 셸 인용 방식은 다릅니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/kubectl/jsonpath/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "JSONPath",
+        "출력 형식"
+      ]
+    },
+    {
+      "id": 13,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "특정 컨테이너에서 실행",
+      "q": "api Pod의 proxy 컨테이너에는 cat이 있다. /etc/resolv.conf를 읽는 명령은?",
+      "opts": [
+        "kubectl exec api -n lab-observe -c proxy -- cat /etc/resolv.conf",
+        "kubectl exec api -n lab-observe -c app -- cat /etc/resolv.conf",
+        "kubectl logs api -n lab-observe -c proxy",
+        "kubectl get configmap resolv.conf -n lab-observe"
+      ],
+      "a": 0,
+      "type": {
+        "p": "전체 exec 명령을 입력하세요.",
+        "model": "kubectl exec api -n lab-observe -c proxy -- cat /etc/resolv.conf",
+        "acc": [
+          "kubectl exec api -n lab-observe -c proxy -- cat /etc/resolv.conf"
+        ]
+      },
+      "exp": "<p>-- 앞은 kubectl 옵션, 뒤는 컨테이너에서 실행할 명령입니다.</p>",
+      "whyno": [
+        "요청한 proxy 대신 app에서 실행합니다.",
+        "로그 스트림 조회이며 파일 읽기 명령을 실행하지 않습니다.",
+        "컨테이너 파일이 ConfigMap 객체라는 전제는 없습니다."
+      ],
+      "code": "kubectl exec api -n lab-observe -c proxy -- cat /etc/resolv.conf",
+      "trap": "디버깅에도 RBAC·Pod 보안 정책이 적용됩니다. --target의 프로세스 네임스페이스 연결은 런타임 지원이 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "디버깅",
+        "kubectl exec",
+        "Ephemeral Container"
+      ]
+    },
+    {
+      "id": 14,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "도구 없는 이미지 진단",
+      "q": "app은 셸·진단 도구가 없는 이미지다. 원래 app 이미지를 바꾸지 않고 같은 Pod에 임시 진단 컨테이너를 추가할 kubectl 하위 명령은?",
+      "opts": [
+        "edit",
+        "debug",
+        "attach",
+        "cp"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "debug",
+        "acc": [
+          "debug"
+        ]
+      },
+      "exp": "<p>kubectl debug는 ephemeral container를 추가할 수 있습니다. 정책과 권한을 확인한 후 진단용 이미지를 사용합니다.</p>",
+      "whyno": [
+        "Pod 편집만으로 일반 컨테이너 목록에 새 컨테이너를 추가할 수 없습니다.",
+        "기존 컨테이너 입출력에 연결하며 진단 도구를 추가하지 않습니다.",
+        "파일 복사이며 ephemeral container를 만들지 않습니다."
+      ],
+      "code": "kubectl debug api -n lab-observe -it --image=busybox:1.36 --target=app --profile=general",
+      "trap": "디버깅에도 RBAC·Pod 보안 정책이 적용됩니다. --target의 프로세스 네임스페이스 연결은 런타임 지원이 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "디버깅",
+        "kubectl exec",
+        "Ephemeral Container"
+      ]
+    },
+    {
+      "id": 15,
+      "part": 5,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "디버그 대상 지정",
+      "q": "ephemeral container에서 app의 프로세스 네임스페이스를 대상으로 하려 한다. 컨테이너 이름을 전달하는 옵션은?",
+      "opts": [
+        "--container=app",
+        "--image=app",
+        "--target=app",
+        "--namespace=app"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--target=app",
+        "acc": [
+          "--target=app",
+          "--target app"
+        ]
+      },
+      "exp": "<p>target은 다른 컨테이너의 프로세스 네임스페이스를 대상으로 합니다. 공유 여부는 컨테이너 런타임에서도 지원해야 합니다.</p>",
+      "whyno": [
+        "생성할 디버그 컨테이너 이름을 지정하며 대상 프로세스 네임스페이스 옵션이 아닙니다.",
+        "디버그 이미지 이름이며 대상 컨테이너 지정이 아닙니다.",
+        "app 네임스페이스를 선택하며 컨테이너를 지정하지 않습니다."
+      ],
+      "code": "kubectl debug api -n lab-observe -it --image=busybox:1.36 --target=app --profile=general",
+      "trap": "디버깅에도 RBAC·Pod 보안 정책이 적용됩니다. --target의 프로세스 네임스페이스 연결은 런타임 지원이 필요합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "디버깅",
+        "kubectl exec",
+        "Ephemeral Container"
+      ]
+    },
+    {
+      "id": 16,
+      "part": 6,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "폐기된 Ingress API",
+      "q": "Kubernetes 1.22 이상에서 networking.k8s.io/v1beta1 Ingress를 만들 수 없다. 사용할 안정 API 버전은?",
+      "opts": [
+        "extensions/v1beta1",
+        "apps/v1",
+        "v1",
+        "networking.k8s.io/v1"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "networking.k8s.io/v1",
+        "acc": [
+          "networking.k8s.io/v1"
+        ]
+      },
+      "exp": "<p>Ingress의 안정 API는 networking.k8s.io/v1입니다. apiVersion뿐 아니라 backend 구조와 pathType도 함께 수정해야 합니다.</p>",
+      "whyno": [
+        "이 Ingress API도 1.22에서 더 이상 제공되지 않습니다.",
+        "Deployment 등 앱 컨트롤러 API 그룹이며 Ingress 그룹이 아닙니다.",
+        "core API 그룹이며 Ingress를 제공하지 않습니다."
+      ],
+      "code": "apiVersion: networking.k8s.io/v1\nkind: Ingress",
+      "trap": "서버 dry-run은 API·Admission 검증입니다. 실제 트래픽이나 컨테이너 준비 상태까지 검증하지는 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "API 변경",
+        "매니페스트 검증"
+      ]
+    },
+    {
+      "id": 17,
+      "part": 6,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Ingress backend 필드 변경",
+      "q": "v1beta1의 backend.serviceName을 networking.k8s.io/v1로 옮길 때 대응하는 필드 경로는?",
+      "opts": [
+        "backend.service.name",
+        "backend.serviceName",
+        "backend.service.selector",
+        "backend.endpoints.name"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "backend.service.name",
+        "acc": [
+          "backend.service.name"
+        ]
+      },
+      "exp": "<p>v1에서는 backend.service.name과 backend.service.port.number 또는 name을 씁니다. HTTP path에는 pathType도 필요합니다.</p>",
+      "whyno": [
+        "이전 API의 필드 이름입니다.",
+        "Ingress backend에는 Service selector를 직접 넣지 않습니다.",
+        "Ingress는 backend의 endpoints 필드로 대상 이름을 지정하지 않습니다."
+      ],
+      "code": "backend:\n  service:\n    name: api\n    port:\n      number: 80",
+      "trap": "서버 dry-run은 API·Admission 검증입니다. 실제 트래픽이나 컨테이너 준비 상태까지 검증하지는 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "API 변경",
+        "매니페스트 검증"
+      ]
+    },
+    {
+      "id": 18,
+      "part": 6,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "서버 기준 사전 검증",
+      "q": "변경한 app.yaml을 저장하지 않고 API 서버의 스키마·Admission으로 검증하려 한다. apply에 추가할 옵션은?",
+      "opts": [
+        "--dry-run=client",
+        "--dry-run=server",
+        "--validate=false",
+        "--force"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "--dry-run=server",
+        "acc": [
+          "--dry-run=server",
+          "--dry-run server"
+        ]
+      },
+      "exp": "<p>server dry-run은 요청을 서버에서 처리하되 리소스를 저장하지 않습니다. 지원 리소스는 api-resources, API 버전은 api-versions로 확인합니다.</p>",
+      "whyno": [
+        "클라이언트에서 생성·검사하며 서버 Admission 검증을 대신하지 않습니다.",
+        "스키마 검증을 끄는 옵션이며 사전 검증을 강화하지 않습니다.",
+        "실제 리소스 교체에 사용할 수 있어 미저장 검증 목적에 맞지 않습니다."
+      ],
+      "code": "kubectl api-resources\nkubectl api-versions\nkubectl apply --dry-run=server -f app.yaml",
+      "trap": "서버 dry-run은 API·Admission 검증입니다. 실제 트래픽이나 컨테이너 준비 상태까지 검증하지는 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Troubleshooting",
+        "CKAD": "Application Observability and Maintenance"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "관찰·진단",
+        "API 변경",
+        "매니페스트 검증"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "case-1",
+      "title": "컨테이너 로그 조회",
+      "objective": "대상 컨테이너·이전 실행·시간 범위를 정확히 지정한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "case-2",
+      "title": "메트릭과 자원 해석",
+      "objective": "사용량·예약량·메트릭 제공 조건을 구분한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "case-3",
+      "title": "이벤트와 상태 진단",
+      "objective": "Pending·스케줄링 실패·최근 이벤트를 근거로 원인을 좁힌다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "case-4",
+      "title": "JSONPath와 결과 추출",
+      "objective": "리소스 상태에서 필요한 값만 추출해 작업 결과를 확인한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": "case-5",
+      "title": "실행 중 컨테이너 디버깅",
+      "objective": "대상 지정과 ephemeral container의 적용 조건을 구분한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "case-6",
+      "title": "API 폐기와 매니페스트 검증",
+      "objective": "지원 API를 찾고 폐기된 필드를 수정한 뒤 서버 검증한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        16,
+        17,
+        18
+      ]
+    }
+  ]
+}

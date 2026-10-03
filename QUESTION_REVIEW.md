@@ -2,6 +2,16 @@
 
 검토일: 2026-09-30
 
+## 부족한 학습 범위 보충 (2026-10-03)
+
+- [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/), [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/), [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) 공식 영역과 기존 질문 본문·제목·모범 입력을 비교했다. 고급 장애 사례에 비해 로그·메트릭의 기본 조회, 다중 컨테이너·쿼터 기본 구성, API 변경 대응이 적고 보안 과제가 여러 과목에 흩어져 있었다.
+- `관찰·진단`: 6개 시나리오·18문항. 컨테이너별/이전 로그, Metrics Server·실사용량, 이벤트, JSONPath·커스텀 컬럼, exec·ephemeral container, 폐기 API·서버 dry-run을 보충했다.
+- `보안·하드닝`: 10개 시나리오·30문항. 신뢰된 체크섬·CIS 점검, RBAC·토큰, Pod Security Admission, seccomp·RuntimeClass, 감사 정책, 저장 암호화, 서명·digest, Falco 조사, kubelet 접근 제한을 한 과목으로 구성했다.
+- `워크로드·배포`: 7개 시나리오·21문항 추가. 매니페스트 초안·스키마 조회, command/args, Downward API, Quota/LimitRange, 다중 컨테이너·네이티브 사이드카, 설정 주입, HPA 기본 구성·계산을 보충했다. 기존 문항 ID와 내용을 유지했다.
+- 총 7개 과목·207개 시나리오·884문항이다. 새 문항에는 시험·주제 태그, 공식 문서, 오답별 근거, 모범 입력과 예제를 넣었다. 실제 출제 빈도를 추정하지 않으며 실행 검증 상태는 `not-run`이다.
+- 예제의 전제도 명시했다. Metrics Server, impersonation 권한, 디버그 런타임 지원, 노드 seccomp 파일, RuntimeClass handler, 감사·암호화 파일 마운트 등은 별도 준비가 필요하다. 제어 평면 변경은 전용 연습 클러스터 조건이다. 서버 dry-run이나 데이터 검증을 실제 작업 성공으로 간주하지 않는다.
+- 기존 815문항 전체를 재검토하거나 공식 시험 영역의 모든 작업을 완전히 다뤘다는 주장은 하지 않는다. CKS의 개별 CNI 암호화·호스트 OS 실습과 전체 예제의 클러스터 실행 검증은 별도 보충 대상이다.
+
 ## 학습 흐름 보완 (2026-10-02)
 
 - 보기 길이만으로 정답을 추측하는 문제를 줄이기 위해 회상 입력을 기본으로 변경했다. 보기 힌트를 본 문항은 도움 없는 회상 점수에서 제외하고 시간 제한 연습에서는 보기를 제공하지 않는다. 기존 객관식 779문항 전체를 재작성한 것은 아니며 네트워크 핵심 5문항의 보기를 균형 있게 수정했다.

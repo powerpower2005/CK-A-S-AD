@@ -12,7 +12,14 @@
     "9": "Part 9 · 프로브와 초기화 컨테이너",
     "10": "Part 10 · 리소스 요청과 제한",
     "11": "Part 11 · 블루그린과 카나리 배포",
-    "12": "Part 12 · 이미지 공급망 점검"
+    "12": "Part 12 · 이미지 공급망 점검",
+    "13": "Part 13 · 빠른 매니페스트 생성",
+    "14": "Part 14 · 컨테이너 command와 args",
+    "15": "Part 15 · Downward API 설정",
+    "16": "Part 16 · Quota와 LimitRange 기본 구성",
+    "17": "Part 17 · 다중 컨테이너와 사이드카",
+    "18": "Part 18 · 환경변수와 설정 주입",
+    "19": "Part 19 · HPA 기본 설정과 계산"
   },
   "questions": [
     {
@@ -1982,6 +1989,1207 @@
         "워크로드·배포",
         "이미지 공급망"
       ]
+    },
+    {
+      "id": 37,
+      "part": 13,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Deployment YAML 초안",
+      "q": "이름 web, 이미지 nginx:alpine인 Deployment를 실제 생성 없이 YAML로 출력할 명령은?",
+      "opts": [
+        "kubectl create deployment web --image=nginx:alpine --dry-run=client -o yaml",
+        "kubectl run web --image=nginx:alpine --dry-run=client -o yaml",
+        "kubectl create deployment web --image=nginx:alpine -o yaml",
+        "kubectl get deployment web -o yaml"
+      ],
+      "a": 0,
+      "type": {
+        "p": "전체 초안 생성 명령을 입력하세요.",
+        "model": "kubectl create deployment web --image=nginx:alpine --dry-run=client -o yaml",
+        "acc": [
+          "kubectl create deployment web --image=nginx:alpine --dry-run=client -o yaml"
+        ]
+      },
+      "exp": "<p>create deployment에 client dry-run과 YAML 출력을 붙이면 실제 저장 없이 초안을 얻습니다.</p>",
+      "whyno": [
+        "run은 Pod를 생성하는 명령이며 Deployment 초안이 아닙니다.",
+        "dry-run이 없어 실제 Deployment를 생성합니다.",
+        "기존 Deployment 조회이며 새 초안 생성이 아닙니다."
+      ],
+      "code": "kubectl create deployment web --image=nginx:alpine --dry-run=client -o yaml > web.yaml",
+      "trap": "client dry-run은 초안 생성입니다. 제출 전에 서버 검증과 생성된 리소스 상태 확인을 함께 수행하세요.",
+      "docs": [
+        [
+          "kubectl create deployment",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_deployment/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "매니페스트",
+        "dry-run"
+      ]
+    },
+    {
+      "id": 38,
+      "part": 13,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "필드 스키마 조회",
+      "q": "Deployment의 containers 필드 구조를 명령줄에서 확인할 kubectl 하위 명령은?",
+      "opts": [
+        "describe",
+        "explain",
+        "logs",
+        "rollout"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "explain",
+        "acc": [
+          "explain"
+        ]
+      },
+      "exp": "<p>explain으로 API 필드의 타입과 설명을 봅니다. 필요하면 --recursive로 하위 필드를 확인합니다.</p>",
+      "whyno": [
+        "기존 객체의 상태·이벤트를 조회하며 API 필드 설명 조회와 다릅니다.",
+        "컨테이너 로그를 조회합니다.",
+        "롤아웃 상태·이력·복구 작업용 명령입니다."
+      ],
+      "code": "kubectl explain deployment.spec.template.spec.containers",
+      "trap": "client dry-run은 초안 생성입니다. 제출 전에 서버 검증과 생성된 리소스 상태 확인을 함께 수행하세요.",
+      "docs": [
+        [
+          "kubectl explain",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_explain/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "매니페스트",
+        "dry-run"
+      ]
+    },
+    {
+      "id": 39,
+      "part": 13,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "파일을 선언적으로 적용",
+      "q": "검증한 web.yaml의 리소스를 생성하거나 선언적으로 갱신할 kubectl 하위 명령은?",
+      "opts": [
+        "create",
+        "get",
+        "apply",
+        "delete"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "apply",
+        "acc": [
+          "apply"
+        ]
+      },
+      "exp": "<p>apply는 파일에 담긴 원하는 상태를 적용합니다. 성공 후 rollout status나 wait로 준비 상태를 확인하세요.</p>",
+      "whyno": [
+        "기존 리소스가 있으면 기본적으로 AlreadyExists가 됩니다.",
+        "조회만 하고 파일의 desired state를 적용하지 않습니다.",
+        "리소스를 삭제하는 작업입니다."
+      ],
+      "code": "kubectl apply --dry-run=server -f web.yaml\nkubectl apply -f web.yaml\nkubectl rollout status deployment/web",
+      "trap": "client dry-run은 초안 생성입니다. 제출 전에 서버 검증과 생성된 리소스 상태 확인을 함께 수행하세요.",
+      "docs": [
+        [
+          "kubectl apply",
+          "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_apply/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "매니페스트",
+        "dry-run"
+      ]
+    },
+    {
+      "id": 40,
+      "part": 14,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "ENTRYPOINT 재정의",
+      "q": "컨테이너 이미지의 ENTRYPOINT에 대응하여 실행 파일을 재정의하는 Pod 필드는?",
+      "opts": [
+        "args",
+        "env",
+        "workingDir",
+        "command"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "command",
+        "acc": [
+          "command"
+        ]
+      },
+      "exp": "<p>command가 이미지 ENTRYPOINT를, args가 기본 CMD를 덮어씁니다.</p>",
+      "whyno": [
+        "args는 이미지 CMD에 대응하는 인수 목록입니다.",
+        "환경변수 목록이며 실행 파일 지정이 아닙니다.",
+        "작업 디렉터리 지정이며 실행 파일 재정의가 아닙니다."
+      ],
+      "code": "containers:\n- name: worker\n  image: busybox:1.36\n  command: [\"sleep\"]\n  args: [\"3600\"]",
+      "trap": "리소스의 command·args는 자동으로 셸을 통하지 않습니다. 파이프·리다이렉션 등은 셸을 명시해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "command",
+        "args"
+      ]
+    },
+    {
+      "id": 41,
+      "part": 14,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "기본 실행에 인수 전달",
+      "q": "이미지 ENTRYPOINT는 유지하고 기본 CMD 인수만 바꾸려 한다. 설정할 필드는?",
+      "opts": [
+        "args",
+        "command",
+        "ports",
+        "volumeMounts"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "args",
+        "acc": [
+          "args"
+        ]
+      },
+      "exp": "<p>command를 생략하고 args만 지정하면 이미지 기본 실행 파일에 새 인수 목록을 전달합니다.</p>",
+      "whyno": [
+        "기본 실행 파일도 재정의하는 필드입니다.",
+        "컨테이너 포트의 메타데이터입니다.",
+        "볼륨 연결 위치이며 실행 인수를 바꾸지 않습니다."
+      ],
+      "code": "containers:\n- name: worker\n  image: example-worker:local\n  args: [\"--mode\", \"batch\"]",
+      "trap": "리소스의 command·args는 자동으로 셸을 통하지 않습니다. 파이프·리다이렉션 등은 셸을 명시해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "command",
+        "args"
+      ]
+    },
+    {
+      "id": 42,
+      "part": 14,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "셸 리다이렉션 사용",
+      "q": "busybox에서 echo ready > /work/status의 리다이렉션을 처리하려 한다. 셸 실행 command 배열은?",
+      "opts": [
+        "[\"echo\", \"-c\"]",
+        "[\"sh\", \"-c\"]",
+        "[\"sleep\", \"-c\"]",
+        "[\"cat\", \"-c\"]"
+      ],
+      "a": 1,
+      "type": {
+        "p": "JSON 배열로 셸과 옵션을 입력하세요.",
+        "model": "[\"sh\", \"-c\"]",
+        "acc": [
+          "[\"sh\", \"-c\"]"
+        ]
+      },
+      "exp": "<p>sh -c의 인수로 명령 문자열을 넘겨 셸이 >를 해석하도록 합니다. /work는 쓰기 가능한 경로여야 합니다.</p>",
+      "whyno": [
+        "echo는 셸의 리다이렉션을 파싱하는 실행기가 아닙니다.",
+        "sleep은 셸 구문을 실행하지 않습니다.",
+        "cat은 셸 구문을 실행하지 않습니다."
+      ],
+      "code": "command: [\"sh\", \"-c\"]\nargs: [\"echo ready > /work/status; sleep 3600\"]",
+      "trap": "리소스의 command·args는 자동으로 셸을 통하지 않습니다. 파이프·리다이렉션 등은 셸을 명시해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "command",
+        "args"
+      ]
+    },
+    {
+      "id": 43,
+      "part": 15,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "자기 Pod 이름 전달",
+      "q": "POD_NAME 환경변수의 valueFrom.fieldRef.fieldPath에 자기 Pod 이름을 넣으려 한다. 값은?",
+      "opts": [
+        "spec.nodeName",
+        "metadata.namespace",
+        "metadata.name",
+        "status.podIP"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "metadata.name",
+        "acc": [
+          "metadata.name"
+        ]
+      },
+      "exp": "<p>metadata.name을 fieldRef로 참조하면 이름을 매니페스트에 하드코딩하지 않아도 됩니다.</p>",
+      "whyno": [
+        "Pod가 배치된 노드 이름입니다.",
+        "Pod의 네임스페이스입니다.",
+        "Pod IP 주소입니다."
+      ],
+      "code": "env:\n- name: POD_NAME\n  valueFrom:\n    fieldRef:\n      fieldPath: metadata.name",
+      "trap": "Downward API는 허용된 메타데이터·자원 필드만 노출합니다. 환경변수 값은 컨테이너 실행 시 설정됩니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "Downward API",
+        "환경변수"
+      ]
+    },
+    {
+      "id": 44,
+      "part": 15,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "자기 네임스페이스 전달",
+      "q": "POD_NAMESPACE에 자기 네임스페이스를 주입할 fieldPath 값은?",
+      "opts": [
+        "metadata.name",
+        "spec.serviceAccountName",
+        "status.hostIP",
+        "metadata.namespace"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "metadata.namespace",
+        "acc": [
+          "metadata.namespace"
+        ]
+      },
+      "exp": "<p>네임스페이스는 metadata.namespace를 참조합니다.</p>",
+      "whyno": [
+        "Pod의 이름이며 네임스페이스가 아닙니다.",
+        "ServiceAccount 이름입니다.",
+        "배치된 노드의 IP 주소입니다."
+      ],
+      "code": "env:\n- name: POD_NAMESPACE\n  valueFrom:\n    fieldRef:\n      fieldPath: metadata.namespace",
+      "trap": "Downward API는 허용된 메타데이터·자원 필드만 노출합니다. 환경변수 값은 컨테이너 실행 시 설정됩니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "Downward API",
+        "환경변수"
+      ]
+    },
+    {
+      "id": 45,
+      "part": 15,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "CPU 제한 참조",
+      "q": "app 컨테이너의 limits.cpu를 환경변수에 노출하려 한다. fieldRef 대신 사용할 valueFrom 하위 필드는?",
+      "opts": [
+        "resourceFieldRef",
+        "configMapKeyRef",
+        "secretKeyRef",
+        "fieldRef"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "resourceFieldRef",
+        "acc": [
+          "resourceFieldRef"
+        ]
+      },
+      "exp": "<p>resourceFieldRef에 containerName과 resource: limits.cpu를 지정합니다. divisor로 변환 단위를 선택할 수 있습니다.</p>",
+      "whyno": [
+        "ConfigMap 키를 참조하며 컨테이너 자원 필드가 아닙니다.",
+        "Secret 키를 참조합니다.",
+        "컨테이너 limits.cpu는 resourceFieldRef로 참조해야 합니다."
+      ],
+      "code": "env:\n- name: CPU_LIMIT_MILLI\n  valueFrom:\n    resourceFieldRef:\n      containerName: app\n      resource: limits.cpu\n      divisor: 1m",
+      "trap": "Downward API는 허용된 메타데이터·자원 필드만 노출합니다. 환경변수 값은 컨테이너 실행 시 설정됩니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "Downward API",
+        "환경변수"
+      ]
+    },
+    {
+      "id": 46,
+      "part": 16,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "기본 CPU request 주입",
+      "q": "새 컨테이너가 CPU request를 생략하면 100m를 기본값으로 넣는다. LimitRange의 default 대신 사용할 필드는?",
+      "opts": [
+        "default",
+        "defaultRequest",
+        "max",
+        "min"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "defaultRequest",
+        "acc": [
+          "defaultRequest"
+        ]
+      },
+      "exp": "<p>Container 타입 LimitRange에서 defaultRequest.cpu를 설정합니다. limit 기본값을 따로 지정할 수도 있습니다.</p>",
+      "whyno": [
+        "default는 기본 limit를 설정하는 필드입니다.",
+        "최대 허용량 제한이며 기본 request 주입 필드가 아닙니다.",
+        "최소 허용량 제한이며 기본 request 주입 필드가 아닙니다."
+      ],
+      "code": "apiVersion: v1\nkind: LimitRange\nmetadata:\n  name: defaults\n  namespace: lab-quota\nspec:\n  limits:\n  - type: Container\n    defaultRequest:\n      cpu: 100m\n    default:\n      cpu: 500m",
+      "trap": "Quota는 네임스페이스 총량, LimitRange는 개별 자원의 기본값·범위입니다. 서로 대체하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/limit-range/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "ResourceQuota",
+        "LimitRange"
+      ]
+    },
+    {
+      "id": 47,
+      "part": 16,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "네임스페이스 요청 CPU 총량",
+      "q": "lab-quota 전체 Pod의 CPU request 합계를 2 CPU로 제한할 ResourceQuota hard 키는?",
+      "opts": [
+        "limits.cpu",
+        "cpu.used",
+        "requests.cpu",
+        "replicas"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "requests.cpu",
+        "acc": [
+          "requests.cpu"
+        ]
+      },
+      "exp": "<p>requests.cpu는 네임스페이스의 CPU request 총량을 제한합니다. 각 컨테이너 값만 제한하려면 LimitRange를 사용합니다.</p>",
+      "whyno": [
+        "컨테이너 CPU limit 합계이며 request 합계가 아닙니다.",
+        "ResourceQuota spec.hard의 CPU request 키가 아닙니다.",
+        "ResourceQuota hard의 Pod 요청 CPU 키가 아닙니다."
+      ],
+      "code": "apiVersion: v1\nkind: ResourceQuota\nmetadata:\n  name: budget\n  namespace: lab-quota\nspec:\n  hard:\n    requests.cpu: \"2\"\n    pods: \"10\"",
+      "trap": "Quota는 네임스페이스 총량, LimitRange는 개별 자원의 기본값·범위입니다. 서로 대체하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/limit-range/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "ResourceQuota",
+        "LimitRange"
+      ]
+    },
+    {
+      "id": 48,
+      "part": 16,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Quota 사용량 검증",
+      "q": "lab-quota의 budget Quota에서 Used와 Hard를 함께 확인할 명령은?",
+      "opts": [
+        "kubectl top pod -n lab-quota",
+        "kubectl describe limitrange budget -n lab-quota",
+        "kubectl get deployment budget -n lab-quota",
+        "kubectl describe resourcequota budget -n lab-quota"
+      ],
+      "a": 3,
+      "type": {
+        "p": "전체 Quota 조회 명령을 입력하세요.",
+        "model": "kubectl describe resourcequota budget -n lab-quota",
+        "acc": [
+          "kubectl describe resourcequota budget -n lab-quota",
+          "kubectl describe quota budget -n lab-quota"
+        ]
+      },
+      "exp": "<p>ResourceQuota 상태에서 어떤 자원 총량이 소진됐는지 확인합니다. 실제 CPU 사용이 낮아도 requests 합계로 새 Pod가 거부될 수 있습니다.</p>",
+      "whyno": [
+        "최근 실제 사용량이며 Quota의 요청량 집계와 다릅니다.",
+        "다른 리소스 종류를 조회합니다.",
+        "Deployment를 조회하며 Quota Used·Hard가 아닙니다."
+      ],
+      "code": "kubectl describe resourcequota budget -n lab-quota",
+      "trap": "Quota는 네임스페이스 총량, LimitRange는 개별 자원의 기본값·범위입니다. 서로 대체하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/policy/limit-range/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "ResourceQuota",
+        "LimitRange"
+      ]
+    },
+    {
+      "id": 49,
+      "part": 17,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "같은 Pod의 로컬 통신",
+      "q": "api Pod의 app이 8080에서 수신한다. 같은 Pod의 proxy가 loopback으로 접속할 주소는?",
+      "opts": [
+        "127.0.0.1:8080",
+        "proxy:8080",
+        "app:8080",
+        "127.0.0.1:80"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "127.0.0.1:8080",
+        "acc": [
+          "127.0.0.1:8080",
+          "localhost:8080"
+        ]
+      },
+      "exp": "<p>같은 Pod 컨테이너는 네트워크 네임스페이스와 포트 공간을 공유합니다. localhost로 연결할 수 있습니다.</p>",
+      "whyno": [
+        "컨테이너 이름이 자동으로 DNS 호스트명이 되는 것은 아닙니다.",
+        "컨테이너 이름이 같은 Pod의 DNS 이름으로 생성되지 않습니다.",
+        "문제의 수신 포트는 8080입니다."
+      ],
+      "code": "kubectl exec api -n lab-multi -c proxy -- wget -qO- http://127.0.0.1:8080",
+      "trap": "일반 containers의 장기 실행 사이드카와 initContainers의 restartPolicy: Always 방식은 Job 종료 동작이 다릅니다. 예제는 안정화된 네이티브 사이드카를 지원하는 Kubernetes 1.33 이상 기준입니다.",
+      "docs": [
+        [
+          "Pods",
+          "https://kubernetes.io/docs/concepts/workloads/pods/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "다중 컨테이너",
+        "Sidecar",
+        "emptyDir"
+      ]
+    },
+    {
+      "id": 50,
+      "part": 17,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "컨테이너 간 파일 공유",
+      "q": "app과 log-reader가 같은 Pod에서 임시 로그 파일을 공유한다. Pod 수명 동안 유지되는 공유 볼륨 종류는?",
+      "opts": [
+        "컨테이너 writable layer",
+        "emptyDir",
+        "컨테이너 이름별 ConfigMap",
+        "imagePullSecrets"
+      ],
+      "a": 1,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "emptyDir",
+        "acc": [
+          "emptyDir"
+        ]
+      },
+      "exp": "<p>같은 emptyDir 볼륨을 두 컨테이너에 마운트합니다. 컨테이너 재시작에도 남지만 Pod 삭제 시 삭제됩니다.</p>",
+      "whyno": [
+        "각 컨테이너 파일시스템이므로 자동 공유되지 않습니다.",
+        "ConfigMap은 애플리케이션이 쓰는 공유 임시 파일 저장소가 아닙니다.",
+        "레지스트리 인증 설정이며 데이터 볼륨이 아닙니다."
+      ],
+      "code": "volumes:\n- name: logs\n  emptyDir: {}\n# 각 컨테이너의 volumeMounts에 같은 name: logs를 지정합니다.",
+      "trap": "일반 containers의 장기 실행 사이드카와 initContainers의 restartPolicy: Always 방식은 Job 종료 동작이 다릅니다. 예제는 안정화된 네이티브 사이드카를 지원하는 Kubernetes 1.33 이상 기준입니다.",
+      "docs": [
+        [
+          "Volumes",
+          "https://kubernetes.io/docs/concepts/storage/volumes/#emptydir"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "다중 컨테이너",
+        "Sidecar",
+        "emptyDir"
+      ]
+    },
+    {
+      "id": 51,
+      "part": 17,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Job 네이티브 사이드카",
+      "q": "Job의 주 컨테이너가 끝난 뒤 장기 실행 로그 사이드카 때문에 완료가 막히지 않게 네이티브 사이드카를 사용한다. initContainers 안에 넣을 컨테이너별 restartPolicy 값은?",
+      "opts": [
+        "OnFailure",
+        "Never",
+        "Always",
+        "Pod 전체 restartPolicy: Always"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "Always",
+        "acc": [
+          "Always"
+        ]
+      },
+      "exp": "<p>네이티브 사이드카는 initContainers 항목에 restartPolicy: Always를 설정합니다. 일반 init은 완료를 기다리지만 이 방식은 계속 실행됩니다.</p>",
+      "whyno": [
+        "네이티브 사이드카를 선언하는 컨테이너별 정책 값이 아닙니다.",
+        "네이티브 사이드카를 활성화하지 않습니다.",
+        "Job의 Pod restartPolicy는 Never 또는 OnFailure여야 하며 컨테이너별 사이드카 선언과 다릅니다."
+      ],
+      "code": "spec:\n  restartPolicy: Never\n  initContainers:\n  - name: log-reader\n    image: busybox:1.36\n    restartPolicy: Always\n    command: [\"sh\", \"-c\", \"sleep 3600\"]",
+      "trap": "일반 containers의 장기 실행 사이드카와 initContainers의 restartPolicy: Always 방식은 Job 종료 동작이 다릅니다. 예제는 안정화된 네이티브 사이드카를 지원하는 Kubernetes 1.33 이상 기준입니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "다중 컨테이너",
+        "Sidecar",
+        "emptyDir"
+      ]
+    },
+    {
+      "id": 52,
+      "part": 18,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "ConfigMap 전체 키 주입",
+      "q": "ConfigMap app-config의 키들을 환경변수로 가져온다. envFrom 배열 안의 참조 필드는?",
+      "opts": [
+        "configMapKeyRef",
+        "fieldRef",
+        "resourceFieldRef",
+        "configMapRef"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "configMapRef",
+        "acc": [
+          "configMapRef"
+        ]
+      },
+      "exp": "<p>envFrom의 configMapRef.name에 ConfigMap 이름을 지정하면 여러 키를 환경변수로 가져옵니다.</p>",
+      "whyno": [
+        "env의 valueFrom에서 특정 키 하나를 선택할 때 사용합니다.",
+        "Pod 메타데이터를 참조하는 Downward API 필드입니다.",
+        "컨테이너 requests·limits를 참조합니다."
+      ],
+      "code": "envFrom:\n- configMapRef:\n    name: app-config",
+      "trap": "ConfigMap 환경변수는 생성 시 설정됩니다. 파일 볼륨 갱신과 다르며, 앱이 설정을 다시 읽는지도 확인해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "환경변수",
+        "ConfigMap"
+      ]
+    },
+    {
+      "id": 53,
+      "part": 18,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "단일 키를 다른 변수명으로",
+      "q": "app-config의 MODE 키만 APP_MODE 변수에 주입한다. env[].valueFrom의 참조 필드는?",
+      "opts": [
+        "configMapKeyRef",
+        "configMapRef",
+        "secretKeyRef",
+        "fieldRef"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "configMapKeyRef",
+        "acc": [
+          "configMapKeyRef"
+        ]
+      },
+      "exp": "<p>env 항목에 name: APP_MODE, valueFrom.configMapKeyRef에 name: app-config와 key: MODE를 지정합니다.</p>",
+      "whyno": [
+        "envFrom에서 여러 키를 가져올 때 쓰며 특정 키·변수명 매핑이 아닙니다.",
+        "Secret 참조이며 ConfigMap 키를 조회하지 않습니다.",
+        "Pod 메타데이터 참조이며 ConfigMap 키가 아닙니다."
+      ],
+      "code": "env:\n- name: APP_MODE\n  valueFrom:\n    configMapKeyRef:\n      name: app-config\n      key: MODE",
+      "trap": "ConfigMap 환경변수는 생성 시 설정됩니다. 파일 볼륨 갱신과 다르며, 앱이 설정을 다시 읽는지도 확인해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "환경변수",
+        "ConfigMap"
+      ]
+    },
+    {
+      "id": 54,
+      "part": 18,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "환경변수 갱신 반영",
+      "q": "Deployment web의 ConfigMap 환경변수 값이 바뀌었다. 새 Pod를 만들어 값을 반영할 명령은?",
+      "opts": [
+        "kubectl get configmap app-config -n lab-config",
+        "kubectl rollout restart deployment/web -n lab-config",
+        "kubectl rollout status deployment/web -n lab-config",
+        "kubectl annotate configmap app-config -n lab-config reviewed=true"
+      ],
+      "a": 1,
+      "type": {
+        "p": "전체 재시작 명령을 입력하세요.",
+        "model": "kubectl rollout restart deployment/web -n lab-config",
+        "acc": [
+          "kubectl rollout restart deployment/web -n lab-config",
+          "kubectl rollout restart deploy/web -n lab-config"
+        ]
+      },
+      "exp": "<p>rollout restart로 새 Pod가 최신 ConfigMap 값을 환경변수로 읽게 합니다. 기존 컨테이너의 환경변수는 자동으로 바뀌지 않습니다.</p>",
+      "whyno": [
+        "조회만 하며 실행 중 컨테이너 환경을 바꾸지 않습니다.",
+        "상태 조회이며 새로운 롤아웃을 시작하지 않습니다.",
+        "ConfigMap 어노테이션만 변경하며 Deployment Pod를 교체하지 않습니다."
+      ],
+      "code": "kubectl rollout restart deployment/web -n lab-config\nkubectl rollout status deployment/web -n lab-config",
+      "trap": "ConfigMap 환경변수는 생성 시 설정됩니다. 파일 볼륨 갱신과 다르며, 앱이 설정을 다시 읽는지도 확인해야 합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        ],
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "환경변수",
+        "ConfigMap"
+      ]
+    },
+    {
+      "id": 55,
+      "part": 19,
+      "exam": [
+        "CKA"
+      ],
+      "title": "HPA 안정 API",
+      "q": "CPU Resource 메트릭과 평균 사용률 목표를 표현하는 안정 HPA API 버전은?",
+      "opts": [
+        "autoscaling/v2beta2",
+        "apps/v1",
+        "autoscaling/v2",
+        "metrics.k8s.io/v1beta1"
+      ],
+      "a": 2,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "autoscaling/v2",
+        "acc": [
+          "autoscaling/v2"
+        ]
+      },
+      "exp": "<p>autoscaling/v2는 여러 메트릭과 구체적 target 구조를 지원합니다.</p>",
+      "whyno": [
+        "폐기된 베타 API를 현재 안정 API처럼 선택하면 안 됩니다.",
+        "Deployment 등 컨트롤러 그룹이며 HPA API 그룹이 아닙니다.",
+        "메트릭 조회 그룹이며 HPA 리소스의 API 버전이 아닙니다."
+      ],
+      "code": "apiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: web\n  namespace: lab-scale\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: web\n  minReplicas: 2\n  maxReplicas: 5\n  metrics:\n  - type: Resource\n    resource:\n      name: cpu\n      target:\n        type: Utilization\n        averageUtilization: 70",
+      "trap": "CPU utilization은 requests를 기준으로 계산합니다. Metrics Server와 CPU requests를 확인하고, HPA가 관리하는 replicas를 수동으로 반복 덮어쓰지 마세요.",
+      "docs": [
+        [
+          "Horizontal Pod Autoscaling",
+          "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "워크로드·배포",
+        "HPA",
+        "오토스케일"
+      ]
+    },
+    {
+      "id": 56,
+      "part": 19,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "CPU utilization 계산",
+      "q": "Pod에 컨테이너 하나가 있고 CPU request는 200m, 관측 사용량은 100m다. CPU utilization 백분율은?",
+      "opts": [
+        "20%",
+        "100%",
+        "200%",
+        "50%"
+      ],
+      "a": 3,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "50",
+        "acc": [
+          "50",
+          "50%"
+        ]
+      },
+      "exp": "<p>100m / 200m × 100 = 50%입니다. CPU limit가 아니라 request가 기준입니다.</p>",
+      "whyno": [
+        "200m request와 100m 사용량의 비율은 20%가 아닙니다.",
+        "사용량과 request가 같을 때 100%입니다.",
+        "분자와 분모를 반대로 나눈 값입니다."
+      ],
+      "code": "# utilization = CPU 사용량 / CPU request × 100\n# 100m / 200m × 100 = 50%",
+      "trap": "CPU utilization은 requests를 기준으로 계산합니다. Metrics Server와 CPU requests를 확인하고, HPA가 관리하는 replicas를 수동으로 반복 덮어쓰지 마세요.",
+      "docs": [
+        [
+          "Horizontal Pod Autoscaling",
+          "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling",
+        "CKAD": "Application Environment, Configuration and Security"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "워크로드·배포",
+        "HPA",
+        "오토스케일"
+      ]
+    },
+    {
+      "id": 57,
+      "part": 19,
+      "exam": [
+        "CKA"
+      ],
+      "title": "최대 replica 상한",
+      "q": "HPA 계산상 8개가 필요하지만 maxReplicas가 5다. 이 HPA가 설정할 수 있는 replica 최대치는?",
+      "opts": [
+        "5개",
+        "8개",
+        "2개",
+        "제한 없음"
+      ],
+      "a": 0,
+      "type": {
+        "p": "질문에서 요구하는 명령·필드·값을 입력하세요.",
+        "model": "5",
+        "acc": [
+          "5"
+        ]
+      },
+      "exp": "<p>메트릭 계산 결과는 min·max 범위 등 정책에 제한됩니다. 실제 배치·준비 여부는 자원과 스케줄링 조건도 영향을 줍니다.</p>",
+      "whyno": [
+        "권장 계산값이 maxReplicas를 자동으로 무시하지 않습니다.",
+        "minReplicas 값이며 질문의 최대치가 아닙니다.",
+        "maxReplicas 상한을 적용해야 합니다."
+      ],
+      "code": "kubectl get hpa web -n lab-scale\nkubectl describe hpa web -n lab-scale",
+      "trap": "CPU utilization은 requests를 기준으로 계산합니다. Metrics Server와 CPU requests를 확인하고, HPA가 관리하는 replicas를 수동으로 반복 덮어쓰지 마세요.",
+      "docs": [
+        [
+          "Horizontal Pod Autoscaling",
+          "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 학습 목표를 보충하는 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads & Scheduling"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-03"
+      },
+      "tags": [
+        "CKA",
+        "워크로드·배포",
+        "HPA",
+        "오토스케일"
+      ]
     }
   ],
   "scenarios": [
@@ -2115,6 +3323,83 @@
         34,
         35,
         36
+      ]
+    },
+    {
+      "id": "case-35",
+      "title": "빠른 매니페스트 생성",
+      "objective": "초안을 생성하고 필드를 확인한 후 선언적으로 적용한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        37,
+        38,
+        39
+      ]
+    },
+    {
+      "id": "case-36",
+      "title": "컨테이너 command와 args",
+      "objective": "이미지 기본 실행과 셸 실행의 차이를 이해한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        40,
+        41,
+        42
+      ]
+    },
+    {
+      "id": "case-37",
+      "title": "Downward API 설정",
+      "objective": "Pod 이름·네임스페이스·컨테이너 자원을 환경변수로 제공한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "id": "case-38",
+      "title": "Quota와 LimitRange 기본 구성",
+      "objective": "네임스페이스 총량과 컨테이너 기본값을 구분한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        46,
+        47,
+        48
+      ]
+    },
+    {
+      "id": "case-39",
+      "title": "다중 컨테이너와 사이드카",
+      "objective": "공유 네트워크·볼륨·종료 조건을 이해한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "id": "case-40",
+      "title": "환경변수와 설정 주입",
+      "objective": "ConfigMap 참조와 값 변경의 반영 시점을 구분한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        52,
+        53,
+        54
+      ]
+    },
+    {
+      "id": "case-41",
+      "title": "HPA 기본 설정과 계산",
+      "objective": "메트릭·requests·replica 범위를 연결하여 오토스케일 조건을 확인한다.",
+      "context": "각 문항은 독립된 조건입니다. 명령은 Linux/Bash 기준이며 필요한 리소스·권한은 문제에 명시합니다. 먼저 회상한 뒤 예제와 공식 문서로 확인하세요.",
+      "steps": [
+        55,
+        56,
+        57
       ]
     }
   ]
