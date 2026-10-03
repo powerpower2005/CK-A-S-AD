@@ -12,6 +12,7 @@ for (const { id } of catalog) {
     assert.equal(chosen.reduce((n, c) => n + c.steps.length, 0), data.questions.filter(q => q.exam.includes(exam)).length);
   }
   const first = cases[0], byId = { [first.id]: first }, signature = dataSignature(data);
+  assert.equal(signature, dataSignature({ ...data, questions: data.questions.map(({ tags, ...q }) => q) }), 'Adding tags must preserve saved progress');
   const session = { signature, queue: [first.id], index: 0, practice: 'study', view: 'question', mode: 'type', answers: { [first.id]: {} }, results: {}, orders: Object.fromEntries(first.steps.map(q => [q.id, [0, 1, 2, 3]])), hints: {} };
   assert(validSession(session, signature, byId));
   assert(validSession({ ...session, answers: { [first.id]: { [first.steps[0].id]: { mode: 'mc' } } } }, signature, byId));

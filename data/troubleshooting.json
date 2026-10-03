@@ -66,7 +66,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 2,
@@ -107,7 +113,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애",
+        "리소스 관리"
+      ]
     },
     {
       "id": 3,
@@ -148,7 +161,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다."
+      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 4,
@@ -187,7 +205,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다."
+      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 5,
@@ -228,7 +251,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애",
+        "이미지"
+      ]
     },
     {
       "id": 6,
@@ -270,7 +300,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애",
+        "이미지"
+      ]
     },
     {
       "id": 7,
@@ -309,7 +346,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다."
+      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨테이너 장애",
+        "이미지"
+      ]
     },
     {
       "id": 8,
@@ -351,7 +394,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 9,
@@ -392,7 +441,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다."
+      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 10,
@@ -432,7 +487,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다."
+      "freqNote": "종료 코드·컨테이너 생성 오류 해석은 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애",
+        "이미지"
+      ]
     },
     {
       "id": 11,
@@ -472,7 +533,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다."
+      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 12,
@@ -512,7 +578,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다."
+      "freqNote": "레지스트리 한도·라이프사이클 훅 오류는 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 장애"
+      ]
     },
     {
       "id": 13,
@@ -552,7 +623,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "프로브 조정은 CKAD Observability 단골입니다."
+      "freqNote": "프로브 조정은 CKAD Observability 단골입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기",
+        "프로브"
+      ]
     },
     {
       "id": 14,
@@ -595,7 +672,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "프로브 조정은 CKAD Observability 단골입니다."
+      "freqNote": "프로브 조정은 CKAD Observability 단골입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기",
+        "프로브"
+      ]
     },
     {
       "id": 15,
@@ -635,7 +718,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "프로브 조정은 CKAD Observability 단골입니다."
+      "freqNote": "프로브 조정은 CKAD Observability 단골입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기",
+        "프로브"
+      ]
     },
     {
       "id": 16,
@@ -675,7 +764,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다."
+      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "프로브·생명주기"
+      ]
     },
     {
       "id": 17,
@@ -716,7 +810,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다."
+      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "프로브·생명주기"
+      ]
     },
     {
       "id": 18,
@@ -757,7 +856,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다."
+      "freqNote": "CrashLoop·이미지·설정 오류 진단은 CKA·CKAD 트러블슈팅의 가장 흔한 출발점입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기",
+        "Init Container"
+      ]
     },
     {
       "id": 19,
@@ -800,7 +906,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다."
+      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기",
+        "Init Container"
+      ]
     },
     {
       "id": 20,
@@ -840,7 +953,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다."
+      "freqNote": "종료 고착·init 대기·사이드카 문제는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "프로브·생명주기"
+      ]
     },
     {
       "id": 21,
@@ -880,7 +998,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "Job 실패 원인 분석은 CKAD에서 자주 나옵니다."
+      "freqNote": "Job 실패 원인 분석은 CKAD에서 자주 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "Job"
+      ]
     },
     {
       "id": 22,
@@ -920,7 +1044,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "Job"
+      ]
     },
     {
       "id": 23,
@@ -960,7 +1090,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "Job"
+      ]
     },
     {
       "id": 24,
@@ -1000,7 +1136,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "인덱스 Job·PVC 보존 정책은 가끔 나옵니다."
+      "freqNote": "인덱스 Job·PVC 보존 정책은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "Job"
+      ]
     },
     {
       "id": 25,
@@ -1040,7 +1182,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "CronJob"
+      ]
     },
     {
       "id": 26,
@@ -1080,7 +1228,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "CronJob"
+      ]
     },
     {
       "id": 27,
@@ -1120,7 +1274,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "CronJob"
+      ]
     },
     {
       "id": 28,
@@ -1161,7 +1321,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "StatefulSet"
+      ]
     },
     {
       "id": 29,
@@ -1200,7 +1367,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다."
+      "freqNote": "Job·CronJob·StatefulSet 정체는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "Deployment",
+        "StatefulSet"
+      ]
     },
     {
       "id": 30,
@@ -1241,7 +1415,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "인덱스 Job·PVC 보존 정책은 가끔 나옵니다."
+      "freqNote": "인덱스 Job·PVC 보존 정책은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "워크로드 컨트롤러",
+        "PVC"
+      ]
     },
     {
       "id": 31,
@@ -1283,7 +1463,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "롤아웃 실패 복구와 HPA 지표 문제는 매우 자주 나옵니다."
+      "freqNote": "롤아웃 실패 복구와 HPA 지표 문제는 매우 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "Deployment"
+      ]
     },
     {
       "id": 32,
@@ -1323,7 +1510,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다."
+      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "롤아웃·오토스케일"
+      ]
     },
     {
       "id": 33,
@@ -1364,7 +1556,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다."
+      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "롤아웃·오토스케일"
+      ]
     },
     {
       "id": 34,
@@ -1403,7 +1600,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다."
+      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "DaemonSet"
+      ]
     },
     {
       "id": 35,
@@ -1443,7 +1646,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다."
+      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "DaemonSet"
+      ]
     },
     {
       "id": 36,
@@ -1485,7 +1694,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "롤아웃 실패 복구와 HPA 지표 문제는 매우 자주 나옵니다."
+      "freqNote": "롤아웃 실패 복구와 HPA 지표 문제는 매우 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "오토스케일"
+      ]
     },
     {
       "id": 37,
@@ -1525,7 +1741,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다."
+      "freqNote": "롤아웃·DaemonSet·HPA 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "오토스케일"
+      ]
     },
     {
       "id": 38,
@@ -1565,7 +1787,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "VPA·in-place 리사이즈는 드뭅니다."
+      "freqNote": "VPA·in-place 리사이즈는 드뭅니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "롤아웃·오토스케일",
+        "오토스케일"
+      ]
     },
     {
       "id": 39,
@@ -1605,7 +1833,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "VPA·in-place 리사이즈는 드뭅니다."
+      "freqNote": "VPA·in-place 리사이즈는 드뭅니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "롤아웃·오토스케일"
+      ]
     },
     {
       "id": 40,
@@ -1645,7 +1878,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "Downward API·포트 충돌은 가끔 나옵니다."
+      "freqNote": "Downward API·포트 충돌은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 41,
@@ -1685,7 +1923,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 42,
@@ -1726,7 +1970,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정",
+        "emptyDir"
+      ]
     },
     {
       "id": 43,
@@ -1767,7 +2018,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정",
+        "hostPath"
+      ]
     },
     {
       "id": 44,
@@ -1806,7 +2064,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 45,
@@ -1847,7 +2110,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "정적 파드 매니페스트 수정과 PDB drain 차단은 CKA 단골입니다."
+      "freqNote": "정적 파드 매니페스트 수정과 PDB drain 차단은 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 46,
@@ -1887,7 +2155,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 47,
@@ -1927,7 +2200,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "정적 파드 매니페스트 수정과 PDB drain 차단은 CKA 단골입니다."
+      "freqNote": "정적 파드 매니페스트 수정과 PDB drain 차단은 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·설정",
+        "노드 유지보수"
+      ]
     },
     {
       "id": 48,
@@ -1967,7 +2246,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "Downward API·포트 충돌은 가끔 나옵니다."
+      "freqNote": "Downward API·포트 충돌은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 49,
@@ -2008,7 +2292,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·설정"
+      ]
     },
     {
       "id": 50,
@@ -2049,7 +2338,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다."
+      "freqNote": "볼륨·환경 변수·디버그·비루트 오류는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "CKS",
+        "트러블슈팅",
+        "볼륨·설정",
+        "SecurityContext"
+      ]
     },
     {
       "id": 51,
@@ -2090,7 +2386,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링",
+        "리소스 관리"
+      ]
     },
     {
       "id": 52,
@@ -2130,7 +2433,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스케줄링",
+        "리소스 관리"
+      ]
     },
     {
       "id": 53,
@@ -2170,7 +2479,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 54,
@@ -2212,7 +2526,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 55,
@@ -2254,7 +2574,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 56,
@@ -2293,7 +2619,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 57,
@@ -2334,7 +2665,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 58,
@@ -2375,7 +2711,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 59,
@@ -2415,7 +2757,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 60,
@@ -2454,7 +2801,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 61,
@@ -2494,7 +2846,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "스케줄링"
+      ]
     },
     {
       "id": 62,
@@ -2534,7 +2891,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 63,
@@ -2574,7 +2936,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 64,
@@ -2613,7 +2980,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 65,
@@ -2653,7 +3025,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 66,
@@ -2694,7 +3071,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 67,
@@ -2735,7 +3117,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "Pending 원인(자원·테인트·셀렉터)과 NotReady·uncordon은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 68,
@@ -2776,7 +3163,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 69,
@@ -2816,7 +3208,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 70,
@@ -2856,7 +3253,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 71,
@@ -2896,7 +3298,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러",
+        "스케줄링"
+      ]
     },
     {
       "id": 72,
@@ -2936,7 +3344,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드·스케줄러"
+      ]
     },
     {
       "id": 73,
@@ -2976,7 +3389,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "스케줄링"
+      ]
     },
     {
       "id": 74,
@@ -3016,7 +3435,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수"
+      ]
     },
     {
       "id": 75,
@@ -3058,7 +3482,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "리소스 관리"
+      ]
     },
     {
       "id": 76,
@@ -3098,7 +3529,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "리소스 관리"
+      ]
     },
     {
       "id": 77,
@@ -3141,7 +3579,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다."
+      "freqNote": "자원 부족·어피니티·노드 압박·쿼터 진단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "리소스 관리"
+      ]
     },
     {
       "id": 78,
@@ -3180,7 +3625,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "리소스 관리"
+      ]
     },
     {
       "id": 79,
@@ -3220,7 +3671,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다."
+      "freqNote": "토폴로지 세부·선점·스케줄러 지연은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수"
+      ]
     },
     {
       "id": 80,
@@ -3261,7 +3717,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수"
+      ]
     },
     {
       "id": 81,
@@ -3300,7 +3761,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "DaemonSet",
+        "노드 유지보수"
+      ]
     },
     {
       "id": 82,
@@ -3340,7 +3808,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "노드 유지보수"
+      ]
     },
     {
       "id": 83,
@@ -3379,7 +3853,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다."
+      "freqNote": "스케줄링 제약·쿼터·drain 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨·노드 유지보수",
+        "스케줄링"
+      ]
     },
     {
       "id": 84,
@@ -3424,7 +3904,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "리소스 관리"
+      ]
     },
     {
       "id": 85,
@@ -3464,7 +3950,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 86,
@@ -3504,7 +3995,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 87,
@@ -3543,7 +4039,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 88,
@@ -3584,7 +4085,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "이미지"
+      ]
     },
     {
       "id": 89,
@@ -3624,7 +4131,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "스케줄링"
+      ]
     },
     {
       "id": 90,
@@ -3664,7 +4177,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "리소스 관리"
+      ]
     },
     {
       "id": 91,
@@ -3704,7 +4223,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "스케줄링"
+      ]
     },
     {
       "id": 92,
@@ -3744,7 +4269,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 93,
@@ -3783,7 +4314,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 94,
@@ -3823,7 +4359,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다."
+      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "오토스케일"
+      ]
     },
     {
       "id": 95,
@@ -3862,7 +4404,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다."
+      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "오토스케일"
+      ]
     },
     {
       "id": 96,
@@ -3902,7 +4450,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "스케줄링"
+      ]
     },
     {
       "id": 97,
@@ -3942,7 +4496,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다."
+      "freqNote": "디바이스·kubelet 자원·스케줄러 내부 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 98,
@@ -3982,7 +4541,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다."
+      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "스케줄링"
+      ]
     },
     {
       "id": 99,
@@ -4024,7 +4589,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다."
+      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리",
+        "스케줄링"
+      ]
     },
     {
       "id": 100,
@@ -4064,7 +4635,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다."
+      "freqNote": "노드 오토스케일러·커스텀 스케줄러 내부는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 자원 관리"
+      ]
     },
     {
       "id": 101,
@@ -4104,7 +4680,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다."
+      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 102,
@@ -4144,7 +4725,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다."
+      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 103,
@@ -4184,7 +4770,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다."
+      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 104,
@@ -4225,7 +4817,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다."
+      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 105,
@@ -4266,7 +4863,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다."
+      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 106,
@@ -4305,7 +4907,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다."
+      "freqNote": "DNS 성능 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "DNS"
+      ]
     },
     {
       "id": 107,
@@ -4346,7 +4953,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "서비스 통신",
+        "Service"
+      ]
     },
     {
       "id": 108,
@@ -4387,7 +5001,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "서비스 통신",
+        "Service"
+      ]
     },
     {
       "id": 109,
@@ -4427,7 +5048,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "서비스 통신",
+        "Service"
+      ]
     },
     {
       "id": 110,
@@ -4466,7 +5093,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "서비스 통신",
+        "Service"
+      ]
     },
     {
       "id": 111,
@@ -4506,7 +5139,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "서비스 통신",
+        "Service"
+      ]
     },
     {
       "id": 112,
@@ -4545,7 +5184,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "서비스 통신"
+      ]
     },
     {
       "id": 113,
@@ -4586,7 +5230,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "서비스 통신"
+      ]
     },
     {
       "id": 114,
@@ -4626,7 +5275,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "서비스 통신"
+      ]
     },
     {
       "id": 115,
@@ -4668,7 +5322,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "서비스 통신",
+        "NetworkPolicy"
+      ]
     },
     {
       "id": 116,
@@ -4708,7 +5369,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다."
+      "freqNote": "CoreDNS·이름 해석·DNS egress 차단은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "서비스 통신",
+        "DNS"
+      ]
     },
     {
       "id": 117,
@@ -4747,7 +5415,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "CNI"
+      ]
     },
     {
       "id": 118,
@@ -4786,7 +5460,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "CNI"
+      ]
     },
     {
       "id": 119,
@@ -4826,7 +5506,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "CNI"
+      ]
     },
     {
       "id": 120,
@@ -4865,7 +5551,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "CNI"
+      ]
     },
     {
       "id": 121,
@@ -4906,7 +5598,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 122,
@@ -4947,7 +5646,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 123,
@@ -4990,7 +5696,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다."
+      "freqNote": "엔드포인트·targetPort·NetworkPolicy·CNI 미설치·Ingress 오류는 CKA 단골입니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 124,
@@ -5030,7 +5743,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 125,
@@ -5071,7 +5790,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 126,
@@ -5113,7 +5838,15 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress",
+        "인증서"
+      ]
     },
     {
       "id": 127,
@@ -5154,7 +5887,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CNI·Ingress",
+        "Ingress"
+      ]
     },
     {
       "id": 128,
@@ -5195,7 +5934,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다."
+      "freqNote": "Service 유형·kube-proxy·Ingress 세부는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "CNI·Ingress"
+      ]
     },
     {
       "id": 129,
@@ -5234,7 +5979,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 130,
@@ -5273,7 +6023,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 131,
@@ -5314,7 +6069,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 132,
@@ -5353,7 +6113,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 133,
@@ -5392,7 +6157,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 134,
@@ -5431,7 +6201,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 135,
@@ -5470,7 +6245,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 136,
@@ -5509,7 +6289,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 137,
@@ -5550,7 +6335,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 138,
@@ -5591,7 +6381,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 139,
@@ -5631,7 +6426,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 140,
@@ -5671,7 +6471,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 141,
@@ -5711,7 +6516,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 142,
@@ -5750,7 +6560,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 143,
@@ -5789,7 +6604,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다."
+      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 144,
@@ -5829,7 +6649,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다."
+      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 145,
@@ -5870,7 +6695,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다."
+      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 146,
@@ -5910,7 +6740,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단",
+        "Gateway API"
+      ]
     },
     {
       "id": 147,
@@ -5951,7 +6787,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단",
+        "CNI"
+      ]
     },
     {
       "id": 148,
@@ -5992,7 +6834,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다."
+      "freqNote": "CNI 세부·Ingress 튜닝·Gateway API 참조는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단",
+        "CNI"
+      ]
     },
     {
       "id": 149,
@@ -6031,7 +6879,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다."
+      "freqNote": "커널 네트워크·트래픽 정책 문제는 실무 비중이 크고 시험에는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단"
+      ]
     },
     {
       "id": 150,
@@ -6070,7 +6923,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다."
+      "freqNote": "서비스 메시·BGP 라우터는 시험 범위 밖입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "네트워크 진단",
+        "CNI"
+      ]
     },
     {
       "id": 151,
@@ -6109,7 +6968,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다."
+      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩",
+        "PVC"
+      ]
     },
     {
       "id": 152,
@@ -6149,7 +7014,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다."
+      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩",
+        "PV"
+      ]
     },
     {
       "id": 153,
@@ -6189,7 +7060,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다."
+      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩",
+        "PV"
+      ]
     },
     {
       "id": 154,
@@ -6230,7 +7107,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다."
+      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩"
+      ]
     },
     {
       "id": 155,
@@ -6271,7 +7153,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다."
+      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩",
+        "StorageClass"
+      ]
     },
     {
       "id": 156,
@@ -6311,7 +7199,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다."
+      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩"
+      ]
     },
     {
       "id": 157,
@@ -6351,7 +7244,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩"
+      ]
     },
     {
       "id": 158,
@@ -6392,7 +7290,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다."
+      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 바인딩",
+        "PV"
+      ]
     },
     {
       "id": 159,
@@ -6432,7 +7336,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 160,
@@ -6474,7 +7383,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 161,
@@ -6514,7 +7428,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 162,
@@ -6553,7 +7472,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 163,
@@ -6593,7 +7517,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 164,
@@ -6633,7 +7562,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 165,
@@ -6673,7 +7607,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 166,
@@ -6713,7 +7652,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다."
+      "freqNote": "PVC Pending 원인과 볼륨 확장 설정은 CKA 스토리지 단골입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 167,
@@ -6752,7 +7696,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 168,
@@ -6791,7 +7740,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트",
+        "hostPath"
+      ]
     },
     {
       "id": 169,
@@ -6831,7 +7786,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 170,
@@ -6872,7 +7832,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "트러블슈팅",
+        "볼륨 마운트",
+        "Secret"
+      ]
     },
     {
       "id": 171,
@@ -6914,7 +7880,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "볼륨 마운트",
+        "ConfigMap"
+      ]
     },
     {
       "id": 172,
@@ -6954,7 +7927,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 173,
@@ -6993,7 +7972,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 174,
@@ -7034,7 +8019,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 175,
@@ -7075,7 +8065,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 176,
@@ -7115,7 +8110,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 177,
@@ -7154,7 +8154,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 178,
@@ -7194,7 +8200,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 179,
@@ -7235,7 +8246,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 180,
@@ -7274,7 +8291,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 181,
@@ -7313,7 +8336,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 182,
@@ -7353,7 +8382,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 183,
@@ -7393,7 +8427,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드"
+      ]
     },
     {
       "id": 184,
@@ -7434,7 +8473,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "PV"
+      ]
     },
     {
       "id": 185,
@@ -7473,7 +8518,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다."
+      "freqNote": "정적 바인딩·용량·모드·기본 StorageClass는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "StorageClass"
+      ]
     },
     {
       "id": 186,
@@ -7514,7 +8565,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "CSI·스토리지 백엔드",
+        "CSI"
+      ]
     },
     {
       "id": 187,
@@ -7555,7 +8612,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 188,
@@ -7596,7 +8659,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스토리지 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 189,
@@ -7635,7 +8705,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "PV"
+      ]
     },
     {
       "id": 190,
@@ -7674,7 +8750,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다."
+      "freqNote": "attach·스냅샷·확장·보호 파이널라이저는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "PVC"
+      ]
     },
     {
       "id": 191,
@@ -7715,7 +8797,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 192,
@@ -7756,7 +8843,14 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "RBAC",
+        "CSI"
+      ]
     },
     {
       "id": 193,
@@ -7795,7 +8889,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 194,
@@ -7835,7 +8934,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 195,
@@ -7876,7 +8980,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 196,
@@ -7917,7 +9027,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 197,
@@ -7957,7 +9072,13 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "CSI"
+      ]
     },
     {
       "id": 198,
@@ -7998,7 +9119,14 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKAD",
+        "트러블슈팅",
+        "스토리지 보안",
+        "emptyDir"
+      ]
     },
     {
       "id": 199,
@@ -8039,7 +9167,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다."
+      "freqNote": "백엔드·클라우드별 스토리지 장애는 시험 범위 밖에 가깝습니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안"
+      ]
     },
     {
       "id": 200,
@@ -8079,7 +9212,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다."
+      "freqNote": "마운트·CSI 등록·블록 모드 세부는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "스토리지 보안",
+        "kubelet"
+      ]
     },
     {
       "id": 201,
@@ -8119,7 +9258,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인"
+      ]
     },
     {
       "id": 202,
@@ -8159,7 +9303,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "인증서"
+      ]
     },
     {
       "id": 203,
@@ -8200,7 +9350,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "etcd"
+      ]
     },
     {
       "id": 204,
@@ -8241,7 +9397,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "etcd"
+      ]
     },
     {
       "id": 205,
@@ -8282,7 +9444,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "etcd"
+      ]
     },
     {
       "id": 206,
@@ -8322,7 +9490,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인"
+      ]
     },
     {
       "id": 207,
@@ -8362,7 +9535,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인"
+      ]
     },
     {
       "id": 208,
@@ -8401,7 +9579,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인"
+      ]
     },
     {
       "id": 209,
@@ -8442,7 +9625,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "kubelet"
+      ]
     },
     {
       "id": 210,
@@ -8482,7 +9671,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "컨트롤 플레인",
+        "kubelet"
+      ]
     },
     {
       "id": 211,
@@ -8522,7 +9717,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "containerd"
+      ]
     },
     {
       "id": 212,
@@ -8563,7 +9764,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "containerd"
+      ]
     },
     {
       "id": 213,
@@ -8604,7 +9811,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 214,
@@ -8643,7 +9855,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 215,
@@ -8682,7 +9899,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 216,
@@ -8722,7 +9944,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "kubelet",
+        "리소스 관리"
+      ]
     },
     {
       "id": 217,
@@ -8762,7 +9991,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 218,
@@ -8802,7 +10036,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "kubelet"
+      ]
     },
     {
       "id": 219,
@@ -8842,7 +10082,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 220,
@@ -8882,7 +10127,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "etcd",
+        "인증서"
+      ]
     },
     {
       "id": 221,
@@ -8924,7 +10176,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 222,
@@ -8964,7 +10222,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 223,
@@ -9005,7 +10268,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 224,
@@ -9046,7 +10314,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 225,
@@ -9085,7 +10358,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "etcd"
+      ]
     },
     {
       "id": 226,
@@ -9125,7 +10404,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "이미지"
+      ]
     },
     {
       "id": 227,
@@ -9164,7 +10449,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 228,
@@ -9205,7 +10495,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임",
+        "containerd"
+      ]
     },
     {
       "id": 229,
@@ -9244,7 +10540,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 230,
@@ -9283,7 +10584,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "노드 런타임"
+      ]
     },
     {
       "id": 231,
@@ -9325,7 +10631,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "etcd"
+      ]
     },
     {
       "id": 232,
@@ -9365,7 +10677,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다."
+      "freqNote": "컨트롤 플레인 복구·인증서·etcd·kubelet·런타임 설정은 CKA 트러블슈팅 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "ServiceAccount",
+        "kubeadm"
+      ]
     },
     {
       "id": 233,
@@ -9404,7 +10723,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 234,
@@ -9444,7 +10768,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "클러스터 복구",
+        "감사 로그"
+      ]
     },
     {
       "id": 235,
@@ -9484,7 +10815,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 236,
@@ -9523,7 +10859,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 237,
@@ -9562,7 +10903,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 238,
@@ -9601,7 +10947,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 239,
@@ -9640,7 +10991,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 240,
@@ -9679,7 +11035,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 241,
@@ -9720,7 +11081,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 242,
@@ -9760,7 +11127,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 243,
@@ -9799,7 +11171,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "DNS"
+      ]
     },
     {
       "id": 244,
@@ -9838,7 +11216,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "kubelet"
+      ]
     },
     {
       "id": 245,
@@ -9878,7 +11262,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "DNS",
+        "Service"
+      ]
     },
     {
       "id": 246,
@@ -9918,7 +11309,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 247,
@@ -9957,7 +11353,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구"
+      ]
     },
     {
       "id": 248,
@@ -9998,7 +11399,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다."
+      "freqNote": "성능·HA·커널 한도 문제는 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "etcd"
+      ]
     },
     {
       "id": 249,
@@ -10037,7 +11444,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다."
+      "freqNote": "노드·컨트롤 플레인 세부 장애는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "인증서"
+      ]
     },
     {
       "id": 250,
@@ -10081,7 +11494,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다."
+      "freqNote": "etcd 공간·컨트롤러·커널 전제·복원·업그레이드는 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 복구",
+        "kubeadm"
+      ]
     },
     {
       "id": 251,
@@ -10121,7 +11540,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "RBAC"
+      ]
     },
     {
       "id": 252,
@@ -10162,7 +11588,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "RBAC"
+      ]
     },
     {
       "id": 253,
@@ -10203,7 +11636,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "RBAC"
+      ]
     },
     {
       "id": 254,
@@ -10245,7 +11685,15 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "ServiceAccount",
+        "Secret"
+      ]
     },
     {
       "id": 255,
@@ -10286,7 +11734,15 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKAD",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "ServiceAccount",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 256,
@@ -10328,7 +11784,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "권한·인증",
+        "인증서"
+      ]
     },
     {
       "id": 257,
@@ -10369,7 +11832,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "Pod Security"
+      ]
     },
     {
       "id": 258,
@@ -10410,7 +11880,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 259,
@@ -10450,7 +11926,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 260,
@@ -10491,7 +11973,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 261,
@@ -10532,7 +12020,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 보안"
+      ]
     },
     {
       "id": 262,
@@ -10573,7 +12067,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "CKAD",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 263,
@@ -10612,7 +12113,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "seccomp"
+      ]
     },
     {
       "id": 264,
@@ -10652,7 +12159,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "seccomp"
+      ]
     },
     {
       "id": 265,
@@ -10693,7 +12206,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "AppArmor"
+      ]
     },
     {
       "id": 266,
@@ -10734,7 +12253,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "AppArmor"
+      ]
     },
     {
       "id": 267,
@@ -10774,7 +12299,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안",
+        "AppArmor"
+      ]
     },
     {
       "id": 268,
@@ -10813,7 +12344,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안"
+      ]
     },
     {
       "id": 269,
@@ -10853,7 +12389,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안"
+      ]
     },
     {
       "id": 270,
@@ -10892,7 +12433,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "컨테이너 보안"
+      ]
     },
     {
       "id": 271,
@@ -10933,7 +12479,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Trivy"
+      ]
     },
     {
       "id": 272,
@@ -10972,7 +12524,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 273,
@@ -11013,7 +12570,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Falco"
+      ]
     },
     {
       "id": 274,
@@ -11052,7 +12615,13 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Falco"
+      ]
     },
     {
       "id": 275,
@@ -11094,7 +12663,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Secret"
+      ]
     },
     {
       "id": 276,
@@ -11133,7 +12709,14 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Secret",
+        "etcd"
+      ]
     },
     {
       "id": 277,
@@ -11174,7 +12757,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Secret"
+      ]
     },
     {
       "id": 278,
@@ -11213,7 +12802,13 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "감사 로그"
+      ]
     },
     {
       "id": 279,
@@ -11254,7 +12849,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 280,
@@ -11293,7 +12893,12 @@
         ]
       ],
       "freq": 5,
-      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다."
+      "freqNote": "RBAC·PSS·seccomp·AppArmor·Secret 암호화·감사는 CKS 최빈출입니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 281,
@@ -11333,7 +12938,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 282,
@@ -11373,7 +12983,12 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 283,
@@ -11413,7 +13028,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 284,
@@ -11453,7 +13073,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사"
+      ]
     },
     {
       "id": 285,
@@ -11493,7 +13118,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "ServiceAccount"
+      ]
     },
     {
       "id": 286,
@@ -11535,7 +13166,14 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "kubeconfig"
+      ]
     },
     {
       "id": 287,
@@ -11574,7 +13212,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "공급망·감사",
+        "Pod Security"
+      ]
     },
     {
       "id": 288,
@@ -11613,7 +13257,13 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "hostPath"
+      ]
     },
     {
       "id": 289,
@@ -11653,7 +13303,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 290,
@@ -11692,7 +13347,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 291,
@@ -11732,7 +13392,14 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "ServiceAccount",
+        "볼륨 마운트"
+      ]
     },
     {
       "id": 292,
@@ -11771,7 +13438,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 293,
@@ -11811,7 +13483,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 294,
@@ -11851,7 +13528,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 295,
@@ -11892,7 +13574,12 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 296,
@@ -11931,7 +13618,12 @@
         ]
       ],
       "freq": 3,
-      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다."
+      "freqNote": "토큰·capability·kube-bench·호스트 격리는 보통 빈도로 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     },
     {
       "id": 297,
@@ -11972,7 +13664,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "kubelet"
+      ]
     },
     {
       "id": 298,
@@ -12012,7 +13710,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "kubelet"
+      ]
     },
     {
       "id": 299,
@@ -12052,7 +13756,13 @@
         ]
       ],
       "freq": 4,
-      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다."
+      "freqNote": "RBAC 세부·securityContext·샌드박스·탐지·kubelet 하드닝은 자주 나옵니다.",
+      "tags": [
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "감사 로그"
+      ]
     },
     {
       "id": 300,
@@ -12095,7 +13805,14 @@
         ]
       ],
       "freq": 2,
-      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다."
+      "freqNote": "서명 검증·정책 엔진·메타데이터·웹훅 튜닝은 가끔 나옵니다.",
+      "tags": [
+        "CKA",
+        "CKS",
+        "트러블슈팅",
+        "클러스터 보안",
+        "SecurityContext"
+      ]
     },
     {
       "id": 301,
@@ -12134,7 +13851,12 @@
         ]
       ],
       "freq": 1,
-      "freqNote": "NFS 접근 권한 확인 연습입니다."
+      "freqNote": "NFS 접근 권한 확인 연습입니다.",
+      "tags": [
+        "CKA",
+        "트러블슈팅",
+        "클러스터 보안"
+      ]
     }
   ],
   "scenarios": [

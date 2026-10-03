@@ -234,3 +234,6 @@ textarea:focus-visible{outline:3px solid var(--omr);outline-offset:3px}
 .lab-flow{padding-left:24px}.lab-flow p{color:var(--muted);line-height:1.8}
 .lab-filter{margin:24px 0}.lab-check{border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px}.lab-check pre{margin-top:0}.lab-check label{display:flex;gap:10px;align-items:flex-start;font-size:14px}.lab-check input{accent-color:var(--omr);margin-top:4px}
 .lab-check p{line-height:1.8}.docs{display:flex;gap:12px;flex-wrap:wrap}
+.question-tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 16px}
+.question-tag{padding:4px 9px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--muted);font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.question-tag.exam-tag{border-color:var(--omr);background:var(--omr-soft);color:var(--omr);font-family:var(--mono);font-weight:600}

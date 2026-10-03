@@ -18,7 +18,8 @@ export function remainingSeconds(deadline, now = Date.now()) {
 
 export function dataSignature(data) {
   let hash = 2166136261;
-  const source = JSON.stringify([data.questions, data.scenarios]);
+  // Display-only tags do not invalidate answers saved before tags were added.
+  const source = JSON.stringify([data.questions.map(({ tags, ...question }) => question), data.scenarios]);
   for (let i = 0; i < source.length; i++) hash = Math.imul(hash ^ source.charCodeAt(i), 16777619);
   return (hash >>> 0).toString(16);
 }

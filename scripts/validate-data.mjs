@@ -32,6 +32,9 @@ export async function validateData() {
       ids.add(q.id);
       assert(Number.isInteger(q.part) && Object.hasOwn(data.parts, q.part), `${label}: unknown part`);
       assert(Array.isArray(q.exam) && q.exam.length && q.exam.every(e => ['CKA', 'CKS', 'CKAD', '기타'].includes(e)), `${label}: invalid exam`);
+      assert(Array.isArray(q.tags) && q.tags.length && q.tags.every(t => text(t) && t === t.trim()) && new Set(q.tags).size === q.tags.length, `${label}: invalid/duplicate tags`);
+      assert(q.exam.every(e => q.tags.includes(e)) && q.tags.filter(t => ['CKA', 'CKS', 'CKAD', '기타'].includes(t)).every(e => q.exam.includes(e)), `${label}: exam tags must match all assigned exams`);
+      assert(q.tags.some(t => !['CKA', 'CKS', 'CKAD', '기타'].includes(t)), `${label}: missing topic tag`);
       for (const field of ['title', 'q', 'exp', 'code', 'trap', 'freqNote']) assert(text(q[field]), `${label}: missing ${field}`);
       assert(Array.isArray(q.opts) && q.opts.length === 4 && q.opts.every(text), `${label}: expected four options`);
       assert(Number.isInteger(q.a) && q.a >= 0 && q.a < q.opts.length, `${label}: answer out of range`);
