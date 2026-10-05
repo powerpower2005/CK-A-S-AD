@@ -2,6 +2,17 @@
 
 검토일: 2026-09-30
 
+## 웹 검색 기반 추가 문제 (2026-10-06)
+
+- Kubernetes 공식 문서를 웹 검색하고 필드·명령·전제를 대조해 16개 시나리오·48개 하위 문항을 직접 작성했다. 기존 문항 ID와 내용을 유지했다. 총 7개 과목·223개 시나리오·932문항이며 개인 클러스터 실습 가이드는 20개다.
+- 워크로드 4개·12문항: 존 분산 수치 계산, Job 실패 정책, PDB 예산 계산, CronJob 시간대·누락 실행 한도.
+- 관찰·진단 4개·12문항: 라벨별 집계 로그, 조건 대기, 크래시 Pod 사본 디버깅, 롤아웃 제한 시간과 실패 조건.
+- 보안·하드닝 4개·12문항: CEL 검증 정책 집행, AppArmor 필드와 노드 준비, audience 지정 투영 토큰, resourceNames 기반 RBAC.
+- 스토리지 2개·6문항: RWO/RWOP 구분·Claim 참조, 기존 PV 반환 정책 변경·확인. 네트워크 2개·6문항: 같은 존 선호와 Local 정책 우선순위, 듀얼스택 기본 계열·단일 스택 전환.
+- 모든 새 문항에 공식 문서 링크, 시험·주제 태그, 직접 입력 모범 답안, 오답별 설명, 예제, 문서 대조일을 기록했다. 보기 위치를 분산하고 보기 회전 후 오답 설명을 대응시켰다. 버전·드라이버·권한 등 필요한 조건은 시나리오에 표시했다.
+- 자료: [Pod 분산 제약](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/), [Job 실패 정책](https://kubernetes.io/docs/tasks/job/pod-failure-policy/), [PDB](https://kubernetes.io/docs/tasks/run-application/configure-pdb/), [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/), [kubectl logs](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/), [kubectl wait](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_wait/), [Pod 디버깅](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/), [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), [검증 정책](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/), [AppArmor](https://kubernetes.io/docs/tutorials/security/apparmor/), [투영 볼륨](https://kubernetes.io/docs/concepts/storage/projected-volumes/), [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/), [PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [반환 정책 변경](https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/), [Service 트래픽](https://kubernetes.io/docs/reference/networking/virtual-ips/), [듀얼스택](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).
+- 실제 시험 문제·출제 빈도를 주장하지 않는다. Kubernetes 클러스터에서 예제를 실행한 것은 아니며 execution은 not-run으로 기록했다. 배포 전 데이터·채점·필터·진행 복원 테스트와 정적 빌드를 수행한다.
+
 ## 부족한 학습 범위 보충 (2026-10-03)
 
 - [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/), [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/), [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) 공식 영역과 기존 질문 본문·제목·모범 입력을 비교했다. 고급 장애 사례에 비해 로그·메트릭의 기본 조회, 다중 컨테이너·쿼터 기본 구성, API 변경 대응이 적고 보안 과제가 여러 과목에 흩어져 있었다.

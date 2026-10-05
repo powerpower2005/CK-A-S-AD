@@ -8,7 +8,9 @@
     "5": "Part 5 · 런타임 보안과 파일시스템 하드닝",
     "6": "Part 6 · 애플리케이션 라이프사이클 볼륨",
     "7": "Part 7 · 심화 운영과 트러블슈팅",
-    "8": "Part 8 · 최신 기능과 보안 확장"
+    "8": "Part 8 · 최신 기능과 보안 확장",
+    "9": "Part 9 · 한 노드 공유와 한 Pod 독점을 구분하기",
+    "10": "Part 10 · Claim 삭제 전에 PV 보존 정책 확인하기"
   },
   "questions": [
     {
@@ -3739,6 +3741,324 @@
         "스토리지",
         "스토리지 확장·보안"
       ]
+    },
+    {
+      "id": 79,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "같은 노드의 두 Pod",
+      "q": "ReadWriteOnce PVC를 쓰는 두 Pod가 같은 노드에 있습니다. 이 모드 자체가 두 Pod의 동시 접근을 금지합니까? 예/아니오로 입력하세요.",
+      "opts": [
+        "RWO는 모든 노드 공유",
+        "아니오",
+        "예",
+        "읽기만 동시 허용"
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "아니오",
+        "acc": [
+          "아니오",
+          "아니요",
+          "no"
+        ]
+      },
+      "exp": "<p>RWO는 단일 노드에서 여러 Pod의 접근을 허용할 수 있습니다.</p>",
+      "whyno": [
+        "여러 노드의 쓰기를 허용하는 RWX와 다릅니다.",
+        "RWO는 한 노드 단위이며 Pod 한 개 제한이 아닙니다.",
+        "RWO는 같은 노드에서 읽기·쓰기를 허용할 수 있습니다."
+      ],
+      "code": "accessModes: [ReadWriteOnce]",
+      "trap": "애플리케이션 파일 잠금과 동시 쓰기 안전성은 별도로 판단합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Pod 단위 볼륨 독점"
+      ]
+    },
+    {
+      "id": 80,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "한 Pod만 접근",
+      "q": "클러스터 전체에서 PVC를 한 Pod만 읽고 쓰도록 제한할 새 PVC의 accessModes 한 줄은?",
+      "opts": [
+        "accessModes: [ReadWriteOncePod]",
+        "accessModes: [ReadWriteOnce]",
+        "accessModes: [ReadWriteMany]",
+        "accessModes: [ReadOnlyMany]"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "accessModes: [ReadWriteOncePod]",
+        "acc": [
+          "accessModes: [ReadWriteOncePod]",
+          "accessModes: [\"ReadWriteOncePod\"]"
+        ]
+      },
+      "exp": "<p>RWOP는 지원하는 CSI 볼륨을 한 Pod만 마운트하도록 제한합니다.</p>",
+      "whyno": [
+        "Pod가 아닌 노드 단위 제한입니다.",
+        "여러 노드의 읽기·쓰기를 허용합니다.",
+        "읽기 공유이며 한 Pod 독점이 아닙니다."
+      ],
+      "code": "accessModes: [ReadWriteOncePod]",
+      "trap": "드라이버와 CSI sidecar 지원을 확인합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Pod 단위 볼륨 독점"
+      ]
+    },
+    {
+      "id": 81,
+      "part": 9,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Pod 템플릿의 Claim 참조",
+      "q": "새 RWOP PVC 이름은 single-writer입니다. Pod spec.volumes[].persistentVolumeClaim 안에 쓸 한 줄은?",
+      "opts": [
+        "volumeName: single-writer",
+        "storageClassName: single-writer",
+        "accessModes: [ReadWriteOncePod]",
+        "claimName: single-writer"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "claimName: single-writer",
+        "acc": [
+          "claimName: single-writer"
+        ]
+      },
+      "exp": "<p>Pod는 claimName으로 같은 네임스페이스의 PVC를 참조합니다.</p>",
+      "whyno": [
+        "PVC에서 특정 PV를 고르는 필드와 다릅니다.",
+        "PVC의 클래스 지정 필드와 다릅니다.",
+        "볼륨 참조 위치에 accessModes를 넣지 않습니다."
+      ],
+      "code": "volumes:\n- name: data\n  persistentVolumeClaim:\n    claimName: single-writer",
+      "trap": "Pod volumeMounts의 name은 data로 연결합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage",
+        "CKAD": "Application Design and Build"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Pod 단위 볼륨 독점"
+      ]
+    },
+    {
+      "id": 82,
+      "part": 10,
+      "exam": [
+        "CKA"
+      ],
+      "title": "보존할 정책 값",
+      "q": "PVC가 삭제된 뒤 백엔드 데이터를 자동 삭제하지 않도록 PV의 persistentVolumeReclaimPolicy 값은?",
+      "opts": [
+        "Recycle",
+        "Keep",
+        "Retain",
+        "Delete"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "Retain",
+        "acc": [
+          "Retain"
+        ]
+      },
+      "exp": "<p>Retain은 해제 후 관리자가 볼륨과 데이터를 수동으로 처리하게 합니다.</p>",
+      "whyno": [
+        "폐기된 재사용 정책이며 데이터 보존 목적과 다릅니다.",
+        "유효한 reclaim policy가 아닙니다.",
+        "지원 플러그인에서는 백엔드도 삭제합니다."
+      ],
+      "code": "persistentVolumeReclaimPolicy: Retain",
+      "trap": "Retain 설정은 별도 백업을 만들어 주지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "PV 보존"
+      ]
+    },
+    {
+      "id": 83,
+      "part": 10,
+      "exam": [
+        "CKA"
+      ],
+      "title": "현재 PV 정책 변경",
+      "q": "archive-pv의 반환 정책을 Retain으로 바꾸는 patch 명령은?",
+      "opts": [
+        "kubectl patch pv archive-pv -p '{\"status\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+        "kubectl patch pv archive-pv -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+        "kubectl patch pvc archive -n lab-retain -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+        "kubectl delete pv archive-pv"
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "kubectl patch pv archive-pv -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+        "acc": [
+          "kubectl patch pv archive-pv -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'"
+        ]
+      },
+      "exp": "<p>바인딩된 현재 PV의 spec을 patch합니다.</p>",
+      "whyno": [
+        "정책은 status가 아닌 spec입니다.",
+        "이 정책은 PVC가 아닌 PV 필드입니다.",
+        "정책을 변경하는 명령이 아닙니다."
+      ],
+      "code": "kubectl patch pv archive-pv -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+      "trap": "StorageClass의 기본값만 바꿔도 기존 PV가 일괄 변경되지는 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "PV 보존"
+      ]
+    },
+    {
+      "id": 84,
+      "part": 10,
+      "exam": [
+        "CKA"
+      ],
+      "title": "저장된 정책 확인",
+      "q": "변경 후 archive-pv의 실제 정책 값만 JSONPath로 출력할 명령은?",
+      "opts": [
+        "kubectl get pv archive-pv -o jsonpath='{.spec.persistentVolumeReclaimPolicy}'",
+        "kubectl get pv archive-pv -o jsonpath='{.status.phase}'",
+        "kubectl get pvc archive -n lab-retain -o jsonpath='{.spec.storageClassName}'",
+        "kubectl get storageclasses"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "kubectl get pv archive-pv -o jsonpath='{.spec.persistentVolumeReclaimPolicy}'",
+        "acc": [
+          "kubectl get pv archive-pv -o jsonpath='{.spec.persistentVolumeReclaimPolicy}'"
+        ]
+      },
+      "exp": "<p>현재 PV 객체의 spec에서 정책 값을 확인합니다.</p>",
+      "whyno": [
+        "현재 바인딩 단계만 출력합니다.",
+        "스토리지 클래스 이름만 출력합니다.",
+        "현재 PV 정책을 직접 확인하지 않습니다."
+      ],
+      "code": "kubectl get pv archive-pv -o jsonpath='{.spec.persistentVolumeReclaimPolicy}'",
+      "trap": "Retain 출력 확인 전에는 Claim 삭제를 진행하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/administer-cluster/change-pv-reclaim-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Storage"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "PV 보존"
+      ]
     }
   ],
   "scenarios": [
@@ -3978,6 +4298,28 @@
       "steps": [
         78,
         74
+      ]
+    },
+    {
+      "id": "case-75",
+      "title": "한 노드 공유와 한 Pod 독점을 구분하기",
+      "objective": "RWO와 RWOP의 차이를 조건별로 판단합니다.",
+      "context": "Kubernetes 1.29 이상. 새 PVC를 만들며 StorageClass와 CSI 드라이버·sidecar가 ReadWriteOncePod를 지원합니다. 기존 bound PVC의 accessModes를 변경하는 과제가 아닙니다.",
+      "steps": [
+        79,
+        80,
+        81
+      ]
+    },
+    {
+      "id": "case-76",
+      "title": "Claim 삭제 전에 PV 보존 정책 확인하기",
+      "objective": "바인딩된 PV의 반환 정책을 변경하고 저장된 값을 확인합니다.",
+      "context": "전용 연습 환경의 PV archive-pv는 lab-retain의 archive PVC에 bound 상태이며 현재 반환 정책은 Delete입니다. 이 과제는 PVC 삭제 없이 정책 변경·확인만 수행합니다.",
+      "steps": [
+        82,
+        83,
+        84
       ]
     }
   ]

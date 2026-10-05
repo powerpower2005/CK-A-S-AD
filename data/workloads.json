@@ -19,7 +19,11 @@
     "16": "Part 16 · Quota와 LimitRange 기본 구성",
     "17": "Part 17 · 다중 컨테이너와 사이드카",
     "18": "Part 18 · 환경변수와 설정 주입",
-    "19": "Part 19 · HPA 기본 설정과 계산"
+    "19": "Part 19 · HPA 기본 설정과 계산",
+    "20": "Part 20 · 존 분산 조건을 수치로 검증하기",
+    "21": "Part 21 · 재시도할 수 없는 Job 오류 구분하기",
+    "22": "Part 22 · 드레인 전에 PDB 예산 계산하기",
+    "23": "Part 23 · CronJob 시간대와 누락 실행 범위 정하기"
   },
   "questions": [
     {
@@ -3190,6 +3194,656 @@
         "HPA",
         "오토스케일"
       ]
+    },
+    {
+      "id": 58,
+      "part": 20,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "하드 분산 제약",
+      "q": "topologySpreadConstraints에서 maxSkew: 1을 반드시 지켜야 합니다. whenUnsatisfiable 값만 입력하세요.",
+      "opts": [
+        "Never",
+        "Always",
+        "DoNotSchedule",
+        "ScheduleAnyway"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "DoNotSchedule",
+        "acc": [
+          "DoNotSchedule"
+        ]
+      },
+      "exp": "<p>DoNotSchedule은 분산 제약을 만족하는 배치만 허용합니다.</p>",
+      "whyno": [
+        "이 필드의 유효한 값이 아닙니다.",
+        "이 필드의 유효한 값이 아닙니다.",
+        "분산은 선호 조건이 됩니다."
+      ],
+      "code": "topologySpreadConstraints:\n- maxSkew: 1\n  topologyKey: topology.kubernetes.io/zone\n  whenUnsatisfiable: DoNotSchedule\n  labelSelector:\n    matchLabels:\n      app: checkout",
+      "trap": "Deployment에서는 spec.template.spec 아래에 넣습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "TopologySpread"
+      ]
+    },
+    {
+      "id": 59,
+      "part": 20,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "새 Pod 배치 계산",
+      "q": "A=3, B=2인 상태에 maxSkew: 1, DoNotSchedule, minDomains 생략 조건으로 matching Pod 하나를 추가합니다. 허용되는 존 이름만 입력하세요.",
+      "opts": [
+        "없음",
+        "B",
+        "A",
+        "A,B"
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "B",
+        "acc": [
+          "B",
+          "존 B"
+        ]
+      },
+      "exp": "<p>B에 배치하면 두 존의 matching Pod 수가 같아집니다.</p>",
+      "whyno": [
+        "B에 추가하면 3 대 3이 됩니다.",
+        "A에 추가하면 4 대 2로 차이가 2입니다.",
+        "A는 제약을 위반합니다."
+      ],
+      "code": "A: 3\nB: 2\n# B에 추가한 결과: A=3, B=3",
+      "trap": "현재 개수뿐 아니라 새 Pod를 더한 뒤의 skew를 계산합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "TopologySpread"
+      ]
+    },
+    {
+      "id": 60,
+      "part": 20,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "최소 도메인 조건",
+      "q": "동일한 A=3, B=2 상황에서 minDomains: 3을 추가했습니다. 적격 존이 두 개일 때 skew 계산에 쓰는 global minimum 숫자는?",
+      "opts": [
+        "0",
+        "2",
+        "3",
+        "5"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "0",
+        "acc": [
+          "0"
+        ]
+      },
+      "exp": "<p>적격 도메인이 minDomains보다 적으면 global minimum을 0으로 계산합니다.</p>",
+      "whyno": [
+        "minDomains가 충족되지 않아 실제 최솟값을 쓰지 않습니다.",
+        "존 요구 개수는 Pod 수의 최솟값이 아닙니다.",
+        "Pod 수의 합을 사용하지 않습니다."
+      ],
+      "code": "maxSkew: 1\nminDomains: 3\nwhenUnsatisfiable: DoNotSchedule",
+      "trap": "이 상황에서 새 matching Pod는 어느 존에도 배치할 수 없습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "TopologySpread"
+      ]
+    },
+    {
+      "id": 61,
+      "part": 21,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "Job 실패 동작",
+      "q": "main의 종료 코드 42가 관찰되면 Job 전체를 실패 처리할 podFailurePolicy.rules[].action 값은?",
+      "opts": [
+        "Ignore",
+        "Count",
+        "Restart",
+        "FailJob"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "FailJob",
+        "acc": [
+          "FailJob"
+        ]
+      },
+      "exp": "<p>FailJob은 지정한 오류를 Job 전체의 실패로 처리합니다.</p>",
+      "whyno": [
+        "실패 예산에서 제외하고 교체 Pod를 만듭니다.",
+        "일반 실패처럼 backoffLimit에 반영합니다.",
+        "podFailurePolicy의 유효한 action이 아닙니다."
+      ],
+      "code": "podFailurePolicy:\n  rules:\n  - action: FailJob\n    onExitCodes:\n      containerName: main\n      operator: In\n      values: [42]",
+      "trap": "숫자 42는 이 예제에서 정한 애플리케이션 계약입니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/job/pod-failure-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Job 실패 정책"
+      ]
+    },
+    {
+      "id": 62,
+      "part": 21,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "재시작 정책 전제",
+      "q": "podFailurePolicy를 사용하는 Job에서 spec.template.spec.restartPolicy 값은?",
+      "opts": [
+        "OnFailure",
+        "FailJob",
+        "Never",
+        "Always"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "Never",
+        "acc": [
+          "Never"
+        ]
+      },
+      "exp": "<p>컨테이너를 같은 Pod 안에서 재시작하지 않고 Pod 실패를 정책으로 판단합니다.</p>",
+      "whyno": [
+        "podFailurePolicy에는 Never가 필요합니다.",
+        "이는 실패 정책 action이지 restartPolicy가 아닙니다.",
+        "Job Pod에는 Always를 사용할 수 없습니다."
+      ],
+      "code": "template:\n  spec:\n    restartPolicy: Never",
+      "trap": "Never도 Job 컨트롤러의 새 Pod 생성을 전부 금지하지는 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/job/pod-failure-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Job 실패 정책"
+      ]
+    },
+    {
+      "id": 63,
+      "part": 21,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "중단 실패 예산 제외",
+      "q": "DisruptionTarget=True 조건을 가진 실패 Pod를 backoffLimit 계산에서 제외하고 교체하려 합니다. action 값은?",
+      "opts": [
+        "FailIndex",
+        "Ignore",
+        "Count",
+        "FailJob"
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "Ignore",
+        "acc": [
+          "Ignore"
+        ]
+      },
+      "exp": "<p>Ignore는 이 조건에 맞는 실패를 재시도 예산에 계산하지 않습니다.</p>",
+      "whyno": [
+        "해당 인덱스를 실패로 끝내는 다른 동작입니다.",
+        "실패 예산을 소비합니다.",
+        "전체 Job을 실패 처리합니다."
+      ],
+      "code": "podFailurePolicy:\n  rules:\n  - action: Ignore\n    onPodConditions:\n    - type: DisruptionTarget\n      status: \"True\"",
+      "trap": "여러 규칙은 위에서부터 평가하며 먼저 일치한 규칙을 적용합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/job/pod-failure-policy/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Job 실패 정책"
+      ]
+    },
+    {
+      "id": 64,
+      "part": 22,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "남겨야 할 Pod 수",
+      "q": "건강한 Pod를 최소 세 개 유지하려 합니다. PDB spec의 minAvailable 한 줄을 입력하세요.",
+      "opts": [
+        "minAvailable: 3",
+        "minAvailable: 1",
+        "maxUnavailable: 3",
+        "replicas: 3"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "minAvailable: 3",
+        "acc": [
+          "minAvailable: 3"
+        ]
+      },
+      "exp": "<p>minAvailable은 자발적 퇴출 후 유지할 건강한 Pod 수입니다.</p>",
+      "whyno": [
+        "한 개만 유지하도록 허용합니다.",
+        "세 개 중단을 허용합니다.",
+        "PDB spec에는 replicas가 없습니다."
+      ],
+      "code": "apiVersion: policy/v1\nkind: PodDisruptionBudget\nmetadata:\n  name: web-budget\n  namespace: lab-budget\nspec:\n  minAvailable: 3\n  selector:\n    matchLabels:\n      app: web",
+      "trap": "minAvailable과 maxUnavailable은 함께 설정하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/run-application/configure-pdb/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "PodDisruptionBudget"
+      ]
+    },
+    {
+      "id": 65,
+      "part": 22,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "현재 중단 예산",
+      "q": "건강한 Pod가 4개이고 minAvailable이 3입니다. 다른 퇴출이 진행 중이지 않을 때 현재 disruptionsAllowed 숫자는?",
+      "opts": [
+        "0",
+        "3",
+        "4",
+        "1"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "1",
+        "acc": [
+          "1"
+        ]
+      },
+      "exp": "<p>현재 건강한 수에서 필요한 건강한 수를 빼면 1입니다.</p>",
+      "whyno": [
+        "건강한 수가 요구 수보다 하나 많습니다.",
+        "3은 유지할 수입니다.",
+        "모든 Pod를 동시에 퇴출할 수 없습니다."
+      ],
+      "code": "kubectl get pdb web-budget -n lab-budget -o jsonpath=\"{.status.disruptionsAllowed}\"",
+      "trap": "실제 작업에서는 PDB의 관측된 상태를 먼저 확인합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/run-application/configure-pdb/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "PodDisruptionBudget"
+      ]
+    },
+    {
+      "id": 66,
+      "part": 22,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "비정상 Pod 드레인 허용",
+      "q": "Running이지만 Ready가 아닌 Pod도 예산 충족 여부와 무관하게 eviction 대상으로 허용할 unhealthyPodEvictionPolicy 값은?",
+      "opts": [
+        "ForceDelete",
+        "NeverAllow",
+        "AlwaysAllow",
+        "IfHealthyBudget"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "AlwaysAllow",
+        "acc": [
+          "AlwaysAllow"
+        ]
+      },
+      "exp": "<p>AlwaysAllow는 건강하지 않은 Running Pod의 퇴출을 허용합니다.</p>",
+      "whyno": [
+        "PDB에 없는 정책입니다.",
+        "PDB에 없는 정책입니다.",
+        "기본 정책이며 건강 예산에 따라 차단할 수 있습니다."
+      ],
+      "code": "unhealthyPodEvictionPolicy: AlwaysAllow",
+      "trap": "건강한 Pod의 예산 제한은 계속 적용됩니다. 직접 delete와 노드 장애를 막는 정책은 아닙니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/tasks/run-application/configure-pdb/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "PodDisruptionBudget"
+      ]
+    },
+    {
+      "id": 67,
+      "part": 23,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "스케줄 시간대",
+      "q": "컨트롤러의 로컬 시간대와 관계없이 UTC로 해석하려 합니다. spec.timeZone 한 줄을 입력하세요.",
+      "opts": [
+        "timezone: UTC",
+        "timeZone: Etc/UTC",
+        "timeZone: Asia/Seoul",
+        "schedule: \"TZ=UTC 0 3 * * *\""
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "timeZone: Etc/UTC",
+        "acc": [
+          "timeZone: Etc/UTC",
+          "timeZone: \"Etc/UTC\""
+        ]
+      },
+      "exp": "<p>timeZone에 시간대 이름을 지정합니다.</p>",
+      "whyno": [
+        "필드 이름은 대소문자를 구분하는 timeZone입니다.",
+        "서울 시간대로 해석합니다.",
+        "schedule 안의 TZ 지정은 지원되지 않습니다."
+      ],
+      "code": "schedule: \"0 3 * * *\"\ntimeZone: Etc/UTC",
+      "trap": "컨테이너의 TZ 환경변수는 CronJob 스케줄러 시간대 설정과 별개입니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "CronJob 스케줄"
+      ]
+    },
+    {
+      "id": 68,
+      "part": 23,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "동시 실행 방지",
+      "q": "같은 CronJob의 이전 Job이 끝나지 않았으면 새 Job을 시작하지 않을 concurrencyPolicy 값은?",
+      "opts": [
+        "Forbid",
+        "Allow",
+        "Replace",
+        "Never"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "Forbid",
+        "acc": [
+          "Forbid"
+        ]
+      },
+      "exp": "<p>Forbid는 이전 실행이 진행 중일 때 새 실행을 건너뜁니다.</p>",
+      "whyno": [
+        "중복 실행을 허용합니다.",
+        "이전 실행을 새 실행으로 교체합니다.",
+        "유효한 concurrencyPolicy가 아닙니다."
+      ],
+      "code": "concurrencyPolicy: Forbid",
+      "trap": "다른 CronJob에서 만든 Job에는 적용되지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "CronJob 스케줄"
+      ]
+    },
+    {
+      "id": 69,
+      "part": 23,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "누락 시작 한도",
+      "q": "예정 시각보다 5분 넘게 지났다면 해당 실행을 만들지 않도록 할 spec 한 줄은?",
+      "opts": [
+        "activeDeadlineSeconds: 300",
+        "startingDeadlineSeconds: 5",
+        "successfulJobsHistoryLimit: 300",
+        "startingDeadlineSeconds: 300"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "startingDeadlineSeconds: 300",
+        "acc": [
+          "startingDeadlineSeconds: 300"
+        ]
+      },
+      "exp": "<p>startingDeadlineSeconds는 스케줄 시각 이후 시작을 허용할 초 단위 지연입니다.</p>",
+      "whyno": [
+        "Job의 실행 시간 제한이며 시작 지연과 다릅니다.",
+        "단위는 분이 아닌 초입니다.",
+        "완료 Job 보관 개수 설정입니다."
+      ],
+      "code": "startingDeadlineSeconds: 300",
+      "trap": "CronJob 실행은 정확히 한 번을 보장하지 않으므로 작업을 멱등하게 설계합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Workloads and Scheduling",
+        "CKAD": "Application Design and Build / Deployment"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "CronJob 스케줄"
+      ]
     }
   ],
   "scenarios": [
@@ -3400,6 +4054,50 @@
         55,
         56,
         57
+      ]
+    },
+    {
+      "id": "case-42",
+      "title": "존 분산 조건을 수치로 검증하기",
+      "objective": "분산 제약을 설정하고 새 Pod를 배치할 수 있는 존을 계산합니다.",
+      "context": "Kubernetes 1.30 이상. 두 존 A·B의 모든 노드가 선택 조건을 만족하며 같은 네임스페이스의 app=checkout Pod는 A에 3개, B에 2개입니다. 다른 스케줄링 제약은 없습니다.",
+      "steps": [
+        58,
+        59,
+        60
+      ]
+    },
+    {
+      "id": "case-43",
+      "title": "재시도할 수 없는 Job 오류 구분하기",
+      "objective": "종료 코드에 따라 Job 실패와 재시도 예산을 구분합니다.",
+      "context": "Kubernetes 1.31 이상. 배치 컨테이너 main의 종료 코드 42는 복구 불가능한 입력 오류입니다. 아래 질문은 Job의 podFailurePolicy를 설정하는 독립 단계입니다.",
+      "steps": [
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "id": "case-44",
+      "title": "드레인 전에 PDB 예산 계산하기",
+      "objective": "건강한 Pod 수와 비정상 Pod 퇴출 정책을 확인합니다.",
+      "context": "Kubernetes 1.31 이상. lab-budget의 web Deployment는 replicas=4이며 네 Pod 모두 Ready입니다. PDB selector는 이 Pod들만 선택합니다. eviction API를 통한 자발적 중단을 다룹니다.",
+      "steps": [
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "id": "case-45",
+      "title": "CronJob 시간대와 누락 실행 범위 정하기",
+      "objective": "스케줄 시간대·동시 실행·시작 지연 한도를 명시합니다.",
+      "context": "Kubernetes 1.27 이상. lab-schedule의 report CronJob은 매일 UTC 03:00에 실행합니다. 완료되지 않은 이전 Job이 있으면 새 실행을 건너뛰고 5분 이상 늦은 실행도 건너뜁니다.",
+      "steps": [
+        67,
+        68,
+        69
       ]
     }
   ]

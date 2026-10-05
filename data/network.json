@@ -10,7 +10,9 @@
     "7": "Part 7 · NetworkPolicy L3/L4 통제",
     "8": "Part 8 · CKS 네트워크 하드닝·제로트러스트",
     "9": "Part 9 · CKAD 마이크로서비스 패턴",
-    "10": "Part 10 · 커널·eBPF·딥 트러블슈팅"
+    "10": "Part 10 · 커널·eBPF·딥 트러블슈팅",
+    "11": "Part 11 · 같은 존 선호와 노드 로컬 제한 구분하기",
+    "12": "Part 12 · 듀얼스택 Service의 기본 계열 추적하기"
   },
   "questions": [
     {
@@ -9258,6 +9260,332 @@
         "네트워크",
         "네트워크 진단"
       ]
+    },
+    {
+      "id": 201,
+      "part": 11,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "같은 존 선호",
+      "q": "엄격한 노드 로컬 제한 대신 같은 존 endpoint를 선호하게 할 spec 한 줄은? PreferClose 값을 사용하세요.",
+      "opts": [
+        "internalTrafficPolicy: Local",
+        "externalTrafficPolicy: Local",
+        "sessionAffinity: ClientIP",
+        "trafficDistribution: PreferClose"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "trafficDistribution: PreferClose",
+        "acc": [
+          "trafficDistribution: PreferClose"
+        ]
+      },
+      "exp": "<p>PreferClose는 같은 존 endpoint를 우선하는 선호를 나타냅니다.</p>",
+      "whyno": [
+        "같은 노드로 제한하며 같은 존 선호와 다릅니다.",
+        "외부 트래픽을 노드 로컬로 제한합니다.",
+        "클라이언트별 세션 유지 기능입니다."
+      ],
+      "code": "trafficDistribution: PreferClose\ninternalTrafficPolicy: Cluster",
+      "trap": "프록시 지원과 실제 EndpointSlice·라우팅 상태를 확인합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/networking/virtual-ips/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Service 라우팅 정책"
+      ]
+    },
+    {
+      "id": 202,
+      "part": 11,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "엄격한 정책 우선",
+      "q": "internalTrafficPolicy: Local과 trafficDistribution: PreferClose를 함께 설정했습니다. 내부 트래픽에서 우선하는 필드 이름은?",
+      "opts": [
+        "sessionAffinity",
+        "selector",
+        "internalTrafficPolicy",
+        "trafficDistribution"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "internalTrafficPolicy",
+        "acc": [
+          "internalTrafficPolicy"
+        ]
+      },
+      "exp": "<p>내부 트래픽의 Local 제한이 분산 선호보다 우선합니다.</p>",
+      "whyno": [
+        "이 상황의 우선 정책을 결정하지 않습니다.",
+        "backend 선택 조건이지 정책 우선순위가 아닙니다.",
+        "선호가 엄격한 Local 정책을 덮어쓰지 않습니다."
+      ],
+      "code": "internalTrafficPolicy: Local\ntrafficDistribution: PreferClose",
+      "trap": "externalTrafficPolicy의 우선순위는 외부 트래픽에 적용됩니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/networking/virtual-ips/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Service 라우팅 정책"
+      ]
+    },
+    {
+      "id": 203,
+      "part": 11,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "노드 로컬 endpoint 없음",
+      "q": "internalTrafficPolicy: Local이며 요청 노드에는 로컬 endpoint가 없습니다. 다른 노드로 전달됩니까? 예/아니오로 입력하세요.",
+      "opts": [
+        "무조건 인터넷으로 전달",
+        "아니오",
+        "예",
+        "같은 존으로만 전달"
+      ],
+      "a": 1,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "아니오",
+        "acc": [
+          "아니오",
+          "아니요",
+          "no"
+        ]
+      },
+      "exp": "<p>해당 Service의 내부 트래픽은 노드 로컬 endpoint가 없으면 전달되지 않습니다.</p>",
+      "whyno": [
+        "그런 fallback은 없습니다.",
+        "Local은 다른 노드로 fallback하지 않습니다.",
+        "존이 같아도 다른 노드로 전달하지 않습니다."
+      ],
+      "code": "kubectl get endpointslices -n lab-network -l kubernetes.io/service-name=api -o yaml",
+      "trap": "Local을 같은 존 선호 정책으로 해석하지 않습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/reference/networking/virtual-ips/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "Service 라우팅 정책"
+      ]
+    },
+    {
+      "id": 204,
+      "part": 12,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "기본 IP 계열",
+      "q": "ipFamilies: [IPv6, IPv4]인 Service의 spec.clusterIP는 어느 계열 주소입니까?",
+      "opts": [
+        "IPv6",
+        "IPv4",
+        "둘 다",
+        "None"
+      ],
+      "a": 0,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "IPv6",
+        "acc": [
+          "IPv6"
+        ]
+      },
+      "exp": "<p>첫 번째 ipFamilies와 첫 번째 clusterIPs가 기본 IP를 결정합니다.</p>",
+      "whyno": [
+        "첫 번째 계열은 IPv6입니다.",
+        "clusterIP는 단일 값이며 clusterIPs는 배열입니다.",
+        "일반 ClusterIP Service이며 headless가 아닙니다."
+      ],
+      "code": "ipFamilies: [IPv6, IPv4]\n# clusterIP는 clusterIPs[0]과 같음",
+      "trap": "배열 순서는 기본 계열에 의미가 있습니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/services-networking/dual-stack/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "듀얼스택 전환"
+      ]
+    },
+    {
+      "id": 205,
+      "part": 12,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "단일 스택 전환",
+      "q": "이 Service의 ipFamilyPolicy를 SingleStack으로 변경합니다. 남는 주소 계열 이름은?",
+      "opts": [
+        "IPv4",
+        "둘 다",
+        "주소 없음",
+        "IPv6"
+      ],
+      "a": 3,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "IPv6",
+        "acc": [
+          "IPv6"
+        ]
+      },
+      "exp": "<p>단일 스택 전환은 clusterIPs의 첫 번째 주소를 유지합니다.</p>",
+      "whyno": [
+        "두 번째 계열은 제거됩니다.",
+        "SingleStack은 두 주소를 유지하지 않습니다.",
+        "첫 번째 주소를 유지합니다."
+      ],
+      "code": "ipFamilyPolicy: SingleStack\n# 기존 첫 주소인 IPv6 유지",
+      "trap": "기본 계열 자체를 바꾸는 작업과 구분합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/services-networking/dual-stack/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "듀얼스택 전환"
+      ]
+    },
+    {
+      "id": 206,
+      "part": 12,
+      "exam": [
+        "CKA",
+        "CKAD"
+      ],
+      "title": "단일 스택에서도 생성 허용",
+      "q": "별도 새 Service는 가능한 환경에서 듀얼스택을 쓰고 단일 스택 클러스터에서도 생성되게 합니다. ipFamilyPolicy 값은?",
+      "opts": [
+        "SingleStack",
+        "PreferIPv6",
+        "PreferDualStack",
+        "RequireDualStack"
+      ],
+      "a": 2,
+      "type": {
+        "p": "문제에서 요구한 값·필드·전체 명령을 입력하세요. 예시 순서의 답안과 등록된 동등 표현을 채점합니다.",
+        "model": "PreferDualStack",
+        "acc": [
+          "PreferDualStack"
+        ]
+      },
+      "exp": "<p>PreferDualStack은 듀얼스택 구성을 선호하되 단일 스택도 허용합니다.</p>",
+      "whyno": [
+        "듀얼스택 환경에서도 한 계열만 요청합니다.",
+        "유효한 ipFamilyPolicy가 아닙니다.",
+        "듀얼스택 미지원 클러스터에서는 실패합니다."
+      ],
+      "code": "ipFamilyPolicy: PreferDualStack",
+      "trap": "RequireDualStack은 두 계열이 반드시 필요한 경우에 사용합니다.",
+      "docs": [
+        [
+          "Kubernetes 공식 문서",
+          "https://kubernetes.io/docs/concepts/services-networking/dual-stack/"
+        ]
+      ],
+      "freq": 0,
+      "freqNote": "공식 문서를 바탕으로 작성한 추가 연습 문항입니다. 실제 출제 빈도를 추정하지 않습니다.",
+      "curriculum": {
+        "CKA": "Services and Networking",
+        "CKAD": "Services and Networking"
+      },
+      "review": {
+        "basis": "official-documentation",
+        "execution": "not-run",
+        "checkedAt": "2026-10-06"
+      },
+      "tags": [
+        "CKA",
+        "CKAD",
+        "듀얼스택 전환"
+      ]
     }
   ],
   "scenarios": [
@@ -9795,6 +10123,28 @@
         198,
         199,
         200
+      ]
+    },
+    {
+      "id": "case-199",
+      "title": "같은 존 선호와 노드 로컬 제한 구분하기",
+      "objective": "Service의 라우팅 선호와 엄격한 트래픽 정책을 비교합니다.",
+      "context": "Kubernetes 1.33 이상에서 trafficDistribution: PreferClose를 지원하는 프록시를 사용합니다. 노드의 zone 라벨이 정확하며 Service에는 ready endpoint가 있습니다.",
+      "steps": [
+        201,
+        202,
+        203
+      ]
+    },
+    {
+      "id": "case-200",
+      "title": "듀얼스택 Service의 기본 계열 추적하기",
+      "objective": "IP 계열 순서와 단일 스택 전환 결과를 확인합니다.",
+      "context": "IPv4·IPv6 듀얼스택 클러스터에 일반 ClusterIP Service api가 있습니다. ipFamilies는 [IPv6, IPv4]이고 clusterIPs는 그 순서대로 할당돼 있습니다. headless Service가 아닙니다.",
+      "steps": [
+        204,
+        205,
+        206
       ]
     }
   ]
